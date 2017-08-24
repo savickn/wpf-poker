@@ -56,10 +56,23 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Action.cs" />
+    <Compile Include="BestHand.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="HandAnalyzer.cs" />
+    <Compile Include="Hands\Flush.cs" />
+    <Compile Include="Hands\FourOfAKind.cs" />
+    <Compile Include="Hands\FullHouse.cs" />
+    <Compile Include="Hands\HighCard.cs" />
+    <Compile Include="Hands\Pair.cs" />
+    <Compile Include="Hands\Straight.cs" />
+    <Compile Include="Hands\StraightFlush.cs" />
+    <Compile Include="Hands\ThreeOfAKind.cs" />
+    <Compile Include="Hands\TwoPair.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PokerCalculator.cs" />
     <Compile Include="Pot.cs" />
+    <Compile Include="PreflopHands.cs" />
     <Compile Include="Seat.cs" />
     <Compile Include="Table.cs" />
     <Page Include="MainWindow.xaml">
@@ -106,6 +119,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Actions\" />
+    <Folder Include="Draws\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

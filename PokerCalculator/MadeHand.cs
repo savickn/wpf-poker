@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class MadeHand {
-        private List<Card> cards;
-        private int value;
-        private string prefix;
+        private List<Card> cards { get; }
+        private int value { get; }
+        private string prefix { get; }
         
         public MadeHand(List<Card> cards, int value, string prefix) {
             this.cards = cards;
@@ -19,29 +19,26 @@ namespace PokerCalculator {
         }
 
         public string toString() {
-            string rep;
-            foreach() {
-
+            string rep = "";
+            foreach(Card c in getCards()) {
+                rep += String.Format("{0}, ", c.toString());
             }
+            return rep;
         }
 
-        def __str__(self):
-        rep = None
-        for c in self.getCards():
-            rep = c.toString() if rep is None else rep + ', {card}'.format(card= c.toString())
-        return rep
+        // used to check if a particular hand already exists in a collection
+        public static MadeHand operator ==(self, other) {
+            return True if self.__identifier == other.getIdentifier() else False
+        }
 
-# used to check if a particular hand already exists in a collection
-    def __eq__(self, other):
-        return True if self.__identifier == other.getIdentifier() else False
-
-    def comparePrefixes(self, other):
-        if self.getRanking() > other.getRanking():
-            return -1
-        elif self.getRanking() < other.getRanking():
-            return 1
-        else:
-            return 0
+        public int comparePrefixes(MadeHand other) {
+            if(getRanking() > other.getRanking()) {
+                return -1;
+            } else if self.getRanking() < other.getRanking():
+                return 1;
+            else:
+                return 0;
+        }
 
     @abstractmethod
     def compare(self, other):
@@ -60,13 +57,10 @@ namespace PokerCalculator {
     def getLength(self):
         return self.__length
 
-    def getPrefix(self):
-        return self.__prefix
-
     def getIdentifier(self):
         return self.__identifier
 
-    def getRanking(self):
+    def getRanking()
         return handRankings[self.__prefix]
 
 ############ SETTERS #############

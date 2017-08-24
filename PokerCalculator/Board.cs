@@ -21,11 +21,11 @@ namespace PokerCalculator {
         }
 
         public string toString() {
-            string rep;
-            foreach (Card c in this.getCards() {
-                rep = rep == null ? c.toString() : rep + ', {card}'.format(card = c.toString())
+            string rep = "Board: ";
+            foreach (Card c in getCards()) {
+                rep += String.Format("{0} ,", c.toString());
             };
-            return 'Board: ' + rep;
+            return rep;
         }
 
         //takes a Deck obj and a list of existing cards and returns a completed Board object
@@ -39,10 +39,11 @@ namespace PokerCalculator {
                 deck.getTopCard();
                 b.setTurn(deck.getTopCard());
             }
-            if len(b.getCards()) == 4:
-            deck.getTopCard()
-                b.setRiver(deck.getTopCard())
-            return b
+            if len(b.getCards()) == 4 {
+                deck.getTopCard();
+                b.setRiver(deck.getTopCard());
+            }
+            return b;
          }
 
         //////////// GETTERS AND SETTERS ////////////
@@ -76,8 +77,8 @@ namespace PokerCalculator {
             }
         }
 
-        public void checkRep() {
-            assert self.getCards() in range(3, 6);
-        }
+        //public void checkRep() {
+        //    assert self.getCards() in range(3, 6);
+        //}
     }
 }

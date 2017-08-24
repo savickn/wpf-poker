@@ -8,78 +8,66 @@ namespace PokerCalculator {
     class Card {
         //# unique id for each card
         private int id;
-        private float sprite;
+        private string initial { get; }
+        private string sprite;
         private string identifier;
 
-        private string type;
-        private enum suit;
-        private int highValue;
-        private int lowValue;
+        private string type { get; }
+        private Suit suit { get; }
+        private int highValue { get; }
+        private int lowValue { get; }
 
-        public void Card(string type, enum suit, int value, options = defaultOptions) {
+        private bool hidden { get; set; }
+
+        public Card(string type, Suit suit, int highValue, int lowValue = -1) {
             //this.identifier = '{value}-{suit}'.format(value = value, suit = suit)
             this.type = type;
             this.suit = suit;
-            this.highValue = value
-            this.lowValue = options['low_value'] if options['low_value'] is not None else value
+            this.initial = Data.getInitial(type);
+            this.highValue = highValue;
+            this.lowValue = lowValue > -1 ? lowValue : highValue;
 
-            self.__hidden = True #used to determine if card should be drawn face-up or face-down
-
-            self.checkRep()
+            this.hidden = true; // used to determine if card should be drawn face-up or face-down
         }
 
         public string toString() {
-            return '{type} of {suit}'.format(type = this.type, suit = this.suit);
+            return String.Format("{0} of {1}", type, suit);
         }
 
-# used to check if two Cards are identical (e.g. Js == Js but Jh != Js), not working
-# def __eq__(self, other):
-# return self.getId() == other.getId()
+        // used to check if two Cards are identical (e.g. Js == Js but Jh != Js), not working
+        // def __eq__(self, other):
+        // return self.getId() == other.getId()
 
-        def isEqual(self, other):
-        return True if self.__identifier == other.getIdentifier() else False
+        public bool isEqual(Card other) {
+            return this.identifier == other.getIdentifier() ? true : false;
+        }
 
-    def __lt__(self, other):
-        return self.getHighValue() < other.getHighValue()
+        public static Card operator <(Card argA, Card argB) {
+            return argA.highValue < argB.highValue ? argA : argB;
+        }
 
-    def __gt__(self, other):
-        return self.getHighValue() > other.getHighValue()
+        public static Card operator >(Card argA, Card argB) {
+            return argA.highValue > argB.highValue ? argA : argB;
+        }
 
-    def checkRep(self):
-        assert self.__high_value in range(2, 15)
-        #assert self.__low_value in [None, 1]
-        assert self.__type in ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King']
-        assert self.__suit in ['Spades', 'Hearts', 'Clubs', 'Diamonds']
-        assert isinstance(self.__hidden, bool)
+        //def __lt__(self, other):
+        //    return self.getHighValue() < other.getHighValue()
 
-    ########## SETTERS & GETTERS ############
+        //def __gt__(self, other):
+        //    return self.getHighValue() > other.getHighValue()
+
+        private void checkRep() {
+            //assert highValue in range(2, 15)
+            //assert lowValue in [None, 1]
+            //assert self.__type in ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King']
+            //assert self.__suit in ['Spades', 'Hearts', 'Clubs', 'Diamonds']
+            //assert isinstance(self.__hidden, bool)
+        }
+
+        ////// SETTERS & GETTERS //////
 
         public string getIdentifier() {
-            return this.identifier;
-        }
-
-        public string getInitial() {
-            return initials[this.type];
-        }
-
-        public int getHighValue() {
-            return this.highValue;
-        }
-
-        public int getLowValue() {
-            return this.lowValue;
-        }
-
-        public string getType() {
-            return this.type;
-        }
-
-        public enum getSuit() {
-            return this.suit;
-        }
-
-        public bool getState() {
-            return this.hidden;
+            return identifier;
         }
 
         public void setState(bool state) {
@@ -89,12 +77,12 @@ namespace PokerCalculator {
 
         //////// GRAPHICS ///////
 
-        def draw(self):
-            self.__sprite.draw()
+        public void draw() {
+            //this.sprite.draw()
+        }
 
-        def setSprite(self):
-            self.__sprite = Avatar.Avatar('/path/to/picture')
-
-
+        //public void setSprite(string path) {
+        //    this.sprite = Avatar.Avatar('/path/to/picture');
+        //}
     }
 }
