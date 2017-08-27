@@ -8,16 +8,16 @@ namespace PokerCalculator {
     class Card {
         //# unique id for each card
         private int id;
-        private string initial { get; }
+        public string initial { get; }
         private string sprite;
         private string identifier;
 
-        private string type { get; }
-        private Suit suit { get; }
-        private int highValue { get; }
-        private int lowValue { get; }
+        public string type { get; }
+        public Suit suit { get; }
+        public int highValue { get; }
+        public int lowValue { get; }
 
-        private bool hidden { get; set; }
+        public bool hidden { get; set; }
 
         public Card(string type, Suit suit, int highValue, int lowValue = -1) {
             //this.identifier = '{value}-{suit}'.format(value = value, suit = suit)

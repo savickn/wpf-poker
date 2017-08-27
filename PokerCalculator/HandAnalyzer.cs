@@ -19,10 +19,10 @@ namespace PokerCalculator {
         List<TwoPair> twoPairs;
         List<Pair> pairs;
 
-        List<MadeHand> straightFlushes;
-        List<MadeHand> sfGutshotDraws;
-        List<MadeHand> sfOpenEndedDraws;
-        List<MadeHand> ;
+        List<Hand> straightFlushes;
+        List<Hand> sfGutshotDraws;
+        List<Hand> sfOpenEndedDraws;
+        List<Hand> ;
 
         public HandAnalyzer() {
 

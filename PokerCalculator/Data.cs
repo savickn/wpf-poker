@@ -18,6 +18,19 @@ namespace PokerCalculator {
             { "BackdoorGutshot", 1 }
         };
 
+        private static Dictionary<string, int> prefixRankings = new Dictionary<string, int> {
+            { "Z", 9 },
+            { "Q", 8 },
+            { "B", 7 },
+            { "F", 6 },
+            { "S", 5 },
+            { "T", 4 },
+            { "W", 3 },
+            { "P", 2 },
+            { "C", 1 },
+            { "N", 0 }
+        };
+
         private static Dictionary<string, string> initials = new Dictionary<string, string> {
             { "Ace", "A" },
             { "King", "K" },
@@ -58,14 +71,11 @@ namespace PokerCalculator {
         }
 
         public static string getHandPrefix(string key) {
-            return Data.prefixes[key]
+            return Data.prefixes[key];
         }
 
-
-
-
-
-
-
+        public static int getHandRanking(string key) {
+            return Data.prefixRankings[key];
+        }
     }
 }

@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class ThreeOfAKind {
+    enum Option {
+        FOLD,
+        CALL,
+        CHECK,
+        RAISE
     }
 }

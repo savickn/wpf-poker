@@ -5,6 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class ThreeOfAKind {
+    class GameState {
     }
 }

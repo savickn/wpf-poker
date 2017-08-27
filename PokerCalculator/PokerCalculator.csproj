@@ -55,10 +55,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Action.cs" />
+    <Compile Include="Actions\Action.cs" />
+    <Compile Include="Actions\Call.cs" />
+    <Compile Include="Actions\Check.cs" />
+    <Compile Include="Actions\Fold.cs" />
+    <Compile Include="Actions\PostAnte.cs" />
+    <Compile Include="Actions\PostBB.cs" />
+    <Compile Include="Actions\PostSB.cs" />
+    <Compile Include="Actions\Raise.cs" />
     <Compile Include="BestHand.cs" />
+    <Compile Include="Bets\BetResponse.cs" />
     <Compile Include="Data.cs" />
-    <Compile Include="Enums.cs" />
+    <Compile Include="Draws\Draw.cs" />
+    <Compile Include="Draws\FlushDraw.cs" />
+    <Compile Include="Draws\GutshotDraw.cs" />
+    <Compile Include="Draws\OpenEndedDraw.cs" />
+    <Compile Include="Enums\Option.cs" />
+    <Compile Include="Enums\PlayerStatus.cs" />
+    <Compile Include="Enums\Street.cs" />
+    <Compile Include="Enums\Suit.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="HandAnalyzer.cs" />
     <Compile Include="Hands\Flush.cs" />
     <Compile Include="Hands\FourOfAKind.cs" />
@@ -87,7 +103,7 @@
     <Compile Include="Card.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="MadeHand.cs" />
+    <Compile Include="Hands\Hand.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -120,10 +136,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Actions\" />
-    <Folder Include="Draws\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

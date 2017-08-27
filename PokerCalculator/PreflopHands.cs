@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     abstract class PreflopHand {
-        List<Card> cards;
-        int length;
+        public List<Card> cards { get; }
+        public int length { get; }
 
         public PreflopHand(List<Card> cards, int length) {
             this.cards = cards;
             this.length = length;
         }
 
-        public List<Card> getCards() {
-            return cards;
+        public string toString() {
+            return String.Format("Preflop Hand: {0}", cards);
         }
-
         
     }
 
@@ -28,16 +27,17 @@ namespace PokerCalculator {
         }
 
         public bool isSuited() {
-            var cards = getCards();
-            return cards[0].getSuit() == cards[1].getSuit() ? true : false;
+            var cards = base.cards;
+            return cards[0].suit == cards[1].suit ? true : false;
         }
 
         public bool isPaired() {
-
+            var cards = base.cards;
+            return cards[0].highValue == cards[1].highValue ? true : false;
         }
 
         public string getInitials() {
-
+            
         }
     }
 

@@ -6,25 +6,20 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class Deck {
-        private List<Card> cards;
-        private int length;
-        //preflopHands
+        public HashSet<Card> cards { get; private set; }
+        public int length { get; private set; }
+        public Dictionary<string, List<PreflopHand>> preflopHands { get; private set; }
 
         public Deck(List<Card> deadCards, bool generateHands) {
 
 
         }
 
-        public string toString() {
-            string rep = "";
-            foreach(Card c in this.cards) {
-                rep += c.toString();
-            }
-            return rep;
-        }
+        //////////// CLASS LOGIC ////////////
+
 
         public void suffleDeck() {
-            this.cards = Deck.shuffle(this.cards);
+            cards = Deck.shuffle(this.cards);
         }
 
         static List<Card> shuffle(List<Card> cards) {
@@ -38,10 +33,39 @@ namespace PokerCalculator {
             return ary;
         }
 
+        public void resetDeck() {
+
+        }
+
         public void removeDeadCards(List<Card> deadCards) {
             
         }
 
+        public Card getTopCard() {
+            Card c = cards.First();
+            cards.Remove(c);
+            length--;
+            return c;
+        }
+
+
+        //////////// GETTERS AND SETTERS ////////////
+
+
+
+        //////////// UTILITY METHODS ////////////
+
+        public string toString() {
+            string rep = "";
+            foreach (Card c in this.cards) {
+                rep += c.toString();
+            }
+            return rep;
+        }
+
+        public void checkRep() {
+            //assert length <= 52 and length >= 0
+        }
 
 
     }

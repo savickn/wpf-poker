@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class ThreeOfAKind {
+    class Raise : Action {
+        public Raise(Player actor, double amount, string street) : base(actor, amount, street) {
+
+        }
     }
 }

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class Seat {
-        int id { get; }
-        Player player { get; set; }
-        Seat right { get; set; }
-        Seat left { get; set; }
+        public int id { get; }
+        public Player player { get; set; }
+        public Seat right { get; set; }
+        public Seat left { get; set; }
 
         public Seat(int id, Seat right, Seat left, Player player) {
             this.id = id;
@@ -17,6 +17,31 @@ namespace PokerCalculator {
             this.left = left;
             this.player = player;
         }
+
+        //// Class Logic ////
+
+        public bool isEmpty() {
+            return !player ? true : false;
+        }
+
+        public bool isActive() {
+            return player.isActive() ? true : false;
+        }
+
+        public Seat getNearestLeftSeatWithActivePlayer() {
+            Seat temp = left;
+            
+            foreach(int n in Enumerable.Range(1, 10)) {
+
+
+            }
+        }
+
+        public Seat getNearestLeftSeatInHand() {
+
+        }
+
+        ///// UTILITY METHODS /////
 
         public void toString() {
 
@@ -27,24 +52,6 @@ namespace PokerCalculator {
         }
 
         public void checkRep() {
-
-        }
-
-        //// Class Logic ////
-
-        public bool isEmpty() {
-            return !this.player ? true : false;
-        }
-
-        public bool isActive() {
-            return this.player.isActive() ? true : false;
-        }
-
-        public Seat getNearestLeftSeatWithActivePlayer() {
-            
-        }
-
-        public Seat getNearestLeftSeatInHand() {
 
         }
 

@@ -4,7 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerCalculator {
-    class ThreeOfAKind {
+namespace PokerCalculator.Enums {
+    enum Street {
+        PREFLOP,
+        FLOP,
+        TURN,
+        RIVER
     }
 }
