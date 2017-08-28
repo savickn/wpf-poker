@@ -63,6 +63,7 @@
     <Compile Include="Actions\PostBB.cs" />
     <Compile Include="Actions\PostSB.cs" />
     <Compile Include="Actions\Raise.cs" />
+    <Compile Include="Algorithms\Fisher-Yates.cs" />
     <Compile Include="BestHand.cs" />
     <Compile Include="Bets\BetResponse.cs" />
     <Compile Include="Data.cs" />

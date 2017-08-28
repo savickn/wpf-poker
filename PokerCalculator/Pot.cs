@@ -6,35 +6,44 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class Pot {
-        int pot;
-        int bb;
-        Dictionary<Player, int> contributions;
-        Dictionary<string, List<Action>> actions;
+        public double pot { get; }
+        public double  bb { get; }
+        Dictionary<Player, double> contributions;
+        Dictionary<Street, List<Action>> actions;
 
-        public Pot(int bb) {
+        public Pot(double bb) {
             this.pot = 0;
+            this.bb = bb;
+
+
 
         }
 
-        public void toString() {
+     
 
+        public double getHighestContribution() {
+            double hc = 0;
+            foreach(KeyValuePair<Player, double> p in contributions) {
+                if(p.Value > hc) {
+                    hc = p.Value;
+                }
+            }
+            return hc;
         }
 
-        public int getPot() {
-            return this.pot;
-        }
-
-        public int getHighestContribution() {
-            return;
-        }
-
-        public int getPlayerContribution() {
-            return;
+        public double getPlayerContribution(Player p) {
+            return contributions[p];
         }
 
         // getPublicState
 
-        public bool hasActed(Player p, string street) {
+        public bool hasActed(Player p, Street s) {
+            foreach(Action a in actions[s]) {
+                if(a.actor == p && typeof(a).IsSubclassOf() ) {
+                    return true;
+                }
+            }
+            return false;
 
         }
 
@@ -45,6 +54,13 @@ namespace PokerCalculator {
         public void handleAction(Action a) {
 
         }
+
+        ///// UTILITY METHODS //////
+
+        public void toString() {
+
+        }
+
 
 
     }

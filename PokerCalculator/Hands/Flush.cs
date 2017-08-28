@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class Flush {
+    class Flush : Hand {
+
+
+
     }
 }

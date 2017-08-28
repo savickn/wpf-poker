@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class Player {
-        private string account;
-        private string hash;
+        public string account { get; private set; }
+        public string hash { get; private set; }
 
-        private double stack;
+        public double stack { get; private set; }
         private PreflopHand hand;
 
         private PlayerStatus status;

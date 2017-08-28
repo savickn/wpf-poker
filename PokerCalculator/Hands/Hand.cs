@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     abstract class Hand {
         public List<Card> cards { get; }
-        public int value { get; }
+        public int primaryValue { get; }
         public int length { get; }
         public string prefix { get; }
         public string identifier { get; }
 
         public Hand(List<Card> cards, int value, string prefix) {
             this.cards = cards;
-            this.value = value;
+            this.primaryValue = value;
             this.prefix = prefix;
         }
 
@@ -30,7 +30,7 @@ namespace PokerCalculator {
         }
 
 
-        public abstract Hand compare(Hand other);
+        public abstract int compare(Hand other);
 
         ////// Logic Methods //////
 

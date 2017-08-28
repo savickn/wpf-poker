@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class Deck {
-        public HashSet<Card> cards { get; private set; }
+        public List<Card> cards { get; private set; }
         public int length { get; private set; }
         public Dictionary<string, List<PreflopHand>> preflopHands { get; private set; }
 
@@ -17,28 +17,16 @@ namespace PokerCalculator {
 
         //////////// CLASS LOGIC ////////////
 
-
-        public void suffleDeck() {
-            cards = Deck.shuffle(this.cards);
-        }
-
-        static List<Card> shuffle(List<Card> cards) {
-            List<Card> ary = cards;
-            int a = ary.Count();
-            int b = a - 1;
-
-            foreach(int d in ???) {
-
-            }
-            return ary;
-        }
-
         public void resetDeck() {
-
+            throw new NotImplementedException();
         }
 
         public void removeDeadCards(List<Card> deadCards) {
-            
+            foreach(Card c in deadCards) {
+                if(cards.Contains(c)) {
+                    cards.Remove(c);
+                }
+            }
         }
 
         public Card getTopCard() {

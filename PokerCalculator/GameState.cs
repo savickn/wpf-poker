@@ -6,5 +6,12 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class GameState {
+
+
+        public GameState() {
+
+        }
+
+
     }
 }
