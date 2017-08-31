@@ -11,23 +11,26 @@ namespace PokerCalculator {
 
         }
 
+
         public int compare(FourOfAKind other) {
-            if(this.primaryValue > other.primaryValue) {
-                return 1;
-            } else if(this.primaryValue < other.primaryValue) {
-                return -1;
+            int prefixComparison = comparePrefixes(this, other);
+            if (prefixComparison == 1 || prefixComparison == -1) {
+                return prefixComparison;
             } else {
-                return 0;
-            }  
+                if (this.primaryValue > other.primaryValue) {
+                    return 1;
+                } else if (this.primaryValue < other.primaryValue) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
         }
-
-
-
 
         /////// UTILITY METHODS ///////
 
         public string toString() {
-            return String.Format("Quads: {0}", base.toString());
+            return String.Format("FourOfAKind: {0}", base.toString());
         }
 
         public void checkRep() {

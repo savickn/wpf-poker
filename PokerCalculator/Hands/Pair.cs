@@ -5,6 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class Pair {
+    class Pair : Hand {
+
+        public Pair() : base() {
+
+        }
+
+        public int compare(Pair other) {
+
+        }
+
+        /////// UTILITY METHODS ///////
+
+        public string toString() {
+            return String.Format("Pair: {0}", base.toString());
+        }
+
+        public void checkRep() {
+
+        }
     }
 }

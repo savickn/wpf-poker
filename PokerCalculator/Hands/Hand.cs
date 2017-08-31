@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     abstract class Hand {
         public List<Card> cards { get; }
-        public int primaryValue { get; }
+        public int value { get; }
         public int length { get; }
         public string prefix { get; }
         public string identifier { get; }
 
         public Hand(List<Card> cards, int value, string prefix) {
             this.cards = cards;
-            this.primaryValue = value;
+            this.value = value;
             this.prefix = prefix;
         }
 
@@ -29,16 +29,24 @@ namespace PokerCalculator {
             return one.identifier != other.identifier ? true : false;
         }
 
+        public int compare(Hand h1, Hand h2) {
+            int prefixComparison = comparePrefixes(h1, h2);
+            if(prefixComparison == 1 || prefixComparison == -1) {
+                return prefixComparison;
+            } else {
+                
 
-        public abstract int compare(Hand other);
+                return h1.handComp(h2);
+            }
+        }
 
         ////// Logic Methods //////
 
-        public int comparePrefixes(Hand other) {
-            if (getRanking() > other.getRanking()) {
-                return -1;
-            } else if(this.getRanking() < other.getRanking()) {
+        public static int comparePrefixes(Hand h1, Hand h2) {
+            if (h1.getRanking() > h2.getRanking()) {
                 return 1;
+            } else if(h1.getRanking() < h2.getRanking()) {
+                return -1;
             } else {
                 return 0;
             }
