@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     class Action {
         public Player actor { get; }
+        public ActionType type { get; }
         public double amount { get; }
-        public string street { get; }
+        public Street street { get; }
 
-        public Action(Player actor, double amount, string street) {
+        public Action(Player actor, ActionType type, double amount, Street street) {
             this.actor = actor;
+            this.type = type;
             this.amount = amount;
             this.street = street;
         }

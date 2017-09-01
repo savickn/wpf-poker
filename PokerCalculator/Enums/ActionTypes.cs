@@ -5,9 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class Check : Action {
-        public Check(Player actor, string street) : base(actor, 0, street) {
-
-        }
+    enum ActionType {
+        POST_BB,
+        POST_SB,
+        POST_ANTE,
+        RAISE,
+        CHECK,
+        CALL,
+        FOLD
     }
 }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class Player {
-        public string account { get; private set; }
+        public int id { get; }
+        public string name { get; private set; }
         public string hash { get; private set; }
 
         public double stack { get; private set; }

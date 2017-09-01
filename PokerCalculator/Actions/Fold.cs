@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerCalculator.Actions {
+namespace PokerCalculator {
     class Fold : Action {
         public Fold(Player actor, string street) : base(actor, 0, street) {
 

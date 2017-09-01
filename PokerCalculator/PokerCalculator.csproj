@@ -71,6 +71,7 @@
     <Compile Include="Draws\FlushDraw.cs" />
     <Compile Include="Draws\GutshotDraw.cs" />
     <Compile Include="Draws\OpenEndedDraw.cs" />
+    <Compile Include="Enums\ActionTypes.cs" />
     <Compile Include="Enums\Option.cs" />
     <Compile Include="Enums\PlayerStatus.cs" />
     <Compile Include="Enums\Street.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="PokerCalculator.cs" />
     <Compile Include="Pot.cs" />
+    <Compile Include="PotState.cs" />
     <Compile Include="PreflopHands.cs" />
     <Compile Include="Seat.cs" />
     <Compile Include="Table.cs" />
