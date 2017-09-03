@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class Call : Action {
-        public Call(Player actor, double amount, string street) : base(actor, amount, street) {
+        public Call(Player actor, double amount, Street street) : base(actor, amount, street) {
 
         }
     }

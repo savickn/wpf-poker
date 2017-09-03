@@ -7,32 +7,27 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     class ThreeOfAKind : Hand {
 
-        public ThreeOfAKind() : base() {
+        public ThreeOfAKind(List<Card> cards, int value) : base(cards, value, "T") {
 
         }
 
-        public int compare(ThreeOfAKind other) {
-            int prefixComparison = comparePrefixes(this, other);
-            if (prefixComparison == 1 || prefixComparison == -1) {
-                return prefixComparison;
+        public override int handComp<ThreeOfAKind>(ThreeOfAKind other) {
+            if (this.value > other.value) {
+                return 1;
+            } else if (this.value < other.value) {
+                return -1;
             } else {
-                if (this.value > other.value) {
-                    return 1;
-                } else if (this.value < other.value) {
-                    return -1;
-                } else {
-                    return 0;
-                }
+                return 0;
             }
         }
 
         /////// UTILITY METHODS ///////
 
-        public string toString() {
+        public new string toString() {
             return String.Format("ThreeOfAKind: {0}", base.toString());
         }
 
-        public void checkRep() {
+        public new void checkRep() {
 
         }
     }

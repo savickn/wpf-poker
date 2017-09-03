@@ -20,26 +20,18 @@ namespace PokerCalculator {
             this.river = card5;
         }
 
-        public string toString() {
-            string rep = "Board: ";
-            foreach (Card c in getCards()) {
-                rep += String.Format("{0} ,", c.toString());
-            };
-            return rep;
-        }
-
         //takes a Deck obj and a list of existing cards and returns a completed Board object
-        static Board generateBoard(Deck deck, Board board) {
-            Board b = new Board(*board);
+        static Board generateBoard(Deck deck, Board board=null) {
+            Board b = board;
             if (b == null) {
                 deck.getTopCard();
                 b = new Board(deck.getTopCard(), deck.getTopCard(), deck.getTopCard());
             }
-            if (b.getCards().length == 3) {
+            if (b.getCards().Count == 3) {
                 deck.getTopCard();
                 b.setTurn(deck.getTopCard());
             }
-            if len(b.getCards()) == 4 {
+            if (b.getCards().Count == 4) {
                 deck.getTopCard();
                 b.setRiver(deck.getTopCard());
             }
@@ -49,7 +41,7 @@ namespace PokerCalculator {
         //////////// GETTERS AND SETTERS ////////////
 
         public List<Card> getCards() {
-            List<Card> board = [this.flop1, this.flop2, this.flop3];
+            var board = new List<Card>() { this.flop1, this.flop2, this.flop3 };
             if (this.turn != null) {
                 board.Add(this.turn);
                 if(this.river != null) {
@@ -71,14 +63,22 @@ namespace PokerCalculator {
 
         //////////////// UTILITY METHODS /////////////////
 
+        public string toString() {
+            string rep = "Board: ";
+            foreach (Card c in getCards()) {
+                rep += String.Format("{0} ,", c.toString());
+            };
+            return rep;
+        }
+
         public void draw() {
             foreach (Card c in this.getCards()) {
                 c.draw();
             }
         }
 
-        //public void checkRep() {
-        //    assert self.getCards() in range(3, 6);
-        //}
+        public void checkRep() {
+            //assert self.getCards() in range(3, 6);
+        }
     }
 }

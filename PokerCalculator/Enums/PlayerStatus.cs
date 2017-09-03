@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    enum PlayerStatus {
+    public enum PlayerStatus {
         ACTIVE, // AKA in the game, should be dealt hands
         SITTING_OUT, 
         FOLDED, // player can no longer BET/CHECK

@@ -1,3 +1,8 @@
 C:\Users\Nick\documents\visual studio 2015\Projects\WpfApplication1\WpfApplication1\bin\Debug\WpfApplication1.exe.config
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\bin\Debug\WpfApplication1.exe.config
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\bin\Debug\PokerCalculator.exe.config
+C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\PokerCalculator.csprojResolveAssemblyReference.cache
+C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\MainWindow.g.cs
+C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\App.g.cs
+C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\PokerCalculator_MarkupCompile.cache
+C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\PokerCalculator_MarkupCompile.lref

@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    enum Suit {
-        Hearts,
-        Clubs, 
-        Diamonds,
-        Spades
+    public enum Suit {
+        HEARTS,
+        CLUBS, 
+        DIAMONDS,
+        SPADES
     }
 }

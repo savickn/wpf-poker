@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     class Seat {
         public int id { get; }
-        public Player player { get; set; }
-        public Seat right { get; set; }
-        public Seat left { get; set; }
+        public Player player { get; private set; }
+        public Seat right { get; private set; }
+        public Seat left { get; private set; }
 
-        public Seat(int id, Seat right, Seat left, Player player) {
+        public Seat(int id, Seat right=null, Seat left=null, Player player=null) {
             this.id = id;
             this.right = right;
             this.left = left;
@@ -21,30 +21,31 @@ namespace PokerCalculator {
         //// Class Logic ////
 
         public bool isEmpty() {
-            return !player ? true : false;
+            return player == null ? true : false;
         }
 
         public bool isActive() {
             return player.isActive() ? true : false;
         }
 
-        public Seat getNearestLeftSeatWithActivePlayer() {
-            Seat temp = left;
-            
-            foreach(int n in Enumerable.Range(1, 10)) {
+        ///// GETTERS & SETTERS /////
 
-
-            }
+        public void setLeft(Seat s) {
+            this.left = s;
         }
 
-        public Seat getNearestLeftSeatInHand() {
+        public void setRight(Seat s) {
+            this.right = s;
+        }
 
+        public void setPlayer(Player p) {
+            this.player = p;
         }
 
         ///// UTILITY METHODS /////
 
-        public void toString() {
-
+        public string toString() {
+            throw new NotImplementedException();
         }
 
         public void draw() {

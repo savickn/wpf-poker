@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    enum Street {
+    public enum Street {
         PREFLOP,
         FLOP,
         TURN,

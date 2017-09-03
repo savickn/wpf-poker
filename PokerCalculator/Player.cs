@@ -11,32 +11,38 @@ namespace PokerCalculator {
         public string hash { get; private set; }
 
         public double stack { get; private set; }
-        private PreflopHand hand;
+        public PreflopHand hand { get; private set; }
+        public PlayerStatus status { get; private set; }
 
-        private PlayerStatus status;
-
-        private bool sittingOut;
-        private bool autoRebuy;
-        private double timeBank;
+        public bool sittingOut { get; set; }
+        public bool autoRebuy { get; set; }
+        public double timeBank { get; }
 
         //private RangeManager rm;
 
-        public Player() {
+        public Player(string name, double buyin) {
+            this.name = name;
+            this.stack = buyin;
+            this.status = buyin > 0 ? PlayerStatus.ACTIVE : PlayerStatus.SITTING_OUT;
 
+            this.sittingOut = false;
+            this.autoRebuy = false;
         }
 
+        ///// CLASS LOGIC /////
 
-        ///// GETTERS & SETTERS /////
-
-        public void setStatus(PlayerStatus ps) {
-            status = ps;
+        public bool isActive() {
+            return status == PlayerStatus.ACTIVE ? true : false;
         }
 
+        public bool isInHand() {
+            return status == PlayerStatus.IN_HAND ? true : false;
+        }
 
-        ///// LOGIC /////
-
-
-
+        public bool shouldAnalyze() {
+            var passingStates = new List<PlayerStatus>() { PlayerStatus.IN_HAND, PlayerStatus.ALL_IN };
+            return passingStates.Contains(status) ? true : false;
+        }
 
         public void addToStack(double amount) {
             stack += amount;
@@ -92,20 +98,52 @@ namespace PokerCalculator {
 
             Action action;
             if(selection == Option.FOLD) {
-                action = new Fold();
+                action = new Fold(this, gs.street);
+                this.status = PlayerStatus.ACTIVE;
             } else if(selection == Option.CHECK) {
-
+                action = new Check(this, gs.street);
             } else if(selection == Option.CALL) {
+                double betToCall = ps.currentBet - ps.playerContribution;
+                BetResponse response = removeFromStack(betToCall);
+                action = new Call(this, response.amount, gs.street);
+            } else {  // for raises
+                double low = ps.minRaise < stack ? ps.minRaise : stack;
+                double high = ps.maxBet < stack ? ps.maxBet : stack;
 
-            } else if(selection == Option.RAISE){
-
+                // add code to ensure amount is always between 'low' and 'high'
+                double amount = Convert.ToDouble(Console.ReadLine());
+                BetResponse res = removeFromStack(amount);
+                action = new Raise(this, res.amount, gs.street);
             }
             return action;
         }
 
+        ///// GETTERS & SETTERS /////
+
+        public void setStatus(PlayerStatus ps) {
+            this.status = ps;
+        }
+
+        public void setHand(PreflopHand hand) {
+            this.hand = hand;
+        }
+
+        public void rebuy(double amount) {
+            throw new NotImplementedException();
+        }
+
         ///// UTILITY METHODS /////
 
+        public string toString() {
+            throw new NotImplementedException();
+        }
 
+        public void draw() {
 
+        }
+
+        public void checkRep() {
+
+        }
     }
 }

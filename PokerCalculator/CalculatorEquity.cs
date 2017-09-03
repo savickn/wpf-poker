@@ -5,10 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    public enum Option {
-        FOLD,
-        CALL,
-        CHECK,
-        RAISE
+    class CalculatorEquity {
     }
 }

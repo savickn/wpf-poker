@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class GameState {
-        public double ante { get; private set; }
-        public double sb { get; private set; }
-        public double bb { get; private set; }
-        public double maxBuyIn { get; private set; }
-        public double minBuyIn { get; private set; }
-        public double timer { get; private set; }
+        public Street street { get; }
+        public double ante { get; }
+        public double sb { get; }
+        public double bb { get; }
+        public double maxBuyIn { get; }
+        public double minBuyIn { get; }
+        public double timer { get; }
 
-        public GameState(double ante, double sb, double bb, double maxBuyIn, double minBuyIn, double timer) {
+        public GameState(Street street, double ante, double sb, double bb, double maxBuyIn, double minBuyIn, double timer) {
+            this.street = street;
             this.ante = ante;
             this.sb = sb;
             this.bb = bb;

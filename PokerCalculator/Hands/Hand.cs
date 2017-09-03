@@ -9,16 +9,17 @@ namespace PokerCalculator {
     abstract class Hand {
         public List<Card> cards { get; }
         public int value { get; }
+        public int secondary { get; }
         public int length { get; }
         public string prefix { get; }
         public string identifier { get; }
 
-        public Hand(List<Card> cards, int value, string prefix) {
+        public Hand(List<Card> cards, int value, string prefix, int secondary=0) {
             this.cards = cards;
             this.value = value;
             this.prefix = prefix;
+            this.secondary = secondary;
         }
-
 
         // used to check if a particular hand already exists in a collection
         public static bool operator ==(Hand one, Hand other) {
@@ -29,13 +30,11 @@ namespace PokerCalculator {
             return one.identifier != other.identifier ? true : false;
         }
 
-        public int compare(Hand h1, Hand h2) {
+        public static int compare<T>(T h1, T h2) where T : Hand {
             int prefixComparison = comparePrefixes(h1, h2);
             if(prefixComparison == 1 || prefixComparison == -1) {
                 return prefixComparison;
             } else {
-                
-
                 return h1.handComp(h2);
             }
         }
@@ -51,6 +50,8 @@ namespace PokerCalculator {
                 return 0;
             }
         }
+
+        public abstract int handComp<T>(T other) where T : Hand;
 
         ////// GETTERS & SETTERS //////
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator.Actions {
     class PostSB : Action {
-        public PostSB(Player actor, double amount) : base(actor, amount, "PREFLOP") {
+        public PostSB(Player actor, double amount) : base(actor, amount, Street.PREFLOP) {
 
         }
     }

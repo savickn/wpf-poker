@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class Fold : Action {
-        public Fold(Player actor, string street) : base(actor, 0, street) {
+        public Fold(Player actor, Street street) : base(actor, 0, street) {
 
         }
     }

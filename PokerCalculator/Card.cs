@@ -12,14 +12,14 @@ namespace PokerCalculator {
         private string sprite;
         private string identifier;
 
-        public string type { get; }
+        public CardType type { get;}
         public Suit suit { get; }
         public int highValue { get; }
         public int lowValue { get; }
 
         public bool hidden { get; set; }
 
-        public Card(string type, Suit suit, int highValue, int lowValue = -1) {
+        public Card(CardType type, Suit suit, int highValue, int lowValue = -1) {
             //this.identifier = '{value}-{suit}'.format(value = value, suit = suit)
             this.type = type;
             this.suit = suit;
@@ -30,13 +30,24 @@ namespace PokerCalculator {
             this.hidden = true; // used to determine if card should be drawn face-up or face-down
         }
 
-        public string toString() {
-            return String.Format("{0} of {1}", type, suit);
+        public override bool Equals(System.Object obj) {
+            // If parameter is null return false.
+            if (obj == null) {
+                return false;
+            }
+
+            // If parameter cannot be cast to Point return false.
+            Card c = obj as Card;
+            if ((System.Object)c == null) {
+                return false;
+            }
+
+            return (type == c.type) && (suit == c.suit);
         }
 
-        // used to check if two Cards are identical (e.g. Js == Js but Jh != Js), not working
-        // def __eq__(self, other):
-        // return self.getId() == other.getId()
+        public override int GetHashCode() {
+            return highValue * ((int)type ^ (int)suit);
+        }
 
         public bool isEqual(Card other) {
             return this.identifier == other.getIdentifier() ? true : false;
@@ -50,20 +61,6 @@ namespace PokerCalculator {
             return argA.highValue > argB.highValue ? argA : argB;
         }
 
-        //def __lt__(self, other):
-        //    return self.getHighValue() < other.getHighValue()
-
-        //def __gt__(self, other):
-        //    return self.getHighValue() > other.getHighValue()
-
-        private void checkRep() {
-            //assert highValue in range(2, 15)
-            //assert lowValue in [None, 1]
-            //assert self.__type in ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King']
-            //assert self.__suit in ['Spades', 'Hearts', 'Clubs', 'Diamonds']
-            //assert isinstance(self.__hidden, bool)
-        }
-
         ////// SETTERS & GETTERS //////
 
         public string getIdentifier() {
@@ -75,14 +72,26 @@ namespace PokerCalculator {
             this.hidden = state;
         }
 
-        //////// GRAPHICS ///////
+        //////// UTILITY METHODS ///////
 
         public void draw() {
             //this.sprite.draw()
         }
 
+        public string toString() {
+            return String.Format("{0} of {1}", type, suit);
+        }
+
         //public void setSprite(string path) {
         //    this.sprite = Avatar.Avatar('/path/to/picture');
         //}
+
+        private void checkRep() {
+            //assert highValue in range(2, 15)
+            //assert lowValue in [None, 1]
+            //assert self.__type in ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King']
+            //assert self.__suit in ['Spades', 'Hearts', 'Clubs', 'Diamonds']
+            //assert isinstance(self.__hidden, bool)
+        }
     }
 }

@@ -7,21 +7,27 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     class Pair : Hand {
 
-        public Pair() : base() {
+        public Pair(List<Card> cards, int value) : base(cards, value, "P") {
 
         }
 
-        public int compare(Pair other) {
-
+        public override int handComp<Pair>(Pair other) {
+            if (this.value > other.value) {
+                return 1;
+            } else if (this.value < other.value) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
 
         /////// UTILITY METHODS ///////
 
-        public string toString() {
+        public new string toString() {
             return String.Format("Pair: {0}", base.toString());
         }
 
-        public void checkRep() {
+        public new void checkRep() {
 
         }
     }

@@ -37,16 +37,20 @@ namespace PokerCalculator {
             return contributions[p];
         }
 
-        // getPublicState
+        public PotState getState(Player p) {
+            var contribution = getPlayerContribution(p);
+            var currentBet = getHighestContribution();
+            var raise = 2 * (currentBet - contribution);
+            var minRaise = raise > 0 ? raise : bb;
+
+            return new PotState(pot, currentBet, contribution, minRaise);
+        }
 
         public bool hasActed(Player p, Street s) {
-            foreach(Action a in actions[s]) {
-                if(a.actor == p) {
-                    switch(a.GetType()) {
-                        case typeof(Check):
-                            return true;
-                        
-                    }
+            var activeActions = new List<Type>() { typeof(Call), typeof(Check), typeof(Raise) };
+            foreach (Action a in actions[s]) {
+                if(a.actor == p && activeActions.Contains(a.GetType())) {
+                    return true;
                 }
             }
             return false;
@@ -67,11 +71,8 @@ namespace PokerCalculator {
 
         ///// UTILITY METHODS //////
 
-        public void toString() {
-
+        public string toString() {
+            throw new NotImplementedException();
         }
-
-
-
     }
 }

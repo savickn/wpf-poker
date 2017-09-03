@@ -13,7 +13,7 @@ namespace PokerCalculator {
         Player playerToAct;
 
         Table table;
-        string street;
+        Street street;
         Deck deck { get; }
         Board board { get; }
 
@@ -42,14 +42,17 @@ namespace PokerCalculator {
         ///// PLAYER POSITIONING /////
 
         public void assignPositions() {
+            var d = new Deck(FisherYates.shuffle(Data.deck));
+
 
         }
 
         public void rotatePlayers() {
-            this.btn = this.btn.getNearestLeftSeatWithActivePlayer();
-            this.sb = this.sb.getNearestLeftSeatWithActivePlayer();
-            this.bb = this.bb.getNearestLeftSeatWithActivePlayer();
-            this.fp = this.fp.getNearestLeftSeatWithActivePlayer();
+            var activeStates = new List<PlayerStatus>() { PlayerStatus.ACTIVE, PlayerStatus.IN_HAND };
+            this.btn = table.getNearestLeftSeatWithStatus(btn, activeStates);
+            this.sb = table.getNearestLeftSeatWithStatus(sb, activeStates);
+            this.bb = table.getNearestLeftSeatWithStatus(bb, activeStates);
+            this.fp = table.getNearestLeftSeatWithStatus(fp, activeStates);
         }
 
         ///// PLAYER HAND GENERATION /////
@@ -131,7 +134,11 @@ namespace PokerCalculator {
 
         }
 
+        ///// GETTERS & SETTERS /////
 
+        public GameState getState() {
+            return new GameState(street, ante, smallBlind, bigBlind, maxBuyin, minBuyin, timer);
+        }
 
     }
 }

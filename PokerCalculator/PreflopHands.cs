@@ -37,7 +37,9 @@ namespace PokerCalculator {
         }
 
         public string getInitials() {
-            
+            var str = cards[0].initial + cards[1].initial;
+            str += isSuited() ? "s" : "o";
+            return str;
         }
     }
 

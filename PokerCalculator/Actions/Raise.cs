@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class Raise : Action {
-        public Raise(Player actor, double amount, string street) : base(actor, amount, street) {
+        public Raise(Player actor, double amount, Street street) : base(actor, amount, street) {
 
         }
     }
