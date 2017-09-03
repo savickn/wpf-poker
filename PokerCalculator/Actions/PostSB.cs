@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerCalculator.Actions {
+namespace PokerCalculator {
     class PostSB : Action {
         public PostSB(Player actor, double amount) : base(actor, amount, Street.PREFLOP) {
 

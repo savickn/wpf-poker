@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class CalculatorGto {
-        public Range range { get; set; }
+    class CalculatorGto<T> where T : PreflopHand {
+        public Range<T> range { get; set; }
         public Board board { get; }
         public List<BestHand> hands { get; private set; }
 
-        public CalculatorGto(Range r, Board b) {
+        public CalculatorGto(Range<T> r, Board b) {
             this.range = r;
             this.board = b;
             this.hands = analyzeBoard();
@@ -19,21 +19,30 @@ namespace PokerCalculator {
         ///// CLASS LOGIC /////
 
         public List<BestHand> analyzeBoard() {
-
+            var madeHands = new List<BestHand>();
+            foreach(T h in this.range.hands) {
+                var ha = HandAnalyzer();
+                madeHands.Add(ha.bestHand);
+            }
+            return madeHands.Sort();
         }
 
-        public double getHandPercentile(PreflopHand h) {
-
+        public double getHandPercentile(T h) {
+            var rankedHands = this.getRankedStartingHands();
+            int idx = rankedHands.IndexOf(h);
+            return 1 - (idx / (this.hands.Count + 1));
         }
 
-        public List<BestHand> getRankedStartingHands() {
-
+        public List<PreflopHand> getRankedStartingHands() {
+            var startingHands = this.hands.Select(h => h.startingHand).ToList();
+            return startingHands;
         }
 
         public List<BestHand> getTopX(double x) {
-
+            int cutoff = (int)Math.Ceiling(this.hands.Count / (100 / x));
+            var bhs = this.hands.GetRange(cutoff, hands.Count - cutoff);
+            return bhs;
         }
-
 
         ///// STATIC METHODS /////
 
@@ -70,7 +79,6 @@ namespace PokerCalculator {
         }
 
         ///// UTILITY METHODS /////
-
 
 
     }

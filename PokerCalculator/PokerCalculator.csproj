@@ -74,13 +74,14 @@
     <Compile Include="Draws\OpenEndedDraw.cs" />
     <Compile Include="Enums\ActionType.cs" />
     <Compile Include="Enums\CardType.cs" />
+    <Compile Include="Enums\GameStatus.cs" />
     <Compile Include="Enums\Option.cs" />
     <Compile Include="Enums\PlayerStatus.cs" />
     <Compile Include="Enums\Street.cs" />
     <Compile Include="Enums\Suit.cs" />
     <Compile Include="Equity.cs" />
     <Compile Include="Exceptions\NoValidSeatException.cs" />
-    <Compile Include="GameState.cs" />
+    <Compile Include="States\GameState.cs" />
     <Compile Include="CalculatorGto.cs" />
     <Compile Include="HandAnalyzer.cs" />
     <Compile Include="Hands\Flush.cs" />
@@ -93,14 +94,16 @@
     <Compile Include="Hands\StraightFlush.cs" />
     <Compile Include="Hands\ThreeOfAKind.cs" />
     <Compile Include="Hands\TwoPair.cs" />
+    <Compile Include="Helpers\PickWinner.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PokerCalculator.cs" />
     <Compile Include="Pot.cs" />
-    <Compile Include="PotState.cs" />
+    <Compile Include="States\PotState.cs" />
     <Compile Include="PreflopHands.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="Seat.cs" />
     <Compile Include="Table.cs" />
+    <Compile Include="States\WinState.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

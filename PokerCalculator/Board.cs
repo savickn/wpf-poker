@@ -21,7 +21,7 @@ namespace PokerCalculator {
         }
 
         //takes a Deck obj and a list of existing cards and returns a completed Board object
-        static Board generateBoard(Deck deck, Board board=null) {
+        public static Board generateBoard(Deck deck, Board board=null) {
             Board b = board;
             if (b == null) {
                 deck.getTopCard();

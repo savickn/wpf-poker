@@ -12,11 +12,21 @@ namespace PokerCalculator {
         public List<Player> observers { get; private set; }
         public List<Player> waitlist { get; private set; }
 
-        public Table() {
-
+        public Table(int numberOfSeats) {
+            this.seats = this.initializeSeats(numberOfSeats);
         }
 
         //// CLASS LOGIC ////
+
+        public Seat getNearestLeftSeatWithActivePlayer(Seat s) {
+            var activeStates = new List<PlayerStatus>() { PlayerStatus.ACTIVE, PlayerStatus.IN_HAND };
+            return getNearestLeftSeatWithStatus(s, activeStates);
+        }
+
+        public Seat getNearestLeftSeatInHand(Seat s) {
+            var activeStates = new List<PlayerStatus>() { PlayerStatus.IN_HAND };
+            return getNearestLeftSeatWithStatus(s, activeStates);
+        }
 
         public Seat getNearestLeftSeatWithStatus(Seat s, List<PlayerStatus> query) {
             Seat temp = s.left;
@@ -33,7 +43,7 @@ namespace PokerCalculator {
             throw new NoValidSeatException();
         }
         
-        public void initializeSeats(int seatCount) {
+        public List<Seat> initializeSeats(int seatCount) {
             var seats = new List<Seat>();
             Seat rightSeat = null;
 
@@ -49,11 +59,12 @@ namespace PokerCalculator {
                     rightSeat = seat;
                 }
             }
-
             Seat firstSeat = seats[0];
             Seat lastSeat = seats[seats.Count - 1];
             firstSeat.setRight(lastSeat);
             lastSeat.setLeft(firstSeat);
+
+            return seats;
         }
 
         public void addSeat() {
@@ -72,24 +83,29 @@ namespace PokerCalculator {
             }
         }
 
-        public List<Seat> getFilledSeats() {
-            throw new NotImplementedException();
-        }
 
         public List<Seat> getActiveSeats() {
-            throw new NotImplementedException();
+            return this.seats.Where(s => s.player != null && s.player.isActive()).ToList();
         }
 
-        public List<Player> getActivePlayers() {
-            throw new NotImplementedException();
-        }
-
-        public List<Player> getInHandPlayers() {
-            throw new NotImplementedException();
+        public List<Player> getPlayers() {
+            var players = new List<Player>();
+            foreach(Seat s in this.seats) {
+                if(s.player != null) {
+                    players.Add(s.player);
+                }
+            }
+            return players;
         }
 
         public List<Player> getPlayersToAnalyze() {
-            throw new NotImplementedException();
+            var players = new List<Player>();
+            foreach (Seat s in this.seats) {
+                if (s.player != null && s.player.shouldAnalyze()) {
+                    players.Add(s.player);
+                }
+            }
+            return players;
         }
 
         /// UTILITY METHODS ///

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class PostBB : Action {
-        public PostBB(Player actor, double amount) : base(actor, amount, Street.PREFLOP) {
-
-        }
+    public enum GameStatus {
+        RUNNING,
+        WAITING,
+        DISCONNECTED,
     }
 }

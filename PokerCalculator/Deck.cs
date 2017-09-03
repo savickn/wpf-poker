@@ -13,15 +13,12 @@ namespace PokerCalculator {
         public Deck(HashSet<Card> deadCards, bool generateHands=false) {
             this.cards = Data.deck;
             this.cards.ExceptWith(deadCards);
+            this.cards = FisherYates.shuffle(this.cards);
             this.length = this.cards.Count(); 
             this.holdemHands = generateHands ? generateHoldemHandCombos(cards) : new Dictionary<string, List<HoldemHand>>();
         }
 
         //////////// CLASS LOGIC ////////////
-
-        public void resetDeck() {
-            this.cards = Data.deck;
-        }
 
         public void removeDeadCards(HashSet<Card> deadCards) {
             foreach(Card c in deadCards) {

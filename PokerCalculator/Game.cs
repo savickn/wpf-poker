@@ -6,34 +6,35 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class Game {
-        bool isPreflop;
-        bool isHeadsUp;
-        string state;
+        public GameStatus status { get; private set; }
+        public Street street;
+        public Table table;
 
-        Player playerToAct;
+        //public Pot pot { get; private set; }
+        //private Deck deck { get; }
+        //public Board board { get; private set; }
 
-        Table table;
-        Street street;
-        Deck deck { get; }
-        Board board { get; }
+        public Seat btn { get; private set; }
+        public Seat sb { get; private set; }
+        public Seat bb { get; private set; }
+        public Seat fp { get; private set; }
 
-        int cardsPerHand;
+        public int bigBlind { get; }
+        public int smallBlind { get; }
+        public int ante { get; }
+        public int maxBuyin { get; }
+        public int minBuyin { get; }
+        public int cardsPerHand { get; }
 
+        double timer;
+
+        /*Player playerToAct;
         int currentBet;
         int minRaise;
-        int maxBet;
+        int maxBet;*/
 
-        Seat btn;
-        Seat sb;
-        Seat bb;
-        Seat fp;
-
-        int bigBlind;
-        int smallBlind;
-        int ante;
-        int maxBuyin;
-        int minBuyin;
-        double timer;
+        /*bool isPreflop;
+        bool isHeadsUp;*/
 
         public Game() {
 
@@ -42,95 +43,274 @@ namespace PokerCalculator {
         ///// PLAYER POSITIONING /////
 
         public void assignPositions() {
-            var d = new Deck(FisherYates.shuffle(Data.deck));
+            Deck d = new Deck(new HashSet<Card>());
+            List<Seat> activeSeats = table.getActiveSeats();
 
+            Seat btn = null;
+            Card highest = null;
+            foreach (Seat s in activeSeats) {
+                Card c = d.getTopCard();
+                if (highest == null || (c.highValue > highest.highValue)) {
+                    btn = s;
+                    highest = c;
+                }
+            }
+            this.btn = btn;
 
+            if(activeSeats.Count == 2) {
+                this.sb = this.btn;
+            } else if(activeSeats.Count > 2) {
+                this.sb = table.getNearestLeftSeatWithActivePlayer(this.btn);
+            }
+
+            this.bb = table.getNearestLeftSeatWithActivePlayer(this.sb);
+            this.fp = table.getNearestLeftSeatWithActivePlayer(this.bb);
         }
 
         public void rotatePlayers() {
-            var activeStates = new List<PlayerStatus>() { PlayerStatus.ACTIVE, PlayerStatus.IN_HAND };
-            this.btn = table.getNearestLeftSeatWithStatus(btn, activeStates);
-            this.sb = table.getNearestLeftSeatWithStatus(sb, activeStates);
-            this.bb = table.getNearestLeftSeatWithStatus(bb, activeStates);
-            this.fp = table.getNearestLeftSeatWithStatus(fp, activeStates);
+            this.btn = table.getNearestLeftSeatWithActivePlayer(btn);
+            this.sb = table.getNearestLeftSeatWithActivePlayer(sb);
+            this.bb = table.getNearestLeftSeatWithActivePlayer(bb);
+            this.fp = table.getNearestLeftSeatWithActivePlayer(fp);
         }
 
         ///// PLAYER HAND GENERATION /////
 
         public void generateHands(List<Player> activePlayers) {
-
+            Deck d = new Deck(new HashSet<Card>());
+            var hands = new List<List<Card>>();
+            foreach(int i in Enumerable.Range(0, activePlayers.Count)) {
+                hands[i] = new List<Card>();
+            }
+            foreach(int i in Enumerable.Range(0, this.cardsPerHand)) {
+                foreach(int n in Enumerable.Range(0, activePlayers.Count)) {
+                    hands[n].Add(d.getTopCard());
+                }
+            }
+            Seat s = this.sb;
+            foreach(int i in Enumerable.Range(0, activePlayers.Count)) {
+                this.dealHand(s.player, hands[i]);
+                s = table.getNearestLeftSeatWithActivePlayer(s);
+            }
         }
 
         public void dealHand(Player player, List<Card> cards) {
-            PreflopHand hand = HoldemHand(cards);
+            PreflopHand hand = new HoldemHand(cards);
             player.setHand(hand);
         }
 
         ///// POSTING BLINDS /////
 
-        public void postBB(List<Player> players) {
-            Player bb = this.postBB.getPlayer();
-
-
-
+        public List<Player> postBB(List<Player> activePlayers, Pot pot) {
+            Player bb = this.bb.player;
+            BetResponse res = bb.removeFromStack(this.bigBlind);
+            if(res.complete) {
+                Action a = new PostBB(bb, res.amount);
+                pot.handleAction(a);
+            } else {
+                activePlayers.Remove(bb);
+                this.bb = table.getNearestLeftSeatWithActivePlayer(this.bb);
+                this.fp = table.getNearestLeftSeatWithActivePlayer(this.fp);
+                return this.postBB(activePlayers, pot);
+            }
+            return activePlayers;
         }
 
-        public void postSB(List<Player> players) {
-
+        public List<Player> postSB(List<Player> activePlayers, Pot pot) {
+            Player sb = this.sb.player;
+            BetResponse res = sb.removeFromStack(this.smallBlind);
+            if(res.complete) {
+                Action a = new PostSB(sb, res.amount);
+                pot.handleAction(a);
+            } else {
+                activePlayers.Remove(sb);
+                this.rotatePlayers();
+                return this.postSB(activePlayers, pot);
+            }
+            return activePlayers;
         }
 
-        public void postAnte(List<Player> players) {
-
+        public List<Player> postAnte(List<Player> activePlayers, Pot pot) {
+            foreach(Player p in activePlayers) {
+                BetResponse res = p.removeFromStack(this.ante);
+                if(res.complete) {
+                    Action a = new PostAnte(p, res.amount);
+                    pot.handleAction(a);
+                } else {
+                    activePlayers.Remove(p);
+                }
+            }
+            return activePlayers;
         }
 
         ///// BOARD GENERATION /////
 
-        public void burnCard() {
-
+        public Board generateFlop(Deck deck) {
+            deck.getTopCard(); // burned card
+            Card c1 = deck.getTopCard();
+            Card c2 = deck.getTopCard();
+            Card c3 = deck.getTopCard();
+            Board b = new Board(c1, c2, c3);
+            this.street = Street.FLOP;
+            return b;
         }
 
-        public void generateFlop() {
-
+        public Board generateTurn(Deck deck, Board b) {
+            deck.getTopCard(); // burned cards
+            Card c4 = deck.getTopCard();
+            b.setTurn(c4);
+            this.street = Street.TURN;
+            return b;
         }
 
-        public void generateTurn() {
-
-        }
-
-        public void generateRiver() {
-
-        }
+        public Board generateRiver(Deck deck, Board b) {
+            deck.getTopCard(); // burned card
+            Card c5 = deck.getTopCard();
+            b.setRiver(c5);
+            this.street = Street.RIVER;
+            return b;
+        }   
 
         ///// PLAYER BETTING /////
 
-        public void preFlopBetting() {
-
+        public void preFlopBetting(Pot pot) {
+            this.street = Street.PREFLOP;
+            Seat ss = this.fp;
+            this.bettingRound(ss, pot);
         }
 
-        public void postFlopBetting() {
-
+        public void postFlopBetting(Pot pot) {
+            Seat ss = this.sb.player.isInHand() ? this.sb : table.getNearestLeftSeatInHand(this.sb);
+            this.bettingRound(ss, pot);
         }
 
-        public void bettingRound(startingSeat) {
+        public void bettingRound(Seat startingSeat, Pot pot) {
+            while(true) {
+                Player p = startingSeat.player;
 
+                GameState gs = this.getState();
+                PotState ps = pot.getState(p);
+
+                if (pot.hasActed(p, this.street) && ps.playerContribution == ps.currentBet) {
+                    break;
+                }
+
+                Action a = p.selectAction(gs, ps);
+                pot.handleAction(a);
+                startingSeat = table.getNearestLeftSeatInHand(startingSeat);
+            }
         }
-
 
         ///// GAME LOGIC /////
 
         public void initializeGame() {
-
+            this.assignPositions();
+            this.status = GameStatus.RUNNING;
         }
 
         public void run() {
-
+            while(this.status == GameStatus.RUNNING) {
+                List<Player> players = table.getPlayers();
+                foreach(Player p in players) {
+                    if(p.stack <= 0 || p.sittingOut) {
+                        p.setStatus(PlayerStatus.SITTING_OUT);
+                    }
+                    if(p.stack > 0 && !p.sittingOut) {
+                        p.setStatus(PlayerStatus.IN_HAND);
+                    }
+                }
+                List<Player> activePlayers = players.Where(p => p.isInHand()).ToList();
+                if(!this.areReady(activePlayers)) {
+                    this.status = GameStatus.WAITING;
+                    Console.WriteLine("Waiting for Players");
+                }
+                this.startRound(activePlayers);
+                this.rotatePlayers(); //will incorrectly rotate players if 'startRound' returns early
+            }
+            while(this.status == GameStatus.WAITING) {
+                Console.WriteLine("Waiting!");
+            }
         }
 
         public void startRound(List<Player> activePlayers) {
+            Board b;
+            Deck d = new Deck(new HashSet<Card>());
+            Pot p = new Pot(this.bigBlind);
+            p.registerActivePlayers(activePlayers);
+
+            if(this.ante > 0) {
+                activePlayers = this.postAnte(activePlayers, p);
+            }
+            activePlayers = this.postSB(activePlayers, p);
+            activePlayers = this.postBB(activePlayers, p);
+
+            if (!this.areReady(activePlayers)) {
+                this.status = GameStatus.WAITING;
+                return;
+            }
+
+            this.generateHands(activePlayers);
+            this.preFlopBetting(p);
+
+            if (activePlayers.Count < 2) {
+                this.awardPot(p);
+            }
+
+            b = this.generateFlop(d);
+            this.postFlopBetting(p);
+
+            if(activePlayers.Count < 2) {
+                this.awardPot(p);
+            }
+
+            b = this.generateTurn(d, b);
+            this.postFlopBetting(p);
+
+            if(activePlayers.Count < 2) {
+                this.awardPot(p);
+            }
+
+            b = this.generateRiver(d, b);
+            this.postFlopBetting(p);
+
+            this.handleEndgame(b, p);
+        }
+
+        public void awardPot(Pot pot) {
+            List<Player> players = table.getPlayersToAnalyze();
+            if (players.Count == 1) {
+                players.First().addToStack(pot.pot);
+            }
+        }
+
+        public void handleEndgame(Board b, Pot pot) {
+            List<Player> players = table.getPlayersToAnalyze();
+            List<PreflopHand> hands = players.Select(p => p.hand).ToList();
+
+            WinState ws = PickWinner.determineWinner(b, hands);
+            double potShare = pot.pot * ws.equity;
+
+            foreach(Player p in players) {
+                foreach(BestHand bh in ws.winningHands) {
+                    if(bh.hasBestHand(p.hand, b)) {
+                        p.addToStack(potShare);
+                    }
+                }
+            }
+        }
+
+        ///// GAME STATE MANAGER /////
+
+        public bool areReady(List<Player> activePlayers) {
+            int readyCount = activePlayers.Count;
+            return readyCount >= 2 ? true : false;
+        }
+
+        public void registerPlayer(Player p) {
 
         }
 
-        public void handleEndgame() {
+        public void findPlayer(int id) {
 
         }
 
@@ -140,5 +320,10 @@ namespace PokerCalculator {
             return new GameState(street, ante, smallBlind, bigBlind, maxBuyin, minBuyin, timer);
         }
 
+        ///// UTILITY METHODS /////
+
+        public string toString() {
+            throw new NotImplementedException();
+        }
     }
 }
