@@ -14,7 +14,7 @@ namespace PokerCalculator {
             var analyzers = new Dictionary<string, HandAnalyzer>();
             int iter = 1;
             foreach(PreflopHand h in hands) {
-                analyzers.Add(String.Format("hand-{0}", iter), new HandAnalyzer());
+                analyzers.Add(String.Format("hand-{0}", iter), new HandAnalyzer(h, b));
                 iter += 1;
             }
 

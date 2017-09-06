@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     class StraightFlush : Hand {
 
-        public StraightFlush(List<Card> cards, int value) : base(cards, value, "Z") {
+        public StraightFlush(List<Card> cards) : base(cards, cards.Max(c => c.highValue), "Z") {
 
         }
 

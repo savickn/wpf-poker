@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     class Pair : Hand {
 
-        public Pair(List<Card> cards, int value) : base(cards, value, "P") {
+        public Pair(List<Card> cards) : base(cards, cards[0].highValue, "P") {
 
         }
 

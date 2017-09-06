@@ -81,6 +81,8 @@
     <Compile Include="Enums\Suit.cs" />
     <Compile Include="Equity.cs" />
     <Compile Include="Exceptions\NoValidSeatException.cs" />
+    <Compile Include="Helpers\FlushHelpers.cs" />
+    <Compile Include="Helpers\StraightHelpers.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="CalculatorGto.cs" />
     <Compile Include="HandAnalyzer.cs" />

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     class FourOfAKind : Hand {
 
-        public FourOfAKind(List<Card> cards, int value) : base(cards, value, "Q") {
+        public FourOfAKind(List<Card> cards) : base(cards, cards[0].highValue, "Q") {
 
         }
 

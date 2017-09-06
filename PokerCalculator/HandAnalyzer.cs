@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class HandAnalyzer {
-        PreflopHand hand;
-        Board board;
-        List<Card> availableCards;
+        public PreflopHand hand { get;}
+        public Board board { get; }
+        public List<Card> availableCards { get; }
         public BestHand bestHand { get; private set; }
 
-        Deck deck;
+        public Deck deck { get; }
 
         List<FourOfAKind> quads;
         List<FullHouse> fullHouses;
@@ -19,14 +19,23 @@ namespace PokerCalculator {
         List<TwoPair> twoPairs;
         List<Pair> pairs;
 
-        List<Hand> straightFlushes;
-        List<Hand> sfGutshotDraws;
-        List<Hand> sfOpenEndedDraws;
+        List<StraightFlush> straightFlushes;
+        List<Flush> flushes;
+        List<Straight> straights;
 
-        public HandAnalyzer() {
+        List<Draw> sfGutshotDraws;
+        List<Draw> sfOpenEndedDraws;
+        List<Draw> flushDraws;
+        List<Draw> backdoorFDs;
+        List<Draw> gutshots;
+        List<Draw> openEnders;
 
 
-
+        public HandAnalyzer(PreflopHand pf, Board b, bool toPrint=false, bool checkDraws=false) {
+            this.hand = pf;
+            this.board = b;
+            this.availableCards = pf.cards.Concat(b.getCards()).ToList();
+            this.deck = new Deck(new HashSet<Card>(this.availableCards));
         }
 
         private void analyzePTQ() {
@@ -111,7 +120,7 @@ namespace PokerCalculator {
             }
 
             if(toak != null && pair != null) {
-                var fh = new FullHouse();
+                var fh = new FullHouse(toak, pair);
                 //check for duplicates
                 fullHouses.Add(fh);
             }
@@ -130,26 +139,86 @@ namespace PokerCalculator {
         }
 
         private void checkForStraightFlushes() {
-
+            foreach(Straight s in this.straights) {
+                if(FlushHelpers.isFlush(s.cards)) {
+                    this.straightFlushes.Add(new StraightFlush(s.cards));
+                }
+            }
         }
 
         private void analyzeStraightDraws() {
 
         }
 
-        private void analyzeStraight() {
+        private void analyzeStraights() {
 
         }
 
         private void extractBestFlush(List<Card> cards) {
-
+            cards.Sort((x, y) => x.compare(y));
+            this.flushes.Add(new Flush(cards.GetRange(0, 5)));
         }
 
-        private List<Flush> analyzeSuit(List<Card> cards, object data, bool checkDraws=false) {
-
+        private List<Flush> analyzeSuit(List<Card> cards, bool checkDraws=false) {
+            if(cards.Count >= 5) {
+                this.extractBestFlush(cards);
+            } else if(cards.Count == 4 && checkDraws) {
+                this.flushDraws.Add();
+            } else if(cards.Count == 3 && checkDraws) {
+                this.backdoorFDs.Add();
+            }
         }
 
         private void analyzeFlushes(bool checkDraws=false) {
+            List<Card> spades = new List<Card>();
+            List<Card> diamonds = new List<Card>();
+            List<Card> clubs = new List<Card>();
+            List<Card> hearts = new List<Card>();
+
+            foreach(Card c in this.availableCards) {
+                if(c.suit == Suit.CLUBS) {
+                    clubs.Add(c);
+                } else if(c.suit == Suit.DIAMONDS) {
+                    diamonds.Add(c);
+                } else if(c.suit == Suit.HEARTS) {
+                    hearts.Add(c);
+                } else if(c.suit == Suit.SPADES) {
+                    spades.Add(c);
+                } else {
+                    throw new Exception();
+                }
+            }
+
+            this.analyzeSuit(spades);
+            this.analyzeSuit(clubs);
+            this.analyzeSuit(diamonds);
+            this.analyzeSuit(hearts);
+        }
+
+        private HighCard calculateHighCards(List<Card> cards, int length) {
+            List<Card> remainingCards = new List<Card>();
+            foreach(Card c in this.availableCards) {
+                if(!cards.Contains(c)) {
+                    remainingCards.Add(c);
+                }
+            }
+            remainingCards.Sort((x, y) => x.compare(y));
+            int additionalCards = 5 - length;
+
+            if(additionalCards > 0) {
+                HighCard hc = new HighCard(remainingCards.GetRange(0, additionalCards));
+                return hc;
+            } else {
+                throw new Exception();
+            }
+        }
+
+        private void calculateBestHand() {
+            NullHand nh = new NullHand();
+
+            if(this.straightFlushes.Count > 0) {
+                StraightFlush sf = this.straightFlushes.Sort((x, y) => x.handComp(y))
+            }
 
         }
     }

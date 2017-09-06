@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     class Straight : Hand {
 
-        public Straight(List<Card> cards, int value) : base(cards, value, "S") {
+        public Straight(List<Card> cards) : base(cards, cards.Max(c => c.highValue), "S") {
 
         }
 

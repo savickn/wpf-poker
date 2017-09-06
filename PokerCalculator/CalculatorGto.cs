@@ -21,10 +21,11 @@ namespace PokerCalculator {
         public List<BestHand> analyzeBoard() {
             var madeHands = new List<BestHand>();
             foreach(T h in this.range.hands) {
-                var ha = HandAnalyzer();
+                var ha = new HandAnalyzer(h, this.board);
                 madeHands.Add(ha.bestHand);
             }
-            return madeHands.Sort();
+            madeHands.Sort((x,y) => BestHand.compare(x, y));
+            return madeHands;
         }
 
         public double getHandPercentile(T h) {

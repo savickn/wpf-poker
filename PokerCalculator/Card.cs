@@ -30,6 +30,16 @@ namespace PokerCalculator {
             this.hidden = true; // used to determine if card should be drawn face-up or face-down
         }
 
+        public int compare(Card other) {
+            if(this.highValue > other.highValue) {
+                return 1;
+            } else if(this.highValue < other.highValue) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+
         public override bool Equals(System.Object obj) {
             // If parameter is null return false.
             if (obj == null) {
