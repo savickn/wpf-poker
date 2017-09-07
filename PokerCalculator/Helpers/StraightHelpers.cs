@@ -71,5 +71,37 @@ namespace PokerCalculator {
             int lowDist = cards.Max(c => c.lowValue) - cards.Min(c => c.lowValue);
             return highDist == 4 || lowDist == 4 ? true : false;
         }
+        
+        public static void analyzeStraights(List<Card> cards) {
+            int maxHigh = cards.Max(c => c.highValue);
+            int minLow = cards.Min(c => c.lowValue);
+            int highDist = maxHigh - cards.Min(c => c.highValue);
+            int lowDist = cards.Max(c => c.lowValue) - minLow;
+            int length = cards.Count;
+
+            if(length == 4) {
+                if(highDist == 4 || lowDist == 4) {
+                    //create gutshot
+                } else if(highDist == 3) {
+                    if(maxHigh == 14) {
+                        //create gutshot
+                    } else {
+                        //create open ender
+                    }
+                } else if(lowDist == 3) {
+                    if(minLow == 1) {
+                        //create gutshot
+                    } else {
+                        //create open ender
+                    }
+                } else {
+                    return;
+                }
+            } else {
+                return;
+            }
+        }
+
+
     }
 }

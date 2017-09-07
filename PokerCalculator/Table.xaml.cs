@@ -13,15 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PokerCalculator
-{
+namespace PokerCalculator {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Table.xaml
     /// </summary>
-    public partial class MainWindow : NavigationWindow
-    {
-        public MainWindow()
-        {
+    public partial class Table : Page {
+        public Table() {
             InitializeComponent();
         }
     }

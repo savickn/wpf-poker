@@ -115,6 +115,32 @@ namespace PokerCalculator {
             { new Card(CardType.TWO, Suit.SPADES, 2) },
         };
 
+        public static Dictionary<string, HashSet<int>> s = new Dictionary<string, HashSet<int>>() {
+            { "A-5", new HashSet<int> { 1, 2, 3, 4, 5 } },
+            { "2-6", new HashSet<int> { 2, 3, 4, 5, 6 } },
+            { "3-7", new HashSet<int> { 3, 4, 5, 6, 7 } },
+            { "4-8", new HashSet<int> { 4, 5, 6, 7, 8 } },
+            { "5-9", new HashSet<int> { 5, 6, 7, 8, 9 } },
+            { "6-T", new HashSet<int> { 6, 7, 8, 9, 10 } },
+            { "7-J", new HashSet<int> { 7, 8, 9, 10, 11 } },
+            { "8-Q", new HashSet<int> { 8, 9, 10, 11, 12 } },
+            { "9-K", new HashSet<int> { 9, 10, 11, 12, 13 } },
+            { "T-A", new HashSet<int> { 10, 11, 12, 13, 14 } },
+        };
+
+        /*public static Dictionary<string, Straight> straights = new Dictionary<string, Straight>() {
+            { "A-5", new Straight() },
+            { "2-6", new HashSet<int> { 2, 3, 4, 5, 6 } },
+            { "3-7", new HashSet<int> { 3, 4, 5, 6, 7 } },
+            { "4-8", new HashSet<int> { 4, 5, 6, 7, 8 } },
+            { "5-9", new HashSet<int> { 5, 6, 7, 8, 9 } },
+            { "6-T", new HashSet<int> { 6, 7, 8, 9, 10 } },
+            { "7-J", new HashSet<int> { 7, 8, 9, 10, 11 } },
+            { "8-Q", new HashSet<int> { 8, 9, 10, 11, 12 } },
+            { "9-K", new HashSet<int> { 9, 10, 11, 12, 13 } },
+            { "T-A", new HashSet<int> { 10, 11, 12, 13, 14 } },
+        };*/
+
         static Data() {}
 
         public static int getDrawRanking(string key) {

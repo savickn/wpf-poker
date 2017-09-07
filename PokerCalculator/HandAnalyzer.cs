@@ -9,19 +9,24 @@ namespace PokerCalculator {
         public PreflopHand hand { get;}
         public Board board { get; }
         public List<Card> availableCards { get; }
-        public BestHand bestHand { get; private set; }
+        public BestHand bestHand { get; private set; } = null;
 
         public Deck deck { get; }
 
-        List<FourOfAKind> quads;
-        List<FullHouse> fullHouses;
-        List<ThreeOfAKind> trips;
-        List<TwoPair> twoPairs;
-        List<Pair> pairs;
 
-        List<StraightFlush> straightFlushes;
-        List<Flush> flushes;
-        List<Straight> straights;
+        StraightFlush bestStraightFlush = null;
+        FourOfAKind bestQuads = null;
+        FullHouse bestFullHouse = null;
+        Flush bestFlush = null;
+        Straight bestStraight = null;
+        ThreeOfAKind bestTrips = null;
+        TwoPair bestTwoPair = null;
+        Pair bestPair = null;
+
+        HashSet<ThreeOfAKind> trips;
+        HashSet<Pair> pairs;
+        HashSet<Flush> flushes;
+        HashSet<Straight> straights;
 
         List<Draw> sfGutshotDraws;
         List<Draw> sfOpenEndedDraws;
@@ -29,7 +34,6 @@ namespace PokerCalculator {
         List<Draw> backdoorFDs;
         List<Draw> gutshots;
         List<Draw> openEnders;
-
 
         public HandAnalyzer(PreflopHand pf, Board b, bool toPrint=false, bool checkDraws=false) {
             this.hand = pf;
@@ -54,15 +58,22 @@ namespace PokerCalculator {
                 switch(tempHand.Count) {
                     case 2:
                         var pair = new Pair(tempHand);
-                        //code to add pair to this.pairs
+                        if(bestPair == null || pair.value > bestPair.value) {
+                            this.bestPair = pair;
+                        }
+                        this.pairs.Add(pair);
                         break;
                     case 3:
-                        var trips = new ThreeOfAKind(tempHand);
-                        //code to add pair to this.pairs
+                        var toak = new ThreeOfAKind(tempHand);
+                        if (bestTrips == null || toak.value > bestTrips.value) {
+                            this.bestTrips = toak;
+                        }
+                        this.trips.Add(toak);
                         break;
                     case 4:
-                        var quads = new FourOfAKind(tempHand);
-                        //code to add pair to this.pairs
+                        if(bestQuads == null || tempHand[0].highValue > bestQuads.value) {
+                            this.bestQuads = new FourOfAKind(tempHand);
+                        } 
                         break;
                     default:
                         continue;
@@ -88,9 +99,7 @@ namespace PokerCalculator {
                 }
             }
             if(p1 != null && p2 != null) {
-                var tp = new TwoPair(p1, p2);
-                //check for duplicates
-                twoPairs.Add(tp);
+                this.bestTwoPair = new TwoPair(p1, p2);
             }
         }
 
@@ -120,9 +129,7 @@ namespace PokerCalculator {
             }
 
             if(toak != null && pair != null) {
-                var fh = new FullHouse(toak, pair);
-                //check for duplicates
-                fullHouses.Add(fh);
+                this.bestFullHouse = new FullHouse(toak, pair);
             }
         }
 
@@ -141,7 +148,9 @@ namespace PokerCalculator {
         private void checkForStraightFlushes() {
             foreach(Straight s in this.straights) {
                 if(FlushHelpers.isFlush(s.cards)) {
-                    this.straightFlushes.Add(new StraightFlush(s.cards));
+                    if(this.bestStraightFlush == null || s.value > this.bestStraightFlush.value) {
+                        this.bestStraightFlush = new StraightFlush(s.cards);
+                    }
                 }
             }
         }
@@ -156,16 +165,20 @@ namespace PokerCalculator {
 
         private void extractBestFlush(List<Card> cards) {
             cards.Sort((x, y) => x.compare(y));
-            this.flushes.Add(new Flush(cards.GetRange(0, 5)));
+            Flush f = new Flush(cards.GetRange(0, 5));
+            if(this.bestFlush == null || f.handComp(this.bestFlush) == 1) {
+                this.bestFlush = f;
+            }
+            this.flushes.Add(f);
         }
 
-        private List<Flush> analyzeSuit(List<Card> cards, bool checkDraws=false) {
+        private void analyzeSuit(List<Card> cards, bool checkDraws=false) {
             if(cards.Count >= 5) {
                 this.extractBestFlush(cards);
             } else if(cards.Count == 4 && checkDraws) {
-                this.flushDraws.Add();
+                //this.flushDraws.Add();
             } else if(cards.Count == 3 && checkDraws) {
-                this.backdoorFDs.Add();
+                //this.backdoorFDs.Add();
             }
         }
 
@@ -195,7 +208,7 @@ namespace PokerCalculator {
             this.analyzeSuit(hearts);
         }
 
-        private HighCard calculateHighCards(List<Card> cards, int length) {
+        private HighCard calculateHighCards(List<Card> cards) {
             List<Card> remainingCards = new List<Card>();
             foreach(Card c in this.availableCards) {
                 if(!cards.Contains(c)) {
@@ -203,7 +216,7 @@ namespace PokerCalculator {
                 }
             }
             remainingCards.Sort((x, y) => x.compare(y));
-            int additionalCards = 5 - length;
+            int additionalCards = 5 - cards.Count;
 
             if(additionalCards > 0) {
                 HighCard hc = new HighCard(remainingCards.GetRange(0, additionalCards));
@@ -216,10 +229,46 @@ namespace PokerCalculator {
         private void calculateBestHand() {
             NullHand nh = new NullHand();
 
-            if(this.straightFlushes.Count > 0) {
-                StraightFlush sf = this.straightFlushes.Sort((x, y) => x.handComp(y))
+            if(this.bestStraightFlush != null) {
+                this.bestHand = new BestHand(this.hand, this.bestStraightFlush);
+                return;
             }
-
+            if(this.bestQuads != null) {
+                HighCard hc = this.calculateHighCards(this.bestQuads.cards);
+                this.bestHand = new BestHand(this.hand, this.bestQuads, hc);
+                return;
+            }
+            if(this.bestFullHouse != null) {
+                this.bestHand = new BestHand(this.hand, this.bestFullHouse);
+                return;
+            }
+            if(this.bestFlush != null) {
+                this.bestHand = new BestHand(this.hand, this.bestFlush);
+                return;
+            }
+            if (this.bestStraight != null) {
+                this.bestHand = new BestHand(this.hand, this.bestStraight);
+                return;
+            }
+            if (this.bestTrips != null) {
+                HighCard hc = this.calculateHighCards(this.bestTrips.cards);
+                this.bestHand = new BestHand(this.hand, this.bestTrips, hc);
+                return;
+            }
+            if (this.bestTwoPair != null) {
+                HighCard hc = this.calculateHighCards(this.bestTwoPair.cards);
+                this.bestHand = new BestHand(this.hand, this.bestTwoPair, hc);
+                return;
+            }
+            if (this.bestPair != null) {
+                HighCard hc = this.calculateHighCards(this.bestPair.cards);
+                this.bestHand = new BestHand(this.hand, this.bestPair, hc);
+                return;
+            }
+            if(this.bestHand == null) {
+                HighCard hc = this.calculateHighCards(new List<Card>());
+                this.bestHand = new BestHand(this.hand, hc);
+            }
         }
     }
 }
