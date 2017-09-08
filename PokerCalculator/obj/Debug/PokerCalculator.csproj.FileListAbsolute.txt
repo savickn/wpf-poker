@@ -13,3 +13,5 @@ C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalcula
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\PokerCalculator.csproj.GenerateResource.Cache
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\PokerCalculator.exe
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\PokerCalculator.pdb
+C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\Home.g.cs
+C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\Table.g.cs

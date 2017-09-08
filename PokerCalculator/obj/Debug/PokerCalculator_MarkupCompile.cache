@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\App.xaml
-11151548125
+3-921159943
 
-611034460071
+6383354497
 131569487696
-MainWindow.xaml;
+Home.xaml;MainWindow.xaml;Table.xaml;
 
-False
+True
 
