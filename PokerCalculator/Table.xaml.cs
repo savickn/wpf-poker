@@ -17,8 +17,8 @@ namespace PokerCalculator {
     /// <summary>
     /// Interaction logic for Table.xaml
     /// </summary>
-    public partial class Table : Page {
-        public Table() {
+    public partial class TableView : Page {
+        public TableView() {
             InitializeComponent();
         }
     }

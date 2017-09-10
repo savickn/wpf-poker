@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class BetResponse {
+    public class BetResponse {
         public double amount { get; }
         public bool complete { get; }
 

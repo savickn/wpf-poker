@@ -68,8 +68,10 @@
     <Compile Include="Bets\BetResponse.cs" />
     <Compile Include="CalculatorEquity.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="Draws\BackdoorFlushDraw.cs" />
     <Compile Include="Draws\Draw.cs" />
     <Compile Include="Draws\FlushDraw.cs" />
+    <Compile Include="Draws\FullHouseDraw.cs" />
     <Compile Include="Draws\GutshotDraw.cs" />
     <Compile Include="Draws\OpenEndedDraw.cs" />
     <Compile Include="Enums\ActionType.cs" />

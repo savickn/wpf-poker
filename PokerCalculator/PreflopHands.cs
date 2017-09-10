@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    abstract class PreflopHand {
+    public abstract class PreflopHand {
         public List<Card> cards { get; }
         public int length { get; }
 
@@ -20,7 +20,7 @@ namespace PokerCalculator {
         
     }
 
-    class HoldemHand : PreflopHand {
+    public class HoldemHand : PreflopHand {
 
         public HoldemHand(List<Card> cards) : base(cards, 2) {
             
@@ -43,7 +43,7 @@ namespace PokerCalculator {
         }
     }
 
-    class OmahaHand : PreflopHand {
+    public class OmahaHand : PreflopHand {
 
         public OmahaHand(List<Card> cards) : base(cards, 2) {
 

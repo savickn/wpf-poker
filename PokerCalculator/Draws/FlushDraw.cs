@@ -5,6 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class FlushDraw {
+    class FlushDraw : Draw {
+        public FlushDraw(List<Card> cards, List<Card> outs) : base("Flush", cards, outs) {
+
+        }
+
+        public static List<Card> calculateOuts(List<Card> cards) {
+            var set = new HashSet<Card>(cards);
+            var suit = cards[0].suit;
+            var outs = Data.getCardsBySuit(suit);
+            outs.ExceptWith(set);
+            return new List<Card>(outs);
+        }
+
+        public bool isNut() {
+            throw new NotImplementedException();
+        }
+
+        public new void checkRep() {
+            base.checkRep();
+            //more checks
+        }
     }
 }

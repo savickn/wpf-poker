@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class Action {
+    public class Action {
         public Player actor { get; }
         //public ActionType type { get; }
         public double amount { get; }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class FullHouse : Hand {
+    public class FullHouse : Hand {
         public FullHouse(ThreeOfAKind t, Pair p) : base (t.cards.Concat(p.cards).ToList(), t.value, "B", p.value) {
 
         }

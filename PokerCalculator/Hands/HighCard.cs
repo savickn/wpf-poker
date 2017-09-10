@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class HighCard : Hand {
+    public class HighCard : Hand {
 
         public HighCard(List<Card> cards) : base(cards, cards.Max(c => c.highValue), "C") {
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class Player {
+    public class Player {
         public int id { get; }
         public string name { get; private set; }
         public string hash { get; private set; }

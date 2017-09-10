@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 
 namespace PokerCalculator {
-    abstract class Hand {
+    public abstract class Hand {
         public List<Card> cards { get; }
         public int value { get; }
         public int secondary { get; }

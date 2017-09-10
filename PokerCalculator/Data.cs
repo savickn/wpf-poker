@@ -196,19 +196,36 @@ namespace PokerCalculator {
 
         public static Dictionary<Suit, HashSet<Card>> suits = new Dictionary<Suit, HashSet<Card>>() {
             { Suit.CLUBS, new HashSet<Card>() { ACE_OF_CLUBS, KING_OF_CLUBS, QUEEN_OF_CLUBS, JACK_OF_CLUBS, TEN_OF_CLUBS, NINE_OF_CLUBS, EIGHT_OF_CLUBS, SEVEN_OF_CLUBS, SIX_OF_CLUBS, FIVE_OF_CLUBS, FOUR_OF_CLUBS, THREE_OF_CLUBS, TWO_OF_CLUBS } },
-            { Suit.DIAMONDS, new HashSet<Card>() { ACE_OF_CLUBS, KING_OF_CLUBS, QUEEN_OF_CLUBS, JACK_OF_CLUBS, TEN_OF_CLUBS, NINE_OF_CLUBS, EIGHT_OF_CLUBS, SEVEN_OF_CLUBS, SIX_OF_CLUBS, FIVE_OF_CLUBS, FOUR_OF_CLUBS, THREE_OF_CLUBS, TWO_OF_CLUBS } },
-            { Suit.SPADES, new HashSet<Card>() { ACE_OF_CLUBS, KING_OF_CLUBS, QUEEN_OF_CLUBS, JACK_OF_CLUBS, TEN_OF_CLUBS, NINE_OF_CLUBS, EIGHT_OF_CLUBS, SEVEN_OF_CLUBS, SIX_OF_CLUBS, FIVE_OF_CLUBS, FOUR_OF_CLUBS, THREE_OF_CLUBS, TWO_OF_CLUBS } },
-            { Suit.HEARTS, new HashSet<Card>() { ACE_OF_CLUBS, KING_OF_CLUBS, QUEEN_OF_CLUBS, JACK_OF_CLUBS, TEN_OF_CLUBS, NINE_OF_CLUBS, EIGHT_OF_CLUBS, SEVEN_OF_CLUBS, SIX_OF_CLUBS, FIVE_OF_CLUBS, FOUR_OF_CLUBS, THREE_OF_CLUBS, TWO_OF_CLUBS } },
+            { Suit.DIAMONDS, new HashSet<Card>() { ACE_OF_DIAMONDS, KING_OF_DIAMONDS, QUEEN_OF_DIAMONDS, JACK_OF_DIAMONDS, TEN_OF_DIAMONDS, NINE_OF_DIAMONDS, EIGHT_OF_DIAMONDS, SEVEN_OF_DIAMONDS, SIX_OF_DIAMONDS, FIVE_OF_DIAMONDS, FOUR_OF_DIAMONDS, THREE_OF_DIAMONDS, TWO_OF_DIAMONDS } },
+            { Suit.SPADES, new HashSet<Card>() { ACE_OF_SPADES, KING_OF_SPADES, QUEEN_OF_SPADES, JACK_OF_SPADES, TEN_OF_SPADES, NINE_OF_SPADES, EIGHT_OF_SPADES, SEVEN_OF_SPADES, SIX_OF_SPADES, FIVE_OF_SPADES, FOUR_OF_SPADES, THREE_OF_SPADES, TWO_OF_SPADES } },
+            { Suit.HEARTS, new HashSet<Card>() { ACE_OF_HEARTS, KING_OF_HEARTS, QUEEN_OF_HEARTS, JACK_OF_HEARTS, TEN_OF_HEARTS, NINE_OF_HEARTS, EIGHT_OF_HEARTS, SEVEN_OF_HEARTS, SIX_OF_HEARTS, FIVE_OF_HEARTS, FOUR_OF_HEARTS, THREE_OF_HEARTS, TWO_OF_HEARTS } },
         };
 
-        public static Dictionary<CardType, HashSet<Card>> cards = new Dictionary<CardType, HashSet<Card>>() {
+        public static Dictionary<CardType, HashSet<Card>> types = new Dictionary<CardType, HashSet<Card>>() {
             { CardType.ACE, new HashSet<Card>() { ACE_OF_CLUBS, ACE_OF_DIAMONDS, ACE_OF_HEARTS, ACE_OF_SPADES } },
-            { CardType.KING, new HashSet<Card>() { ACE_OF_CLUBS, KING_OF_CLUBS, QUEEN_OF_CLUBS, JACK_OF_CLUBS, TEN_OF_CLUBS, NINE_OF_CLUBS, EIGHT_OF_CLUBS, SEVEN_OF_CLUBS, SIX_OF_CLUBS, FIVE_OF_CLUBS, FOUR_OF_CLUBS, THREE_OF_CLUBS, TWO_OF_CLUBS } },
-            { CardType.QUEEN, new HashSet<Card>() { ACE_OF_CLUBS, KING_OF_CLUBS, QUEEN_OF_CLUBS, JACK_OF_CLUBS, TEN_OF_CLUBS, NINE_OF_CLUBS, EIGHT_OF_CLUBS, SEVEN_OF_CLUBS, SIX_OF_CLUBS, FIVE_OF_CLUBS, FOUR_OF_CLUBS, THREE_OF_CLUBS, TWO_OF_CLUBS } },
-            { CardType.JACK, new HashSet<Card>() { ACE_OF_CLUBS, KING_OF_CLUBS, QUEEN_OF_CLUBS, JACK_OF_CLUBS, TEN_OF_CLUBS, NINE_OF_CLUBS, EIGHT_OF_CLUBS, SEVEN_OF_CLUBS, SIX_OF_CLUBS, FIVE_OF_CLUBS, FOUR_OF_CLUBS, THREE_OF_CLUBS, TWO_OF_CLUBS } },
-        }
+            { CardType.KING, new HashSet<Card>() { KING_OF_CLUBS, KING_OF_DIAMONDS, KING_OF_HEARTS, KING_OF_SPADES } },
+            { CardType.QUEEN, new HashSet<Card>() { QUEEN_OF_CLUBS, QUEEN_OF_DIAMONDS, QUEEN_OF_HEARTS, QUEEN_OF_SPADES } },
+            { CardType.JACK, new HashSet<Card>() { JACK_OF_CLUBS, JACK_OF_DIAMONDS, JACK_OF_HEARTS, JACK_OF_SPADES } },
+            { CardType.TEN, new HashSet<Card>() { TEN_OF_CLUBS, TEN_OF_DIAMONDS, TEN_OF_HEARTS, TEN_OF_SPADES } },
+            { CardType.NINE, new HashSet<Card>() { NINE_OF_CLUBS, NINE_OF_DIAMONDS, NINE_OF_HEARTS, NINE_OF_SPADES } },
+            { CardType.EIGHT, new HashSet<Card>() { EIGHT_OF_CLUBS, EIGHT_OF_DIAMONDS, EIGHT_OF_HEARTS, EIGHT_OF_SPADES } },
+            { CardType.SEVEN, new HashSet<Card>() { SEVEN_OF_CLUBS, SEVEN_OF_DIAMONDS, SEVEN_OF_HEARTS, SEVEN_OF_SPADES } },
+            { CardType.SIX, new HashSet<Card>() { SIX_OF_CLUBS, SIX_OF_DIAMONDS, SIX_OF_HEARTS, SIX_OF_SPADES } },
+            { CardType.FIVE, new HashSet<Card>() { FIVE_OF_CLUBS, FIVE_OF_DIAMONDS, FIVE_OF_HEARTS, FIVE_OF_SPADES } },
+            { CardType.FOUR, new HashSet<Card>() { FOUR_OF_CLUBS, FOUR_OF_DIAMONDS, FOUR_OF_HEARTS, FOUR_OF_SPADES } },
+            { CardType.THREE, new HashSet<Card>() { THREE_OF_CLUBS, THREE_OF_DIAMONDS, THREE_OF_HEARTS, THREE_OF_SPADES } },
+            { CardType.FOUR, new HashSet<Card>() { TWO_OF_CLUBS, TWO_OF_DIAMONDS, TWO_OF_HEARTS, TWO_OF_SPADES } },
+        };
 
         static Data() {}
+
+        public static HashSet<Card> getCardsBySuit(Suit s) {
+            return suits[s];
+        }
+
+        public static HashSet<Card> getCardsByType(CardType ct) {
+            return types[ct];
+        }
 
         public static int getDrawRanking(string key) {
             return Data.drawRankings[key];

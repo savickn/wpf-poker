@@ -160,6 +160,13 @@ namespace PokerCalculator {
         }
 
         private void analyzeStraights() {
+            Suit suit = StraightHelpers.getRelevantSuit(this.availableCards);
+            List<Card> cards = StraightHelpers.removePairs(this.availableCards, suit);
+
+            foreach(Straight s in Data.straights.Values) {
+
+            }
+
 
         }
 

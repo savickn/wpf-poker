@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class TwoPair : Hand {
+    public class TwoPair : Hand {
         public TwoPair(Pair highPair, Pair lowPair) : base(highPair.cards.Concat(lowPair.cards).ToList(), highPair.value, "P", lowPair.value) {
         }
 

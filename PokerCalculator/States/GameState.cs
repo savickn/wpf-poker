@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class GameState {
+    public class GameState {
         public Street street { get; }
         public double ante { get; }
         public double sb { get; }

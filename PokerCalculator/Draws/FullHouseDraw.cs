@@ -5,10 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class OpenEndedDraw : Draw {
+    class FullHouseDraw : Draw {
 
-        public OpenEndedDraw(List<Card> cards, List<Card> outs) : base("OpenEnder", cards, outs) {
+        public FullHouseDraw(List<Card> cards, List<Card> outs) : base("FullHouse", cards, outs) {
 
         }
+
+
+
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class NullHand : Hand {
+    public class NullHand : Hand {
         public NullHand() : base(new List<Card>(), 0, "N") {
 
         }

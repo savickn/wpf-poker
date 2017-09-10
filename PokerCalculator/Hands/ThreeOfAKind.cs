@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class ThreeOfAKind : Hand {
+    public class ThreeOfAKind : Hand {
 
         public ThreeOfAKind(List<Card> cards) : base(cards, cards[0].highValue, "T") {
 
