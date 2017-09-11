@@ -8,12 +8,11 @@ namespace PokerCalculator {
     abstract class Draw {
         //public string name { get; } // e.g. Flush, Gutshot, etc
         public string type { get; }
-        public List<Card> cards { get; }
+        //public List<Card> cards { get; }
         public List<Card> outs { get; } 
 
-        public Draw(string type, List<Card> cards, List<Card> outs) {
+        public Draw(string type, List<Card> outs) {
             this.type = type;
-            this.cards = cards;
             this.outs = outs;
         }
 

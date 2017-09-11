@@ -36,8 +36,8 @@ namespace PokerCalculator {
             }
         }
 
-        public static List<Card> removePairs(List<Card> cards, Suit suit) {
-            var filtered = new List<Card>();
+        public static HashSet<Card> removePairs(List<Card> cards, Suit suit) {
+            var filtered = new HashSet<Card>();
             foreach (Card c in cards) {
                 if(c.suit == suit) {
                     filtered.Add(c);
@@ -61,9 +61,9 @@ namespace PokerCalculator {
             return filtered;
         }
 
-        public static bool isStraight(List<Card> cards) {
-            Suit suit = StraightHelpers.getRelevantSuit(cards);
-            cards = StraightHelpers.removePairs(cards, suit);
+        public static bool isStraight(List<Card> availableCards) {
+            Suit suit = StraightHelpers.getRelevantSuit(availableCards);
+            HashSet<Card> cards = StraightHelpers.removePairs(availableCards, suit);
             if(cards.Count < 5) {
                 return false;
             }

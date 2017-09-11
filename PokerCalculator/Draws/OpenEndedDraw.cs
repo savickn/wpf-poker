@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class OpenEndedDraw : Draw {
-
-        public OpenEndedDraw(List<Card> cards, List<Card> outs) : base("OpenEnder", cards, outs) {
+        public OpenEndedDraw(List<Card> outs) : base("OpenEnder", outs) {
 
         }
     }

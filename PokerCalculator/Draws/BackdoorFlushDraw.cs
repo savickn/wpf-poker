@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class BackdoorFlushDraw : Draw {
-        
-        public BackdoorFlushDraw(List<Card> cards, List<Card> outs) : base("BackdoorFD", cards, outs) {
+        public BackdoorFlushDraw(List<Card> outs) : base("BackdoorFD", outs) {
 
         }
-
-
 
     }
 }

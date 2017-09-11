@@ -8,16 +8,16 @@ namespace PokerCalculator {
     public class Card {
         //# unique id for each card
         private int id;
-        public string initial { get; }
         private string sprite;
         private string identifier;
 
-        public CardType type { get;}
+        public CardType type { get; }
         public Suit suit { get; }
         public int highValue { get; }
         public int lowValue { get; }
 
-        public bool hidden { get; set; }
+        public string initial { get; }
+        public bool hidden { get; private set; }
 
         public Card(CardType type, Suit suit, int highValue, int lowValue = -1) {
             //this.identifier = '{value}-{suit}'.format(value = value, suit = suit)
@@ -51,7 +51,6 @@ namespace PokerCalculator {
             if ((System.Object)c == null) {
                 return false;
             }
-
             return (type == c.type) && (suit == c.suit);
         }
 

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace PokerCalculator {
     public abstract class Hand {
         public List<Card> cards { get; }

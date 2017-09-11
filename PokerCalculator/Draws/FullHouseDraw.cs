@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class FullHouseDraw : Draw {
-
-        public FullHouseDraw(List<Card> cards, List<Card> outs) : base("FullHouse", cards, outs) {
+        public FullHouseDraw(List<Card> outs) : base("FullHouse", outs) {
 
         }
 

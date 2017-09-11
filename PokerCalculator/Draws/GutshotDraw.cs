@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class GutshotDraw : Draw {
-
-        public GutshotDraw(List<Card> cards, List<Card> outs) : base("Gutshot", cards, outs) {
+        public GutshotDraw(List<Card> outs) : base("Gutshot", outs) {
 
         }
 

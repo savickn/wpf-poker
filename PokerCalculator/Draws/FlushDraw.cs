@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class FlushDraw : Draw {
-        public FlushDraw(List<Card> cards, List<Card> outs) : base("Flush", cards, outs) {
+        public FlushDraw(List<Card> outs) : base("Flush", outs) {
 
         }
 

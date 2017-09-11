@@ -45,7 +45,7 @@ namespace PokerCalculator {
         private void analyzePTQ() {
             foreach(Card c1 in availableCards) {
                 var tempHand = new List<Card> { c1 };
-                
+
                 foreach(Card c2 in availableCards) {
                     if(c1 == c2) {
                         continue;
@@ -155,19 +155,69 @@ namespace PokerCalculator {
             }
         }
 
-        private void analyzeStraightDraws() {
-
+        //not complete
+        private void analyzeStraightDraws(List<Card> sOuts, List<Card> bOuts) {
+            if(Enumerable.Range(6, 3).Contains(sOuts.Count)) {
+                var oe = new OpenEndedDraw(sOuts);
+                if(!this.openEnders.Contains(oe)) {
+                    this.openEnders.Add(oe);
+                }
+            } else if(Enumerable.Range(3, 1).Contains(sOuts.Count)) {
+                var gs = new GutshotDraw(sOuts);
+                if(!this.gutshots.Contains(gs)) {
+                    this.gutshots.Add(gs);
+                }
+            }
         }
 
-        private void analyzeStraights() {
+        private void analyzeStraights(bool checkDraws=false) {
             Suit suit = StraightHelpers.getRelevantSuit(this.availableCards);
-            List<Card> cards = StraightHelpers.removePairs(this.availableCards, suit);
+            HashSet<Card> cards = StraightHelpers.removePairs(this.availableCards, suit);
 
-            foreach(Straight s in Data.straights.Values) {
-
+            HashSet<CardType> types = new HashSet<CardType>();
+            foreach(Card c in cards) {
+                types.Add(c.type);
             }
 
+            var straightOuts = new List<Card>();
+            var backdoorOuts = new List<Card>();
 
+            foreach (Straight s in Data.straights.Values) {
+                HashSet<CardType> valueTypes = new HashSet<CardType>();
+                foreach(Card c in s.cards) {
+                    valueTypes.Add(c.type);
+                };
+                valueTypes.IntersectWith(types);
+
+                if(valueTypes.Count == 5) {
+                    var straightCards = Enumerable.Where(cards, c => types.Contains(c.type)).ToList();
+                    var straight = new Straight(straightCards);
+
+                    if(this.bestStraight == null || straight.value > this.bestStraight.value) {
+                        this.bestStraight = straight;
+                        this.straights.Add(straight);
+                    } else {
+                        if(!this.straights.Contains(straight)) {
+                            this.straights.Add(straight);
+                        }
+                    }
+                } else if(valueTypes.Count == 4 && checkDraws) {
+
+
+
+                } else if(valueTypes.Count == 3 && checkDraws) {
+
+
+
+                }
+            }
+            if(checkDraws) {
+                this.analyzeStraightDraws(straightOuts, backdoorOuts);
+            }
+
+            if(this.straights.Count > 0) {
+                this.checkForStraightFlushes();
+            }
         }
 
         private void extractBestFlush(List<Card> cards) {
