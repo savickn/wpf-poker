@@ -31,9 +31,9 @@ namespace PokerCalculator {
         public Seat getNearestLeftSeatWithStatus(Seat s, List<PlayerStatus> query) {
             Seat temp = s.left;
 
-            foreach (int i in Enumerable.Range(0, seats.Count)) {
+            foreach (int i in Enumerable.Range(0, seats.Count + 1)) {
                 Player p = temp.player;
-                if (p != null && (query.Contains(p.status)) && p != temp.player) {
+                if (p != null && query.Contains(p.status) && p != s.player) {
                     return temp;
                 } else {
                     temp = temp.left;
@@ -48,6 +48,7 @@ namespace PokerCalculator {
             Seat rightSeat = null;
 
             foreach(int i in Enumerable.Range(0, seatCount)) {
+                Console.WriteLine(i);
                 if(rightSeat != null) {
                     Seat seat = new Seat(i + 1, rightSeat);
                     seats.Add(seat);
@@ -61,8 +62,15 @@ namespace PokerCalculator {
             }
             Seat firstSeat = seats[0];
             Seat lastSeat = seats[seats.Count - 1];
-            firstSeat.setRight(lastSeat);
-            lastSeat.setLeft(firstSeat);
+            seats[0].setRight(lastSeat);
+            seats[seats.Count - 1].setLeft(firstSeat);
+
+            
+            foreach(Seat s in seats) {
+                Console.WriteLine(s.toString());
+            }
+
+            //Console.WriteLine(this.toString());
 
             return seats;
         }
@@ -83,6 +91,14 @@ namespace PokerCalculator {
             }
         }
 
+        public Seat getEmptySeat() {
+            foreach(Seat s in seats) {
+                if(s.isEmpty()) {
+                    return s;
+                }
+            }
+            throw new NoValidSeatException();
+        }
 
         public List<Seat> getActiveSeats() {
             return this.seats.Where(s => s.player != null && s.player.isActive()).ToList();
@@ -111,7 +127,11 @@ namespace PokerCalculator {
         /// UTILITY METHODS ///
 
         public string toString() {
-            throw new NotImplementedException();
+            string str = "";
+            foreach(Seat s in seats) {
+                str = str + s.toString() + "\n";
+            }
+            return str;
         }
 
         public void checkRep() {

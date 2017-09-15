@@ -84,7 +84,7 @@ namespace PokerCalculator {
             { "N", 0 }
         };
 
-        private static Dictionary<CardType, string> initials = new Dictionary<CardType, string> {
+        /*private static Dictionary<CardType, string> initials = new Dictionary<CardType, string> {
             { CardType.ACE, "A" },
             { CardType.KING, "K" },
             { CardType.QUEEN, "Q" },
@@ -98,7 +98,7 @@ namespace PokerCalculator {
             { CardType.FOUR, "4" },
             { CardType.THREE, "3" },
             { CardType.TWO, "2" }
-        };
+        };*/
 
         private static Dictionary<string, string> prefixes = new Dictionary<string, string> {
             { "Straight Flush", "Z" },
@@ -113,7 +113,7 @@ namespace PokerCalculator {
             { "Null Hand", "N" }
         };
 
-        public static readonly HashSet<Card> deck = new HashSet<Card> {
+        public static readonly List<Card> deck = new List<Card> {
             { ACE_OF_CLUBS },
             { KING_OF_CLUBS },
             { QUEEN_OF_CLUBS },
@@ -168,7 +168,7 @@ namespace PokerCalculator {
             { TWO_OF_SPADES },
         };
 
-        public static Dictionary<string, HashSet<int>> straightInts = new Dictionary<string, HashSet<int>>() {
+        /*public static Dictionary<string, HashSet<int>> straightInts = new Dictionary<string, HashSet<int>>() {
             { "A-5", new HashSet<int> { 1, 2, 3, 4, 5 } },
             { "2-6", new HashSet<int> { 2, 3, 4, 5, 6 } },
             { "3-7", new HashSet<int> { 3, 4, 5, 6, 7 } },
@@ -179,7 +179,7 @@ namespace PokerCalculator {
             { "8-Q", new HashSet<int> { 8, 9, 10, 11, 12 } },
             { "9-K", new HashSet<int> { 9, 10, 11, 12, 13 } },
             { "T-A", new HashSet<int> { 10, 11, 12, 13, 14 } },
-        };
+        };*/
 
         public static Dictionary<string, Straight> straights = new Dictionary<string, Straight>() {
             { "5-High", new Straight(new List<Card>() { ACE_OF_HEARTS, TWO_OF_CLUBS, THREE_OF_DIAMONDS, FOUR_OF_HEARTS, FIVE_OF_SPADES }) },
@@ -214,7 +214,7 @@ namespace PokerCalculator {
             { CardType.FIVE, new HashSet<Card>() { FIVE_OF_CLUBS, FIVE_OF_DIAMONDS, FIVE_OF_HEARTS, FIVE_OF_SPADES } },
             { CardType.FOUR, new HashSet<Card>() { FOUR_OF_CLUBS, FOUR_OF_DIAMONDS, FOUR_OF_HEARTS, FOUR_OF_SPADES } },
             { CardType.THREE, new HashSet<Card>() { THREE_OF_CLUBS, THREE_OF_DIAMONDS, THREE_OF_HEARTS, THREE_OF_SPADES } },
-            { CardType.FOUR, new HashSet<Card>() { TWO_OF_CLUBS, TWO_OF_DIAMONDS, TWO_OF_HEARTS, TWO_OF_SPADES } },
+            { CardType.TWO, new HashSet<Card>() { TWO_OF_CLUBS, TWO_OF_DIAMONDS, TWO_OF_HEARTS, TWO_OF_SPADES } },
         };
 
         static Data() {}
@@ -232,7 +232,8 @@ namespace PokerCalculator {
         }
 
         public static string getInitial(CardType key) {
-            return Data.initials[key];
+            //return Data.initials[key];
+            return "A";
         }
 
         public static string getHandPrefix(string key) {
@@ -241,6 +242,14 @@ namespace PokerCalculator {
 
         public static int getHandRanking(string key) {
             return Data.prefixRankings[key];
+        }
+
+        public static HashSet<Card> getDeck() {
+            return new HashSet<Card>(deck);
+        }
+
+        public static Dictionary<string, Straight> getStraights() {
+            return straights;
         }
     }
 }

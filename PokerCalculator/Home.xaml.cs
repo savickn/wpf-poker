@@ -20,6 +20,37 @@ namespace PokerCalculator {
     public partial class Home : Page {
         public Home() {
             InitializeComponent();
+
+            Player p1 = new Player("Nick", 2000);
+            Player p2 = new Player("Matt", 2000);
+
+            Game g = new Game(GameTypes.nl2k);
+            g.registerPlayer(p1);
+            g.registerPlayer(p2);
+
+            g.initializeGame();
+            g.run();
+
+        }
+
+        // text entry of bet size
+        public void selectAmount() {
+
+        }
+
+        // for bet/raise button
+        public void BetRaise() {
+
+        }
+
+        // for call button
+        public void Call() {
+
+        }
+
+        // for fold button
+        public void Fold() {
+
         }
     }
 }

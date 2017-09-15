@@ -8,7 +8,9 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Home">
 
-    <Grid>
+    <WrapPanel Orientation="Vertical">
         
-    </Grid>
+        
+        
+    </WrapPanel>
 </Page>

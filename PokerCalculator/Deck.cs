@@ -11,7 +11,7 @@ namespace PokerCalculator {
         public Dictionary<string, List<HoldemHand>> holdemHands { get; private set; }
 
         public Deck(HashSet<Card> deadCards, bool generateHands=false) {
-            this.cards = Data.deck;
+            this.cards = Data.getDeck();
             this.cards.ExceptWith(deadCards);
             this.cards = FisherYates.shuffle(this.cards);
             this.length = this.cards.Count(); 

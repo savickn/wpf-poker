@@ -182,7 +182,7 @@ namespace PokerCalculator {
             var straightOuts = new List<Card>();
             var backdoorOuts = new List<Card>();
 
-            foreach (Straight s in Data.straights.Values) {
+            foreach (Straight s in Data.getStraights().Values) {
                 HashSet<CardType> valueTypes = new HashSet<CardType>();
                 foreach(Card c in s.cards) {
                     valueTypes.Add(c.type);

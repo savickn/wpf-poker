@@ -19,14 +19,14 @@ namespace PokerCalculator {
         public Seat bb { get; private set; }
         public Seat fp { get; private set; }
 
-        public int bigBlind { get; }
-        public int smallBlind { get; }
-        public int ante { get; }
-        public int maxBuyin { get; }
-        public int minBuyin { get; }
+        public double bigBlind { get; }
+        public double smallBlind { get; }
+        public double ante { get; }
+        public double maxBuyIn { get; }
+        public double minBuyIn { get; }
         public int cardsPerHand { get; }
 
-        double timer;
+        public double timer { get; }
 
         /*Player playerToAct;
         int currentBet;
@@ -36,7 +36,16 @@ namespace PokerCalculator {
         /*bool isPreflop;
         bool isHeadsUp;*/
 
-        public Game() {
+        public Game(GameOptions go) {
+            this.cardsPerHand = go.cardsPerHand;
+            this.bigBlind = go.bb;
+            this.smallBlind = go.sb;
+            this.ante = go.ante;
+            this.maxBuyIn = go.maxBuyIn;
+            this.minBuyIn = go.minBuyIn;
+            this.timer = go.timer;
+
+            this.table = new Table(go.numberOfSeats);
 
         }
 
@@ -45,6 +54,10 @@ namespace PokerCalculator {
         public void assignPositions() {
             Deck d = new Deck(new HashSet<Card>());
             List<Seat> activeSeats = table.getActiveSeats();
+
+            /*foreach(Seat s in activeSeats) {
+                Console.WriteLine(s.player.toString());
+            }*/
 
             Seat btn = null;
             Card highest = null;
@@ -63,8 +76,14 @@ namespace PokerCalculator {
                 this.sb = table.getNearestLeftSeatWithActivePlayer(this.btn);
             }
 
+            Console.WriteLine("Button: " + this.btn.player.toString());
+            Console.WriteLine("SB: " + this.sb.player.toString());
+
             this.bb = table.getNearestLeftSeatWithActivePlayer(this.sb);
             this.fp = table.getNearestLeftSeatWithActivePlayer(this.bb);
+
+            Console.WriteLine("BB: " + this.bb.player.toString());
+            Console.WriteLine("UTG: " + this.fp.player.toString());
         }
 
         public void rotatePlayers() {
@@ -78,9 +97,11 @@ namespace PokerCalculator {
 
         public void generateHands(List<Player> activePlayers) {
             Deck d = new Deck(new HashSet<Card>());
-            var hands = new List<List<Card>>();
+            var hands = new List<List<Card>>() {
+                
+            };
             foreach(int i in Enumerable.Range(0, activePlayers.Count)) {
-                hands[i] = new List<Card>();
+                hands.Add(new List<Card>());
             }
             foreach(int i in Enumerable.Range(0, this.cardsPerHand)) {
                 foreach(int n in Enumerable.Range(0, activePlayers.Count)) {
@@ -307,7 +328,15 @@ namespace PokerCalculator {
         }
 
         public void registerPlayer(Player p) {
-
+            Seat emptySeat;
+            try {
+                emptySeat = this.table.getEmptySeat();
+            } catch (NoValidSeatException e) {
+                Console.WriteLine("Unable to register player. There are no empty seats.");
+                // add code to add player to waitlist
+                return;
+            }
+            emptySeat.setPlayer(p);
         }
 
         public void findPlayer(int id) {
@@ -317,7 +346,7 @@ namespace PokerCalculator {
         ///// GETTERS & SETTERS /////
 
         public GameState getState() {
-            return new GameState(street, ante, smallBlind, bigBlind, maxBuyin, minBuyin, timer);
+            return new GameState(street, ante, smallBlind, bigBlind, maxBuyIn, minBuyIn, timer);
         }
 
         ///// UTILITY METHODS /////

@@ -45,7 +45,7 @@ namespace PokerCalculator {
         ///// UTILITY METHODS /////
 
         public string toString() {
-            throw new NotImplementedException();
+            return String.Format("Seat-{0}... Left = Seat-{1}, Right = Seat-{2}", this.id, this.left.id, this.right.id);
         }
 
         public void draw() {

@@ -5,5 +5,5 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PokerCalculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Source="Home.xaml">
+        Title="MainWindow" Height="327.6" Width="796.6" Source="Home.xaml">
 </NavigationWindow>

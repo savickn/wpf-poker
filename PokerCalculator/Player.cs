@@ -94,6 +94,7 @@ namespace PokerCalculator {
                 selection = (int)Console.ReadLine(prompt);
             }*/
 
+            int x = Console.ReadLine();
             Option selection = opts[Console.Read()];
 
             Action action;
@@ -135,7 +136,7 @@ namespace PokerCalculator {
         ///// UTILITY METHODS /////
 
         public string toString() {
-            throw new NotImplementedException();
+            return String.Format("Name: {0}, Stack: {1}", this.name, this.stack);
         }
 
         public void draw() {

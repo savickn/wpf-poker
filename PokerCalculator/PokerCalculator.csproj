@@ -66,8 +66,12 @@
     <Compile Include="Algorithms\Fisher-Yates.cs" />
     <Compile Include="BestHand.cs" />
     <Compile Include="Bets\BetResponse.cs" />
+    <Compile Include="BetView.xaml.cs">
+      <DependentUpon>BetView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CalculatorEquity.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="DataInstance.cs" />
     <Compile Include="Draws\BackdoorFlushDraw.cs" />
     <Compile Include="Draws\Draw.cs" />
     <Compile Include="Draws\FlushDraw.cs" />
@@ -83,10 +87,18 @@
     <Compile Include="Enums\Suit.cs" />
     <Compile Include="Equity.cs" />
     <Compile Include="Exceptions\NoValidSeatException.cs" />
+    <Compile Include="GameOptions\GameOptions.cs" />
+    <Compile Include="GameOptions\GameTypes.cs" />
     <Compile Include="Helpers\FlushHelpers.cs" />
     <Compile Include="Helpers\StraightHelpers.cs" />
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InfoView.xaml.cs">
+      <DependentUpon>InfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlayerView.xaml.cs">
+      <DependentUpon>PlayerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="States\GameState.cs" />
     <Compile Include="CalculatorGto.cs" />
@@ -103,7 +115,6 @@
     <Compile Include="Hands\TwoPair.cs" />
     <Compile Include="Helpers\PickWinner.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="PokerCalculator.cs" />
     <Compile Include="Pot.cs" />
     <Compile Include="States\PotState.cs" />
     <Compile Include="PreflopHands.cs" />
@@ -111,10 +122,21 @@
     <Compile Include="Seat.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="States\WinState.cs" />
-    <Compile Include="Table.xaml.cs">
-      <DependentUpon>Table.xaml</DependentUpon>
+    <Compile Include="TableView.xaml.cs">
+      <DependentUpon>TableView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimerView.xaml.cs">
+      <DependentUpon>TimerView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="BetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -135,7 +157,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Table.xaml">
+    <Page Include="PlayerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TableView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -167,7 +197,78 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\Images\poker_table2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Images\10_of_clubs.svg" />
+    <Content Include="Assets\Images\10_of_diamonds.svg" />
+    <Content Include="Assets\Images\10_of_hearts.svg" />
+    <Content Include="Assets\Images\10_of_spades.svg" />
+    <Content Include="Assets\Images\2_of_clubs.svg" />
+    <Content Include="Assets\Images\2_of_diamonds.svg" />
+    <Content Include="Assets\Images\2_of_hearts.svg" />
+    <Content Include="Assets\Images\2_of_spades.svg" />
+    <Content Include="Assets\Images\3_of_clubs.svg" />
+    <Content Include="Assets\Images\3_of_diamonds.svg" />
+    <Content Include="Assets\Images\3_of_hearts.svg" />
+    <Content Include="Assets\Images\3_of_spades.svg" />
+    <Content Include="Assets\Images\4_of_clubs.svg" />
+    <Content Include="Assets\Images\4_of_diamonds.svg" />
+    <Content Include="Assets\Images\4_of_hearts.svg" />
+    <Content Include="Assets\Images\4_of_spades.svg" />
+    <Content Include="Assets\Images\5_of_clubs.svg" />
+    <Content Include="Assets\Images\5_of_diamonds.svg" />
+    <Content Include="Assets\Images\5_of_hearts.svg" />
+    <Content Include="Assets\Images\5_of_spades.svg" />
+    <Content Include="Assets\Images\6_of_clubs.svg" />
+    <Content Include="Assets\Images\6_of_diamonds.svg" />
+    <Content Include="Assets\Images\6_of_hearts.svg" />
+    <Content Include="Assets\Images\6_of_spades.svg" />
+    <Content Include="Assets\Images\7_of_clubs.svg" />
+    <Content Include="Assets\Images\7_of_diamonds.svg" />
+    <Content Include="Assets\Images\7_of_hearts.svg" />
+    <Content Include="Assets\Images\7_of_spades.svg" />
+    <Content Include="Assets\Images\8_of_clubs.svg" />
+    <Content Include="Assets\Images\8_of_diamonds.svg" />
+    <Content Include="Assets\Images\8_of_hearts.svg" />
+    <Content Include="Assets\Images\8_of_spades.svg" />
+    <Content Include="Assets\Images\9_of_clubs.svg" />
+    <Content Include="Assets\Images\9_of_diamonds.svg" />
+    <Content Include="Assets\Images\9_of_hearts.svg" />
+    <Content Include="Assets\Images\9_of_spades.svg" />
+    <Content Include="Assets\Images\ace_of_clubs.svg" />
+    <Content Include="Assets\Images\ace_of_diamonds.svg" />
+    <Content Include="Assets\Images\ace_of_hearts.svg" />
+    <Content Include="Assets\Images\ace_of_spades.svg" />
+    <Content Include="Assets\Images\ace_of_spades2.svg" />
+    <Content Include="Assets\Images\black_joker.svg" />
+    <Content Include="Assets\Images\jack_of_clubs.svg" />
+    <Content Include="Assets\Images\jack_of_clubs2.svg" />
+    <Content Include="Assets\Images\jack_of_diamonds.svg" />
+    <Content Include="Assets\Images\jack_of_diamonds2.svg" />
+    <Content Include="Assets\Images\jack_of_hearts.svg" />
+    <Content Include="Assets\Images\jack_of_hearts2.svg" />
+    <Content Include="Assets\Images\jack_of_spades.svg" />
+    <Content Include="Assets\Images\jack_of_spades2.svg" />
+    <Content Include="Assets\Images\king_of_clubs.svg" />
+    <Content Include="Assets\Images\king_of_clubs2.svg" />
+    <Content Include="Assets\Images\king_of_diamonds.svg" />
+    <Content Include="Assets\Images\king_of_diamonds2.svg" />
+    <Content Include="Assets\Images\king_of_hearts.svg" />
+    <Content Include="Assets\Images\king_of_hearts2.svg" />
+    <Content Include="Assets\Images\king_of_spades.svg" />
+    <Content Include="Assets\Images\king_of_spades2.svg" />
+    <Content Include="Assets\Images\queen_of_clubs.svg" />
+    <Content Include="Assets\Images\queen_of_clubs2.svg" />
+    <Content Include="Assets\Images\queen_of_diamonds.svg" />
+    <Content Include="Assets\Images\queen_of_diamonds2.svg" />
+    <Content Include="Assets\Images\queen_of_hearts.svg" />
+    <Content Include="Assets\Images\queen_of_hearts2.svg" />
+    <Content Include="Assets\Images\queen_of_spades.svg" />
+    <Content Include="Assets\Images\queen_of_spades2.svg" />
+    <Content Include="Assets\Images\red_joker.svg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
