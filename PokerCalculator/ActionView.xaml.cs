@@ -15,15 +15,11 @@ using System.Windows.Shapes;
 
 namespace PokerCalculator {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for ActionView.xaml
     /// </summary>
-    public partial class Home : Page {
-
-        public Home() {
+    public partial class ActionView : Page {
+        public ActionView() {
             InitializeComponent();
-
-            Window w = new GameWindow();
-
         }
     }
 }

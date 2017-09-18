@@ -10,20 +10,29 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PokerCalculator {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for GameWindow.xaml
     /// </summary>
-    public partial class Home : Page {
+    /// 
+    public partial class GameWindow : Window {
 
-        public Home() {
+        public Game game { get; }
+
+        public GameWindow() {
             InitializeComponent();
 
-            Window w = new GameWindow();
+            Player p1 = new Player("Nick", 2000);
+            Player p2 = new Player("Matt", 2000);
 
+            game = new Game(GameTypes.nl2k);
+            game.registerPlayer(p1);
+            game.registerPlayer(p2);
+
+            game.initializeGame();
+            //game.run();
         }
     }
 }

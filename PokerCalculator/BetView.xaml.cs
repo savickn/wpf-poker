@@ -18,20 +18,35 @@ namespace PokerCalculator {
     /// Interaction logic for BetView.xaml
     /// </summary>
     public partial class BetView : Page {
-        public BetView() {
+        public BetView(/*Player p, GameState gs, PotState ps*/) {
             InitializeComponent();
+
+            //double betSize = 0;
+
+
         }
 
+
         private void foldBtn_Click(object sender, RoutedEventArgs e) {
+            //double betSize = (double)betSizeInput.Text;
+
 
         }
 
         private void callBtn_Click(object sender, RoutedEventArgs e) {
+            //double betSize = (double)betSizeInput.Text;
+
 
         }
 
         private void raiseBtn_Click(object sender, RoutedEventArgs e) {
 
+        }
+
+        private void betSizeInput_PreviewTextInput(object sender, TextCompositionEventArgs e) {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1)) {
+                e.Handled = true;
+            }
         }
     }
 }

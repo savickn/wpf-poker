@@ -1,0 +1,32 @@
+﻿<Window x:Class="PokerCalculator.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PokerCalculator"
+        mc:Ignorable="d"
+        Title="GameWindow" Height="300" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <Frame Source="TableView.xaml" NavigationUIVisibility="Hidden" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8"/>
+
+        <Frame Source="InfoView.xaml" NavigationUIVisibility="Hidden" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"/>
+
+        <Frame Source="ActionView.xaml" NavigationUIVisibility="Hidden" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4"/>
+
+    </Grid>
+</Window>

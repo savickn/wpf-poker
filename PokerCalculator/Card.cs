@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace PokerCalculator {
     public class Card {
         //# unique id for each card
         private int id;
-        private string sprite;
         private string identifier;
+
 
         public CardType type { get; }
         public Suit suit { get; }
@@ -17,6 +18,7 @@ namespace PokerCalculator {
         public int lowValue { get; }
 
         public string initial { get; }
+        public Bitmap image { get; }
         public bool hidden { get; private set; }
 
         public Card(CardType type, Suit suit, int highValue, int lowValue = -1) {

@@ -84,6 +84,10 @@ namespace PokerCalculator {
         public Action selectAction(GameState gs, PotState ps) {
             List<Option> opts = this.populateActions(ps);
 
+            //render betView + timerView for "Player p" and populate betView with "opts"
+
+
+
             /*string prompt = "Select an action: ";
             foreach(Option o in opts) {
                 prompt += String.Format("{0} - {1}", opts.IndexOf(o), o); 
@@ -94,7 +98,7 @@ namespace PokerCalculator {
                 selection = (int)Console.ReadLine(prompt);
             }*/
 
-            int x = Console.ReadLine();
+            //int x = Console.ReadLine();
             Option selection = opts[Console.Read()];
 
             Action action;

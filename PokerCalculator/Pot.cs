@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class Pot {
+    public class Pot {
         public double pot { get; private set; }
         public double  bb { get; }
         public Dictionary<Player, double> contributions { get; private set; }

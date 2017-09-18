@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class Board {
+    public class Board {
         private Card flop1;
         private Card flop2;
         private Card flop3;

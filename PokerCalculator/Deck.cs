@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
-    class Deck {
+    public class Deck {
         public HashSet<Card> cards { get; private set; }
         public int length { get; private set; }
         public Dictionary<string, List<HoldemHand>> holdemHands { get; private set; }
