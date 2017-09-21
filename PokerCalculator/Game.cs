@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace PokerCalculator {
-    public class Game {
+    public class Game : INotifyPropertyChanged {
         public GameStatus status { get; private set; }
-        public Street street;
-        public Table table;
+        public Street street { get; private set; }
+        public Table table { get; }
 
         //public Pot pot { get; private set; }
         //private Deck deck { get; }
@@ -36,7 +38,7 @@ namespace PokerCalculator {
         /*bool isPreflop;
         bool isHeadsUp;*/
 
-        public Game(GameOptions go) {
+        public Game(Table t, GameOptions go) {
             this.cardsPerHand = go.cardsPerHand;
             this.bigBlind = go.bb;
             this.smallBlind = go.sb;
@@ -45,8 +47,29 @@ namespace PokerCalculator {
             this.minBuyIn = go.minBuyIn;
             this.timer = go.timer;
 
-            this.table = new Table(go.numberOfSeats);
+            //this.table = new Table(go.numberOfSeats);
+            this.table = t;
+        }
 
+        ///// Event Listeners /////
+
+        public class PlayerActionArgs : EventArgs {
+            public PlayerActionArgs() {
+
+            }
+        }
+
+        public delegate void PlayerActionHandler(object sender, PlayerActionArgs e);
+
+        public event PlayerActionHandler PlayerAction;
+
+        ///// Interface Implementation /////
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName) {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
         ///// PLAYER POSITIONING /////

@@ -11,7 +11,7 @@ namespace PokerCalculator {
         private int id;
         private string identifier;
 
-
+        public string imagePath { get; }
         public CardType type { get; }
         public Suit suit { get; }
         public int highValue { get; }
@@ -21,8 +21,9 @@ namespace PokerCalculator {
         public Bitmap image { get; }
         public bool hidden { get; private set; }
 
-        public Card(CardType type, Suit suit, int highValue, int lowValue = -1) {
+        public Card(string imagePath, CardType type, Suit suit, int highValue, int lowValue = -1) {
             //this.identifier = '{value}-{suit}'.format(value = value, suit = suit)
+            this.imagePath = imagePath;
             this.type = type;
             this.suit = suit;
             this.initial = Data.getInitial(type);

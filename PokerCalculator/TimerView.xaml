@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
 
         <Button Name="timeBankBtn" Click="timeBankBtn_Click" Grid.Column="0" Grid.ColumnSpan="1">Use Time Bank</Button>
-        <TextBlock Name="timeBankCount" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="Center" VerticalAlignment="Center"> 30</TextBlock>
+        <TextBlock Name="timeBankCount" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <ProgressBar Name="timerProgress" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="50"></ProgressBar>
     </Grid>
 </Page>

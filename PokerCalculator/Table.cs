@@ -91,6 +91,15 @@ namespace PokerCalculator {
             }
         }
 
+        public Seat getSeatById(int id) {
+            foreach(Seat s in this.seats) {
+                if(s.id == id) {
+                    return s;
+                }
+            }
+            return null;
+        }
+
         public Seat getEmptySeat() {
             foreach(Seat s in seats) {
                 if(s.isEmpty()) {

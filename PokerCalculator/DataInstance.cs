@@ -62,7 +62,7 @@ namespace PokerCalculator {
         public HashSet<Card> deck;
 
         public DataInstance() {
-            this.ACE_OF_CLUBS = new Card(CardType.ACE, Suit.CLUBS, 14, 1);
+            /*this.ACE_OF_CLUBS = new Card(CardType.ACE, Suit.CLUBS, 14, 1);
             this.KING_OF_CLUBS = new Card(CardType.KING, Suit.CLUBS, 13);
             this.QUEEN_OF_CLUBS = new Card(CardType.QUEEN, Suit.CLUBS, 12);
             this.JACK_OF_CLUBS = new Card(CardType.JACK, Suit.CLUBS, 11);
@@ -168,7 +168,7 @@ namespace PokerCalculator {
                 { FOUR_OF_SPADES },
                 { THREE_OF_SPADES },
                 { TWO_OF_SPADES },
-            };
+            };*/
 
 
 

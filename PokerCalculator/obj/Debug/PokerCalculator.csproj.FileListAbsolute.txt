@@ -17,7 +17,6 @@ C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalcula
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\TableView.g.cs
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\Home.baml
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\TableView.baml
-C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\PokerCalculator_Content.g.cs
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\BetView.g.cs
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\InfoView.g.cs
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\TimerView.g.cs
@@ -32,3 +31,4 @@ C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalcula
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\PotView.baml
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\SeatView.baml
 C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\TimerView.baml
+C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\GeneratedInternalTypeHelper.g.cs

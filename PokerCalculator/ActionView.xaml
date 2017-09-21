@@ -17,8 +17,8 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <Frame Source="TimerView.xaml" NavigationUIVisibility="Hidden" Grid.Column="0"/>
-        <Frame Source="BetView.xaml" NavigationUIVisibility="Hidden" Grid.Column="1"/>
+        <Frame Name="timerView" NavigationUIVisibility="Hidden" Grid.Column="0"/>
+        <Frame Name="betView" NavigationUIVisibility="Hidden" Grid.Column="1"/>
 
     </Grid>
 </Page>

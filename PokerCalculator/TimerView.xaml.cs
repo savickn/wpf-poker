@@ -18,8 +18,10 @@ namespace PokerCalculator {
     /// Interaction logic for TimerView.xaml
     /// </summary>
     public partial class TimerView : Page {
-        public TimerView() {
+        public TimerView(Game g) {
             InitializeComponent();
+
+            timeBankCount.Text = g.timer.ToString();
         }
 
         private void timeBankBtn_Click(object sender, RoutedEventArgs e) {

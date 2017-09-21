@@ -93,6 +93,7 @@
     <Compile Include="Exceptions\NoValidSeatException.cs" />
     <Compile Include="GameOptions\GameOptions.cs" />
     <Compile Include="GameOptions\GameTypes.cs" />
+    <Compile Include="GameVM.cs" />
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>

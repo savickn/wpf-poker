@@ -9,8 +9,6 @@
       Title="Home">
 
     <WrapPanel Orientation="Vertical">
-        
-        
-        
+        <Button Name="newGame" Click="newGame_Click">New Game</Button>
     </WrapPanel>
 </Page>

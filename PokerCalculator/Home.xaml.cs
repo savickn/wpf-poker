@@ -25,5 +25,10 @@ namespace PokerCalculator {
             Window w = new GameWindow();
 
         }
+
+        private void newGame_Click(object sender, RoutedEventArgs e) {
+            GameWindow win2 = new GameWindow();
+            win2.Show();
+        }
     }
 }

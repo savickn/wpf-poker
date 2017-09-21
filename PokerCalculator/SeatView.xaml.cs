@@ -18,8 +18,19 @@ namespace PokerCalculator {
     /// Interaction logic for SeatView.xaml
     /// </summary>
     public partial class SeatView : Page {
+        public Player p;
+        public string pName = "Nick";
+
         public SeatView() {
             InitializeComponent();
+
+            //GameVM vm = (GameVM)this.DataContext;
+
+            //p = vm.table.getSeatById(1).player;
+
+            //playerName.Text = p.name;
+
+
         }
     }
 }

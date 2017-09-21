@@ -18,12 +18,17 @@ namespace PokerCalculator {
     /// Interaction logic for BetView.xaml
     /// </summary>
     public partial class BetView : Page {
-        public BetView(/*Player p, GameState gs, PotState ps*/) {
+        public double betSize { get; }
+
+        public BetView(Game g /*Player p, GameState gs, PotState ps*/) {
             InitializeComponent();
 
-            //double betSize = 0;
+            //Console.WriteLine(this.DataContext.ToString());
 
+            betSize = 0;
 
+            betSizeInput.Text = betSize.ToString();
+            betSizeSlider.Value = betSize;
         }
 
 
@@ -47,6 +52,22 @@ namespace PokerCalculator {
             if (!char.IsDigit(e.Text, e.Text.Length - 1)) {
                 e.Handled = true;
             }
+        }
+
+        private void halfPotPreset_Click(object sender, RoutedEventArgs e) {
+            //this.betSize = this.DataContext.player.stack
+        }
+
+        private void threeQuarterPotPreset_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void fullPotPreset_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void allInPreset_Click(object sender, RoutedEventArgs e) {
+
         }
     }
 }

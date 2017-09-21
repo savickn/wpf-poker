@@ -19,20 +19,16 @@ namespace PokerCalculator {
     /// 
     public partial class GameWindow : Window {
 
-        public Game game { get; }
-
         public GameWindow() {
             InitializeComponent();
 
-            Player p1 = new Player("Nick", 2000);
-            Player p2 = new Player("Matt", 2000);
+            GameVM vm = (GameVM)this.DataContext;
 
-            game = new Game(GameTypes.nl2k);
-            game.registerPlayer(p1);
-            game.registerPlayer(p2);
+            //tb2.Text = vm.game.ante.ToString();
 
-            game.initializeGame();
-            //game.run();
+            tableView.Navigate(new TableView());
+            infoView.Navigate(new InfoView());
+            actionView.Navigate(new ActionView(vm.game));
         }
     }
 }

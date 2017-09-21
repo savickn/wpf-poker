@@ -9,10 +9,6 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="BetView">
 
-    <Page.Resources>
-        <system:Double x:Key="betSize">0</system:Double>
-    </Page.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -34,13 +30,13 @@
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
 
-        <Button Grid.Column="0" Grid.ColumnSpan="3">50%</Button>
-        <Button Grid.Column="3" Grid.ColumnSpan="3">75%</Button>
-        <Button Grid.Column="6" Grid.ColumnSpan="3">100%</Button>
-        <Button Grid.Column="9" Grid.ColumnSpan="3">All-In</Button>
+        <Button Name="halfPotPreset" Click="halfPotPreset_Click" Grid.Column="0" Grid.ColumnSpan="3">50%</Button>
+        <Button Name="threeQuarterPotPreset" Click="threeQuarterPotPreset_Click" Grid.Column="3" Grid.ColumnSpan="3">75%</Button>
+        <Button Name="fullPotPreset" Click="fullPotPreset_Click" Grid.Column="6" Grid.ColumnSpan="3">100%</Button>
+        <Button Name="allInPreset" Click="allInPreset_Click" Grid.Column="9" Grid.ColumnSpan="3">All-In</Button>
 
-        <TextBox Name="betSizeInput" Text="{Binding ElementName=betSizeSlider, Path=Value}" PreviewTextInput="betSizeInput_PreviewTextInput" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Slider Name="betSizeSlider" Value="{Binding ElementName=betSizeInput, Path=Text}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center"/>
+        <TextBox Name="betSizeInput" PreviewTextInput="betSizeInput_PreviewTextInput" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center"/>
 
         <Button Name="foldBtn" Click="foldBtn_Click" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">Fold</Button>
         <Button Name="callBtn" Click="callBtn_Click" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4">Call</Button>

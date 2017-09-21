@@ -6,58 +6,58 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator { 
     public static class Data {
-        public static readonly Card ACE_OF_CLUBS = new Card(CardType.ACE, Suit.CLUBS, 14, 1);
-        public static readonly Card KING_OF_CLUBS = new Card(CardType.KING, Suit.CLUBS, 13);
-        public static readonly Card QUEEN_OF_CLUBS = new Card(CardType.QUEEN, Suit.CLUBS, 12);
-        public static readonly Card JACK_OF_CLUBS = new Card(CardType.JACK, Suit.CLUBS, 11);
-        public static readonly Card TEN_OF_CLUBS = new Card(CardType.TEN, Suit.CLUBS, 10);
-        public static readonly Card NINE_OF_CLUBS = new Card(CardType.NINE, Suit.CLUBS, 9);
-        public static readonly Card EIGHT_OF_CLUBS = new Card(CardType.EIGHT, Suit.CLUBS, 8);
-        public static readonly Card SEVEN_OF_CLUBS = new Card(CardType.SEVEN, Suit.CLUBS, 7);
-        public static readonly Card SIX_OF_CLUBS = new Card(CardType.SIX, Suit.CLUBS, 6);
-        public static readonly Card FIVE_OF_CLUBS = new Card(CardType.FIVE, Suit.CLUBS, 5);
-        public static readonly Card FOUR_OF_CLUBS = new Card(CardType.FOUR, Suit.CLUBS, 4);
-        public static readonly Card THREE_OF_CLUBS = new Card(CardType.THREE, Suit.CLUBS, 3);
-        public static readonly Card TWO_OF_CLUBS = new Card(CardType.TWO, Suit.CLUBS, 2);
-        public static readonly Card ACE_OF_HEARTS = new Card(CardType.ACE, Suit.HEARTS, 14, 1);
-        public static readonly Card KING_OF_HEARTS = new Card(CardType.KING, Suit.HEARTS, 13);
-        public static readonly Card QUEEN_OF_HEARTS = new Card(CardType.QUEEN, Suit.HEARTS, 12);
-        public static readonly Card JACK_OF_HEARTS = new Card(CardType.JACK, Suit.HEARTS, 11);
-        public static readonly Card TEN_OF_HEARTS = new Card(CardType.TEN, Suit.HEARTS, 10);
-        public static readonly Card NINE_OF_HEARTS = new Card(CardType.NINE, Suit.HEARTS, 9);
-        public static readonly Card EIGHT_OF_HEARTS = new Card(CardType.EIGHT, Suit.HEARTS, 8);
-        public static readonly Card SEVEN_OF_HEARTS = new Card(CardType.SEVEN, Suit.HEARTS, 7);
-        public static readonly Card SIX_OF_HEARTS = new Card(CardType.SIX, Suit.HEARTS, 6);
-        public static readonly Card FIVE_OF_HEARTS = new Card(CardType.FIVE, Suit.HEARTS, 5);
-        public static readonly Card FOUR_OF_HEARTS = new Card(CardType.FOUR, Suit.HEARTS, 4);
-        public static readonly Card THREE_OF_HEARTS = new Card(CardType.THREE, Suit.HEARTS, 3);
-        public static readonly Card TWO_OF_HEARTS = new Card(CardType.TWO, Suit.HEARTS, 2);
-        public static readonly Card ACE_OF_DIAMONDS = new Card(CardType.ACE, Suit.DIAMONDS, 14, 1);
-        public static readonly Card KING_OF_DIAMONDS = new Card(CardType.KING, Suit.DIAMONDS, 13);
-        public static readonly Card QUEEN_OF_DIAMONDS = new Card(CardType.QUEEN, Suit.DIAMONDS, 12);
-        public static readonly Card JACK_OF_DIAMONDS = new Card(CardType.JACK, Suit.DIAMONDS, 11);
-        public static readonly Card TEN_OF_DIAMONDS = new Card(CardType.TEN, Suit.DIAMONDS, 10);
-        public static readonly Card NINE_OF_DIAMONDS = new Card(CardType.NINE, Suit.DIAMONDS, 9);
-        public static readonly Card EIGHT_OF_DIAMONDS = new Card(CardType.EIGHT, Suit.DIAMONDS, 8);
-        public static readonly Card SEVEN_OF_DIAMONDS = new Card(CardType.SEVEN, Suit.DIAMONDS, 7);
-        public static readonly Card SIX_OF_DIAMONDS = new Card(CardType.SIX, Suit.DIAMONDS, 6);
-        public static readonly Card FIVE_OF_DIAMONDS = new Card(CardType.FIVE, Suit.DIAMONDS, 5);
-        public static readonly Card FOUR_OF_DIAMONDS = new Card(CardType.FOUR, Suit.DIAMONDS, 4);
-        public static readonly Card THREE_OF_DIAMONDS = new Card(CardType.THREE, Suit.DIAMONDS, 3);
-        public static readonly Card TWO_OF_DIAMONDS = new Card(CardType.TWO, Suit.DIAMONDS, 2);
-        public static readonly Card ACE_OF_SPADES = new Card(CardType.ACE, Suit.SPADES, 14, 1);
-        public static readonly Card KING_OF_SPADES = new Card(CardType.KING, Suit.SPADES, 13);
-        public static readonly Card QUEEN_OF_SPADES = new Card(CardType.QUEEN, Suit.SPADES, 12);
-        public static readonly Card JACK_OF_SPADES = new Card(CardType.JACK, Suit.SPADES, 11);
-        public static readonly Card TEN_OF_SPADES = new Card(CardType.TEN, Suit.SPADES, 10);
-        public static readonly Card NINE_OF_SPADES = new Card(CardType.NINE, Suit.SPADES, 9);
-        public static readonly Card EIGHT_OF_SPADES = new Card(CardType.EIGHT, Suit.SPADES, 8);
-        public static readonly Card SEVEN_OF_SPADES = new Card(CardType.SEVEN, Suit.SPADES, 7);
-        public static readonly Card SIX_OF_SPADES = new Card(CardType.SIX, Suit.SPADES, 6);
-        public static readonly Card FIVE_OF_SPADES = new Card(CardType.FIVE, Suit.SPADES, 5);
-        public static readonly Card FOUR_OF_SPADES = new Card(CardType.FOUR, Suit.SPADES, 4);
-        public static readonly Card THREE_OF_SPADES = new Card(CardType.THREE, Suit.SPADES, 3);
-        public static readonly Card TWO_OF_SPADES = new Card(CardType.TWO, Suit.SPADES, 2);
+        public static readonly Card ACE_OF_CLUBS = new Card("ace_of_clubs.svg", CardType.ACE, Suit.CLUBS, 14, 1);
+        public static readonly Card KING_OF_CLUBS = new Card("king_of_clubs.svg", CardType.KING, Suit.CLUBS, 13);
+        public static readonly Card QUEEN_OF_CLUBS = new Card("queen_of_clubs.svg", CardType.QUEEN, Suit.CLUBS, 12);
+        public static readonly Card JACK_OF_CLUBS = new Card("jack_of_clubs.svg", CardType.JACK, Suit.CLUBS, 11);
+        public static readonly Card TEN_OF_CLUBS = new Card("10_of_clubs.svg", CardType.TEN, Suit.CLUBS, 10);
+        public static readonly Card NINE_OF_CLUBS = new Card("9_of_clubs.svg", CardType.NINE, Suit.CLUBS, 9);
+        public static readonly Card EIGHT_OF_CLUBS = new Card("8_of_clubs.svg", CardType.EIGHT, Suit.CLUBS, 8);
+        public static readonly Card SEVEN_OF_CLUBS = new Card("7_of_clubs.svg", CardType.SEVEN, Suit.CLUBS, 7);
+        public static readonly Card SIX_OF_CLUBS = new Card("6_of_clubs.svg", CardType.SIX, Suit.CLUBS, 6);
+        public static readonly Card FIVE_OF_CLUBS = new Card("5_of_clubs.svg", CardType.FIVE, Suit.CLUBS, 5);
+        public static readonly Card FOUR_OF_CLUBS = new Card("4_of_clubs.svg", CardType.FOUR, Suit.CLUBS, 4);
+        public static readonly Card THREE_OF_CLUBS = new Card("3_of_clubs.svg", CardType.THREE, Suit.CLUBS, 3);
+        public static readonly Card TWO_OF_CLUBS = new Card("2_of_clubs.svg", CardType.TWO, Suit.CLUBS, 2);
+        public static readonly Card ACE_OF_HEARTS = new Card("ace_of_hearts.svg", CardType.ACE, Suit.HEARTS, 14, 1);
+        public static readonly Card KING_OF_HEARTS = new Card("king_of_hearts.svg", CardType.KING, Suit.HEARTS, 13);
+        public static readonly Card QUEEN_OF_HEARTS = new Card("queen_of_hearts.svg", CardType.QUEEN, Suit.HEARTS, 12);
+        public static readonly Card JACK_OF_HEARTS = new Card("jack_of_hearts.svg", CardType.JACK, Suit.HEARTS, 11);
+        public static readonly Card TEN_OF_HEARTS = new Card("10_of_hearts.svg", CardType.TEN, Suit.HEARTS, 10);
+        public static readonly Card NINE_OF_HEARTS = new Card("9_of_hearts.svg", CardType.NINE, Suit.HEARTS, 9);
+        public static readonly Card EIGHT_OF_HEARTS = new Card("8_of_hearts.svg", CardType.EIGHT, Suit.HEARTS, 8);
+        public static readonly Card SEVEN_OF_HEARTS = new Card("7_of_hearts.svg", CardType.SEVEN, Suit.HEARTS, 7);
+        public static readonly Card SIX_OF_HEARTS = new Card("6_of_hearts.svg", CardType.SIX, Suit.HEARTS, 6);
+        public static readonly Card FIVE_OF_HEARTS = new Card("5_of_hearts.svg", CardType.FIVE, Suit.HEARTS, 5);
+        public static readonly Card FOUR_OF_HEARTS = new Card("4_of_hearts.svg", CardType.FOUR, Suit.HEARTS, 4);
+        public static readonly Card THREE_OF_HEARTS = new Card("3_of_hearts.svg", CardType.THREE, Suit.HEARTS, 3);
+        public static readonly Card TWO_OF_HEARTS = new Card("2_of_hearts.svg", CardType.TWO, Suit.HEARTS, 2);
+        public static readonly Card ACE_OF_DIAMONDS = new Card("ace_of_diamonds.svg", CardType.ACE, Suit.DIAMONDS, 14, 1);
+        public static readonly Card KING_OF_DIAMONDS = new Card("king_of_diamonds.svg", CardType.KING, Suit.DIAMONDS, 13);
+        public static readonly Card QUEEN_OF_DIAMONDS = new Card("queen_of_diamonds.svg", CardType.QUEEN, Suit.DIAMONDS, 12);
+        public static readonly Card JACK_OF_DIAMONDS = new Card("jack_of_diamonds.svg", CardType.JACK, Suit.DIAMONDS, 11);
+        public static readonly Card TEN_OF_DIAMONDS = new Card("10_of_diamonds.svg", CardType.TEN, Suit.DIAMONDS, 10);
+        public static readonly Card NINE_OF_DIAMONDS = new Card("9_of_diamonds.svg", CardType.NINE, Suit.DIAMONDS, 9);
+        public static readonly Card EIGHT_OF_DIAMONDS = new Card("8_of_diamonds.svg", CardType.EIGHT, Suit.DIAMONDS, 8);
+        public static readonly Card SEVEN_OF_DIAMONDS = new Card("7_of_diamonds.svg", CardType.SEVEN, Suit.DIAMONDS, 7);
+        public static readonly Card SIX_OF_DIAMONDS = new Card("6_of_diamonds.svg", CardType.SIX, Suit.DIAMONDS, 6);
+        public static readonly Card FIVE_OF_DIAMONDS = new Card("5_of_diamonds.svg", CardType.FIVE, Suit.DIAMONDS, 5);
+        public static readonly Card FOUR_OF_DIAMONDS = new Card("4_of_diamonds.svg", CardType.FOUR, Suit.DIAMONDS, 4);
+        public static readonly Card THREE_OF_DIAMONDS = new Card("3_of_diamonds.svg", CardType.THREE, Suit.DIAMONDS, 3);
+        public static readonly Card TWO_OF_DIAMONDS = new Card("2_of_diamonds.svg", CardType.TWO, Suit.DIAMONDS, 2);
+        public static readonly Card ACE_OF_SPADES = new Card("ace_of_spades.svg", CardType.ACE, Suit.SPADES, 14, 1);
+        public static readonly Card KING_OF_SPADES = new Card("king_of_spades.svg", CardType.KING, Suit.SPADES, 13);
+        public static readonly Card QUEEN_OF_SPADES = new Card("queen_of_spades.svg", CardType.QUEEN, Suit.SPADES, 12);
+        public static readonly Card JACK_OF_SPADES = new Card("jack_of_spades.svg", CardType.JACK, Suit.SPADES, 11);
+        public static readonly Card TEN_OF_SPADES = new Card("10_of_spades.svg", CardType.TEN, Suit.SPADES, 10);
+        public static readonly Card NINE_OF_SPADES = new Card("9_of_spades.svg", CardType.NINE, Suit.SPADES, 9);
+        public static readonly Card EIGHT_OF_SPADES = new Card("8_of_spades.svg", CardType.EIGHT, Suit.SPADES, 8);
+        public static readonly Card SEVEN_OF_SPADES = new Card("7_of_spades.svg", CardType.SEVEN, Suit.SPADES, 7);
+        public static readonly Card SIX_OF_SPADES = new Card("6_of_spades.svg", CardType.SIX, Suit.SPADES, 6);
+        public static readonly Card FIVE_OF_SPADES = new Card("5_of_spades.svg", CardType.FIVE, Suit.SPADES, 5);
+        public static readonly Card FOUR_OF_SPADES = new Card("4_of_spades.svg", CardType.FOUR, Suit.SPADES, 4);
+        public static readonly Card THREE_OF_SPADES = new Card("3_of_spades.svg", CardType.THREE, Suit.SPADES, 3);
+        public static readonly Card TWO_OF_SPADES = new Card("2_of_spades.svg", CardType.TWO, Suit.SPADES, 2);
 
         private static Dictionary<string, int> drawRankings = new Dictionary<string, int> {
             { "SetFH", 9 },
@@ -97,7 +97,7 @@ namespace PokerCalculator {
             { CardType.FIVE, "5" },
             { CardType.FOUR, "4" },
             { CardType.THREE, "3" },
-            { CardType.TWO, "2" }
+            { CardType.TWO, "2" },
         };*/
 
         private static Dictionary<string, string> prefixes = new Dictionary<string, string> {

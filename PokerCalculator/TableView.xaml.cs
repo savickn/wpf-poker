@@ -20,6 +20,9 @@ namespace PokerCalculator {
     public partial class TableView : Page {
         public TableView() {
             InitializeComponent();
+
+
+
         }
     }
 }
