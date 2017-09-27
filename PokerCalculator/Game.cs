@@ -8,13 +8,43 @@ using System.Collections.ObjectModel;
 
 namespace PokerCalculator {
     public class Game : INotifyPropertyChanged {
+        /*public GameStatus status {
+            get { return this.status; }
+            set {
+                if(value != this.status) {
+                    this.status = value;
+                    NotifyPropertyChanged("status");
+                }
+            }
+        }
+        public Street street {
+            get { return this.street; }
+            set {
+                if (value != this.street) {
+                    this.street = value;
+                    NotifyPropertyChanged("street");
+                }
+            }
+        }*/
         public GameStatus status { get; private set; }
         public Street street { get; private set; }
         public Table table { get; }
+        public Player activePlayer { get; }
+        public Player userAccount { get; }
 
-        //public Pot pot { get; private set; }
+        public Pot pot { get; private set; }
+        public Board board { get; private set; }
         //private Deck deck { get; }
-        //public Board board { get; private set; }
+
+        /*public Seat btn {
+            get { return this.btn; }
+            set {
+                if(value != this.btn) {
+                    this.btn = value;
+                    NotifyPropertyChanged("btn");
+                }
+            }
+        }*/
 
         public Seat btn { get; private set; }
         public Seat sb { get; private set; }

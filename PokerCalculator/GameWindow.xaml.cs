@@ -26,7 +26,7 @@ namespace PokerCalculator {
 
             //tb2.Text = vm.game.ante.ToString();
 
-            tableView.Navigate(new TableView());
+            tableView.Navigate(new TableView(vm.game.table));
             infoView.Navigate(new InfoView());
             actionView.Navigate(new ActionView(vm.game));
         }

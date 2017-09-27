@@ -18,6 +18,9 @@ namespace PokerCalculator {
     /// Interaction logic for TimerView.xaml
     /// </summary>
     public partial class TimerView : Page {
+
+        public double timer { get; }
+
         public TimerView(Game g) {
             InitializeComponent();
 

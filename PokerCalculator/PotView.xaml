@@ -1,4 +1,5 @@
-﻿<Page x:Class="PokerCalculator.PotView"
+﻿<Page x:Name="potView" 
+      x:Class="PokerCalculator.PotView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -21,7 +22,8 @@
             <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Column="1" Grid.ColumnSpan="3"/>
+        <TextBlock Name="potSizeText" Text="{Binding ElementName=potView, Path=PotSize}" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+        <Button Name="incrementPot" Click="incrementPot_Click">INC</Button>
 
         <Image Grid.Row="1" Grid.Column="0"/>
         <Image Grid.Row="1" Grid.Column="1"/>

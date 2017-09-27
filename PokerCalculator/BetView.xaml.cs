@@ -19,6 +19,8 @@ namespace PokerCalculator {
     /// </summary>
     public partial class BetView : Page {
         public double betSize { get; }
+        public double maxBet { get; }
+        public double minBet { get; }
 
         public BetView(Game g /*Player p, GameState gs, PotState ps*/) {
             InitializeComponent();

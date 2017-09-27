@@ -10,6 +10,8 @@ using System.Collections.ObjectModel;
 namespace PokerCalculator {
     public class GameVM {
         public Game game { get; }
+
+
         public Table table { get; }
         public List<Player> players { get; }
 

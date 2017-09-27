@@ -18,8 +18,21 @@ namespace PokerCalculator {
     /// Interaction logic for PotView.xaml
     /// </summary>
     public partial class PotView : Page {
+
+        public string potSize;
+        public string PotSize {
+            get { return potSize; }
+            set { potSize = value; }
+        }
+
         public PotView() {
+            PotSize = "10";
             InitializeComponent();
+        }
+
+        private void incrementPot_Click(object sender, RoutedEventArgs e) {
+            PotSize += 5;
+            e.Handled = true;
         }
     }
 }

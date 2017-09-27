@@ -12,6 +12,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -21,13 +23,13 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <Image Name="button" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Center"/>
-        <Image Name="betChips" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="Center"/>
-        <Image Name="playerCard1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
-        <Image Name="playerCard2" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1"/>
-        <Image Name="playerAvatar" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
-        <TextBlock Name="playerName" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-        <TextBlock Name="playerStack" Text="{Binding player.stack}" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-
+        <Image Name="button" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+        <Image Name="betChips" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1" HorizontalAlignment="Right" Margin="0 5 0 0"/>
+        <Image Name="betAmount" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="1" HorizontalAlignment="Left" Margin="0 0 0 5"/>
+        <Image Name="playerCard1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+        <Image Name="playerCard2" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+        <Image Name="playerAvatar" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Center"/>
+        <TextBlock Name="playerName" Grid.Row="3" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <TextBlock Name="playerStack" Grid.Row="4" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
     </Grid>
 </Page>
