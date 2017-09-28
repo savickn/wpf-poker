@@ -25,11 +25,11 @@
         <TextBlock Name="potSizeText" Text="{Binding ElementName=potView, Path=PotSize}" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
         <Button Name="incrementPot" Click="incrementPot_Click">INC</Button>
 
-        <Image Grid.Row="1" Grid.Column="0"/>
-        <Image Grid.Row="1" Grid.Column="1"/>
-        <Image Grid.Row="1" Grid.Column="2"/>
-        <Image Grid.Row="1" Grid.Column="3"/>
-        <Image Grid.Row="1" Grid.Column="4"/>
+        <Image Name="Flop1" Source="{Binding ElementName=gameView, Path=GameVM.board}" Grid.Row="1" Grid.Column="0"/>
+        <Image Name="Flop2" Grid.Row="1" Grid.Column="1"/>
+        <Image Name="Flop3" Grid.Row="1" Grid.Column="2"/>
+        <Image Name="Turn" Grid.Row="1" Grid.Column="3"/>
+        <Image Name="River" Grid.Row="1" Grid.Column="4"/>
 
     </Grid>
 </Page>

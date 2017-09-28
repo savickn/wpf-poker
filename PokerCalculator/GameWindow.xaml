@@ -1,4 +1,5 @@
-﻿<Window x:Class="PokerCalculator.GameWindow"
+﻿<Window x:Name="gameWindow"
+        x:Class="PokerCalculator.GameWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:system="clr-namespace:System;assembly=mscorlib" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -11,21 +12,128 @@
         <local:GameVM/>
     </Window.DataContext>
     
-    <Grid>
+    <Grid Name="WindowLayout">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="9*"/>
+            <RowDefinition Height="8*"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
 
-        <Frame Name="tableView" NavigationUIVisibility="Hidden" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+        <Grid Name="TableLayout" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
 
-        <Frame Name="infoView" NavigationUIVisibility="Hidden" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1"/>
+            <Frame Name="Seat1" Grid.Column="1" Grid.Row="2"/>
+            <Frame Name="Seat2" Grid.Column="3" Grid.Row="1"/>
+            <Frame Name="Seat3" Grid.Column="5" Grid.Row="1"/>
+            <Frame Name="Seat4" Grid.Column="7" Grid.Row="1"/>
+            <Frame Name="Seat5" Grid.Column="9" Grid.Row="1"/>
+            <Frame Name="Seat6" Grid.Column="11" Grid.Row="2"/>
+            <Frame Name="Seat7" Grid.Column="11" Grid.Row="3"/>
+            <Frame Name="Seat8" Grid.Column="8" Grid.Row="4"/>
+            <Frame Name="Seat9" Grid.Column="4" Grid.Row="4"/>
+            <Frame Name="Seat10" Grid.Column="1" Grid.Row="3"/>
 
-        <Frame Name="actionView" NavigationUIVisibility="Hidden" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1"/>
+            <Grid Name="PotView" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="5" Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
 
+                <TextBlock Name="potSizeText" Text="{Binding ElementName=potView, Path=PotSize}" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+                <Button Name="incrementPot" Click="incrementPot_Click">INC</Button>
+
+                <Image Name="Flop1" Source="{Binding ElementName=gameView, Path=GameVM.board}" Grid.Row="1" Grid.Column="0"/>
+                <Image Name="Flop2" Grid.Row="1" Grid.Column="1"/>
+                <Image Name="Flop3" Grid.Row="1" Grid.Column="2"/>
+                <Image Name="Turn" Grid.Row="1" Grid.Column="3"/>
+                <Image Name="River" Grid.Row="1" Grid.Column="4"/>
+            </Grid>
+        </Grid>
+
+        <Grid Name="InfoLayout" Grid.Row="1" Grid.ColumnSpan="1">
+            
+        </Grid>
+
+        <Grid Name="TimerLayout" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+
+            <Button Name="timeBankBtn" Click="timeBankBtn_Click" Grid.Column="0" Grid.ColumnSpan="1">Use Time Bank</Button>
+            <TextBlock Name="timeBankCount" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ProgressBar Name="timerProgress" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="50"></ProgressBar>
+        </Grid>
+
+        <Grid Name="BetLayout" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+
+            <Button Name="halfPotPreset" Click="halfPotPreset_Click" Grid.Column="0" Grid.ColumnSpan="3">50%</Button>
+            <Button Name="threeQuarterPotPreset" Click="threeQuarterPotPreset_Click" Grid.Column="3" Grid.ColumnSpan="3">75%</Button>
+            <Button Name="fullPotPreset" Click="fullPotPreset_Click" Grid.Column="6" Grid.ColumnSpan="3">100%</Button>
+            <Button Name="allInPreset" Click="allInPreset_Click" Grid.Column="9" Grid.ColumnSpan="3">All-In</Button>
+
+            <TextBox Name="betSizeInput" PreviewTextInput="betSizeInput_PreviewTextInput" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center"/>
+
+            <Button Name="foldBtn" Click="foldBtn_Click" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">Fold</Button>
+            <Button Name="callBtn" Click="callBtn_Click" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4">Call</Button>
+            <Button Name="raiseBtn" Click="raiseBtn_Click"  Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4">Raise</Button>
+        </Grid>
     </Grid>
 </Window>

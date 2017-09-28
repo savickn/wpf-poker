@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace PokerCalculator {
-    public class Board {
+    public class Board : INotifyPropertyChanged {
+        ObservableCollection<Card> cards;
+
         private Card flop1;
         private Card flop2;
         private Card flop3;
@@ -18,21 +22,32 @@ namespace PokerCalculator {
             this.flop3 = card3;
             this.turn = card4;
             this.river = card5;
+
+            this.cards = new ObservableCollection<Card>() { card1, card2, card3 };
+        }
+
+        ///// Interface Implementation /////
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName) {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
         //takes a Deck obj and a list of existing cards and returns a completed Board object
         public static Board generateBoard(Deck deck, Board board=null) {
             Board b = board;
             if (b == null) {
-                deck.getTopCard();
+                deck.getTopCard(); // burn card
                 b = new Board(deck.getTopCard(), deck.getTopCard(), deck.getTopCard());
             }
             if (b.getCards().Count == 3) {
-                deck.getTopCard();
+                deck.getTopCard(); // burn card
                 b.setTurn(deck.getTopCard());
             }
             if (b.getCards().Count == 4) {
-                deck.getTopCard();
+                deck.getTopCard(); // burn card
                 b.setRiver(deck.getTopCard());
             }
             return b;
@@ -53,11 +68,13 @@ namespace PokerCalculator {
 
         public void setTurn(Card turn) {
             this.turn = turn;
+            this.cards.Add(turn);
             //assert len(self.getCards()) is 4
         }
 
         public void setRiver(Card river) {
             this.river = river;
+            this.cards.Add(river);
             //assert len(self.getCards()) is 5
         }
 

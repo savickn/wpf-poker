@@ -28,6 +28,8 @@ namespace PokerCalculator {
             Player p1 = new Player("Nick", 2000);
             Player p2 = new Player("Matt", 2000);
 
+            board = new Board(Data.ACE_OF_CLUBS, Data.ACE_OF_HEARTS, Data.EIGHT_OF_HEARTS);
+
             mainAccount = p1;
 
             table = new Table(GameTypes.nl2k.numberOfSeats);

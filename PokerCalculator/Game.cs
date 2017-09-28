@@ -32,8 +32,9 @@ namespace PokerCalculator {
         public Player activePlayer { get; }
         public Player userAccount { get; }
 
-        public Pot pot { get; private set; }
-        public Board board { get; private set; }
+        public Pot pot { get; private set; } = null;
+        public Board board { get; private set; } = null;
+
         //private Deck deck { get; }
 
         /*public Seat btn {
@@ -307,16 +308,15 @@ namespace PokerCalculator {
         }
 
         public void startRound(List<Player> activePlayers) {
-            Board b;
             Deck d = new Deck(new HashSet<Card>());
-            Pot p = new Pot(this.bigBlind);
-            p.registerActivePlayers(activePlayers);
+            this.pot = new Pot(this.bigBlind);
+            this.pot.registerActivePlayers(activePlayers);
 
             if(this.ante > 0) {
-                activePlayers = this.postAnte(activePlayers, p);
+                activePlayers = this.postAnte(activePlayers, this.pot);
             }
-            activePlayers = this.postSB(activePlayers, p);
-            activePlayers = this.postBB(activePlayers, p);
+            activePlayers = this.postSB(activePlayers, this.pot);
+            activePlayers = this.postBB(activePlayers, this.pot);
 
             if (!this.areReady(activePlayers)) {
                 this.status = GameStatus.WAITING;
@@ -324,30 +324,30 @@ namespace PokerCalculator {
             }
 
             this.generateHands(activePlayers);
-            this.preFlopBetting(p);
+            this.preFlopBetting(this.pot);
 
             if (activePlayers.Count < 2) {
-                this.awardPot(p);
+                this.awardPot(this.pot);
             }
 
-            b = this.generateFlop(d);
-            this.postFlopBetting(p);
+            this.board = this.generateFlop(d);
+            this.postFlopBetting(this.pot);
 
             if(activePlayers.Count < 2) {
-                this.awardPot(p);
+                this.awardPot(this.pot);
             }
 
-            b = this.generateTurn(d, b);
-            this.postFlopBetting(p);
+            this.board = this.generateTurn(d, this.board);
+            this.postFlopBetting(this.pot);
 
             if(activePlayers.Count < 2) {
-                this.awardPot(p);
+                this.awardPot(this.pot);
             }
 
-            b = this.generateRiver(d, b);
-            this.postFlopBetting(p);
+            this.board = this.generateRiver(d, this.board);
+            this.postFlopBetting(this.pot);
 
-            this.handleEndgame(b, p);
+            this.handleEndgame(this.board, this.pot);
         }
 
         public void awardPot(Pot pot) {
