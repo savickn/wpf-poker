@@ -64,6 +64,7 @@
     <Compile Include="Actions\PostBB.cs" />
     <Compile Include="Actions\PostSB.cs" />
     <Compile Include="Actions\Raise.cs" />
+    <Compile Include="EventArgs\EventArgs.cs" />
     <Compile Include="Views\ActionView.xaml.cs">
       <DependentUpon>ActionView.xaml</DependentUpon>
     </Compile>

@@ -82,17 +82,25 @@ namespace PokerCalculator {
             this.table = t;
         }
 
-        ///// Event Listeners /////
+        ///// EVENT HANDLERS /////
 
-        public class PlayerActionArgs : EventArgs {
-            public PlayerActionArgs() {
-
+        // 'sender' should be the 'Player' that emitted the event
+        // 'e' should contain type of Action + amount/etc
+        public void handlePlayerAction(object sender, PlayerActionArgs e) {
+            if(activePlayer != sender) {
+                e.Handled = true;
+                return;
+            }
+            if(e.type == Fold) {
+                //handle Fold
+            } else if (e.type == Call) {
+                //handle Call
+            } else if (e.type == Raise) {
+                //handle Raise
+            } else {
+                //handle Check
             }
         }
-
-        public delegate void PlayerActionHandler(object sender, PlayerActionArgs e);
-
-        public event PlayerActionHandler PlayerAction;
 
         ///// Interface Implementation /////
 

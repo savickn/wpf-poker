@@ -3,28 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace PokerCalculator {
     public abstract class PreflopHand {
-        public List<Card> cards { get; }
+        public ObservableCollection<Card> cards;
+        //public List<Card> cards { get; }
         public int length { get; }
 
-        public PreflopHand(List<Card> cards, int length) {
+        public PreflopHand(ObservableCollection<Card> cards, int length) {
             this.cards = cards;
             this.length = length;
         }
 
+        ///// INTERFACE IMPLEMENTATION /////
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName) {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
+
+        ///// UTILITY METHODS /////
+
         public string toString() {
             return String.Format("Preflop Hand: {0}", cards);
         }
-        
     }
 
     public class HoldemHand : PreflopHand {
 
-        public HoldemHand(List<Card> cards) : base(cards, 2) {
-            
-        }
+        public HoldemHand(ObservableCollection<Card> cards) : base(cards, 2) {}
 
         public bool isSuited() {
             var cards = base.cards;
@@ -45,7 +56,7 @@ namespace PokerCalculator {
 
     public class OmahaHand : PreflopHand {
 
-        public OmahaHand(List<Card> cards) : base(cards, 2) {
+        public OmahaHand(ObservableCollection<Card> cards) : base(cards, 2) {
 
         }
 
@@ -53,7 +64,7 @@ namespace PokerCalculator {
 
     class StudHand : PreflopHand {
 
-        public StudHand(List<Card> cards) : base(cards, 3) {
+        public StudHand(ObservableCollection<Card> cards) : base(cards, 3) {
 
         }
     }

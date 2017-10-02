@@ -3,16 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace PokerCalculator {
-    public class Player {
+    public class Player : INotifyPropertyChanged {
         public int id { get; }
         public string name { get; private set; }
         public string hash { get; private set; }
 
-        public double stack { get; private set; }
+        private double stack;
+        public double Stack {
+            get { return this.stack; }
+            set {
+                if (value != this.stack) {
+                    this.stack = value;
+                    NotifyPropertyChanged("stack");
+                }
+            }
+        }
+        private PreflopHand hand;
+        public PreflopHand Hand {
+            get { return this.hand; }
+            set {
+                if (value != this.hand) {
+                    this.hand = value;
+                    NotifyPropertyChanged("hand");
+                }
+            }
+        }
+        private PlayerStatus status;
+        public PlayerStatus Status {
+            get { return this.status; }
+            set {
+                if (value != this.status) {
+                    this.status = value;
+                    NotifyPropertyChanged("status");
+                }
+            }
+        }
+
+        /*public double stack { get; private set; }
         public PreflopHand hand { get; private set; }
-        public PlayerStatus status { get; private set; }
+        public PlayerStatus status { get; private set; }*/
 
         public bool sittingOut { get; set; }
         public bool autoRebuy { get; set; }
@@ -27,6 +60,28 @@ namespace PokerCalculator {
 
             this.sittingOut = false;
             this.autoRebuy = false;
+        }
+
+        ///// EVENT IMPLEMENTATION /////
+
+        // change return type
+        public delegate void PlayerAction(object sender, PlayerActionArgs e);
+
+        public event PlayerAction Raise;
+
+        public event PlayerAction Fold;
+
+        public event PlayerAction Call;
+
+        public event PlayerAction Check;
+
+        ///// INTERFACE IMPLEMENTATION /////
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName) {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
         ///// CLASS LOGIC /////
