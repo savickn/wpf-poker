@@ -64,6 +64,7 @@
     <Compile Include="Actions\PostBB.cs" />
     <Compile Include="Actions\PostSB.cs" />
     <Compile Include="Actions\Raise.cs" />
+    <Compile Include="Command.cs" />
     <Compile Include="EventArgs\EventArgs.cs" />
     <Compile Include="Views\ActionView.xaml.cs">
       <DependentUpon>ActionView.xaml</DependentUpon>
@@ -75,8 +76,8 @@
       <DependentUpon>BetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CalculatorEquity.cs" />
-    <Compile Include="Data.cs" />
-    <Compile Include="DataInstance.cs" />
+    <Compile Include="Data\Data.cs" />
+    <Compile Include="Data\DataInstance.cs" />
     <Compile Include="Draws\BackdoorFlushDraw.cs" />
     <Compile Include="Draws\Draw.cs" />
     <Compile Include="Draws\FlushDraw.cs" />
@@ -222,61 +223,71 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\poker_table2.jpg" />
+    <Resource Include="Assets\player1.png" />
+    <Resource Include="Assets\player2.png" />
+    <Resource Include="Assets\unknown-user.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\10_of_clubs.svg" />
-    <Resource Include="Assets\Images\10_of_diamonds.svg" />
-    <Resource Include="Assets\Images\10_of_hearts.svg" />
-    <Resource Include="Assets\Images\10_of_spades.svg" />
-    <Resource Include="Assets\Images\2_of_clubs.svg" />
-    <Resource Include="Assets\Images\2_of_diamonds.svg" />
-    <Resource Include="Assets\Images\2_of_hearts.svg" />
-    <Resource Include="Assets\Images\2_of_spades.svg" />
-    <Resource Include="Assets\Images\3_of_clubs.svg" />
-    <Resource Include="Assets\Images\3_of_diamonds.svg" />
-    <Resource Include="Assets\Images\3_of_hearts.svg" />
-    <Resource Include="Assets\Images\3_of_spades.svg" />
-    <Resource Include="Assets\Images\4_of_clubs.svg" />
-    <Resource Include="Assets\Images\4_of_diamonds.svg" />
-    <Resource Include="Assets\Images\4_of_hearts.svg" />
-    <Resource Include="Assets\Images\4_of_spades.svg" />
-    <Resource Include="Assets\Images\5_of_clubs.svg" />
-    <Resource Include="Assets\Images\5_of_diamonds.svg" />
-    <Resource Include="Assets\Images\5_of_hearts.svg" />
-    <Resource Include="Assets\Images\5_of_spades.svg" />
-    <Resource Include="Assets\Images\6_of_clubs.svg" />
-    <Resource Include="Assets\Images\6_of_diamonds.svg" />
-    <Resource Include="Assets\Images\6_of_hearts.svg" />
-    <Resource Include="Assets\Images\6_of_spades.svg" />
-    <Resource Include="Assets\Images\7_of_clubs.svg" />
-    <Resource Include="Assets\Images\7_of_diamonds.svg" />
-    <Resource Include="Assets\Images\7_of_hearts.svg" />
-    <Resource Include="Assets\Images\7_of_spades.svg" />
-    <Resource Include="Assets\Images\8_of_clubs.svg" />
-    <Resource Include="Assets\Images\8_of_diamonds.svg" />
-    <Resource Include="Assets\Images\8_of_hearts.svg" />
-    <Resource Include="Assets\Images\8_of_spades.svg" />
-    <Resource Include="Assets\Images\9_of_clubs.svg" />
-    <Resource Include="Assets\Images\9_of_diamonds.svg" />
-    <Resource Include="Assets\Images\9_of_hearts.svg" />
-    <Resource Include="Assets\Images\9_of_spades.svg" />
-    <Resource Include="Assets\Images\ace_of_clubs.svg" />
-    <Resource Include="Assets\Images\ace_of_diamonds.svg" />
-    <Resource Include="Assets\Images\ace_of_hearts.svg" />
-    <Resource Include="Assets\Images\ace_of_spades.svg" />
-    <Resource Include="Assets\Images\jack_of_clubs.svg" />
-    <Resource Include="Assets\Images\jack_of_diamonds.svg" />
-    <Resource Include="Assets\Images\jack_of_hearts.svg" />
-    <Resource Include="Assets\Images\jack_of_spades.svg" />
-    <Resource Include="Assets\Images\king_of_clubs.svg" />
-    <Resource Include="Assets\Images\king_of_diamonds.svg" />
-    <Resource Include="Assets\Images\king_of_hearts.svg" />
-    <Resource Include="Assets\Images\king_of_spades.svg" />
-    <Resource Include="Assets\Images\queen_of_clubs.svg" />
-    <Resource Include="Assets\Images\queen_of_diamonds.svg" />
-    <Resource Include="Assets\Images\queen_of_hearts.svg" />
-    <Resource Include="Assets\Images\queen_of_spades.svg" />
+    <Resource Include="Assets\Cards\2C.jpg" />
+    <Resource Include="Assets\Cards\2D.jpg" />
+    <Resource Include="Assets\Cards\2H.jpg" />
+    <Resource Include="Assets\Cards\2S.jpg" />
+    <Resource Include="Assets\Cards\3C.jpg" />
+    <Resource Include="Assets\Cards\3D.jpg" />
+    <Resource Include="Assets\Cards\3H.jpg" />
+    <Resource Include="Assets\Cards\3S.jpg" />
+    <Resource Include="Assets\Cards\4C.jpg" />
+    <Resource Include="Assets\Cards\4D.jpg" />
+    <Resource Include="Assets\Cards\4H.jpg" />
+    <Resource Include="Assets\Cards\4S.jpg" />
+    <Resource Include="Assets\Cards\5C.jpg" />
+    <Resource Include="Assets\Cards\5D.jpg" />
+    <Resource Include="Assets\Cards\5H.jpg" />
+    <Resource Include="Assets\Cards\5S.jpg" />
+    <Resource Include="Assets\Cards\6C.jpg" />
+    <Resource Include="Assets\Cards\6D.jpg" />
+    <Resource Include="Assets\Cards\6H.jpg" />
+    <Resource Include="Assets\Cards\6S.jpg" />
+    <Resource Include="Assets\Cards\7C.jpg" />
+    <Resource Include="Assets\Cards\7D.jpg" />
+    <Resource Include="Assets\Cards\7H.jpg" />
+    <Resource Include="Assets\Cards\7S.jpg" />
+    <Resource Include="Assets\Cards\8C.jpg" />
+    <Resource Include="Assets\Cards\8D.jpg" />
+    <Resource Include="Assets\Cards\8H.jpg" />
+    <Resource Include="Assets\Cards\8S.jpg" />
+    <Resource Include="Assets\Cards\9C.jpg" />
+    <Resource Include="Assets\Cards\9D.jpg" />
+    <Resource Include="Assets\Cards\9H.jpg" />
+    <Resource Include="Assets\Cards\9S.jpg" />
+    <Resource Include="Assets\Cards\AC.jpg" />
+    <Resource Include="Assets\Cards\AD.jpg" />
+    <Resource Include="Assets\Cards\AH.jpg" />
+    <Resource Include="Assets\Cards\AS.jpg" />
+    <Resource Include="Assets\Cards\JC.jpg" />
+    <Resource Include="Assets\Cards\JD.jpg" />
+    <Resource Include="Assets\Cards\JH.jpg" />
+    <Resource Include="Assets\Cards\JS.jpg" />
+    <Resource Include="Assets\Cards\KC.jpg" />
+    <Resource Include="Assets\Cards\KD.jpg" />
+    <Resource Include="Assets\Cards\KH.jpg" />
+    <Resource Include="Assets\Cards\KS.jpg" />
+    <Resource Include="Assets\Cards\QC.jpg" />
+    <Resource Include="Assets\Cards\QD.jpg" />
+    <Resource Include="Assets\Cards\QH.jpg" />
+    <Resource Include="Assets\Cards\QS.jpg" />
+    <Resource Include="Assets\Cards\TC.jpg" />
+    <Resource Include="Assets\Cards\TD.jpg" />
+    <Resource Include="Assets\Cards\TH.jpg" />
+    <Resource Include="Assets\Cards\TS.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\CardCovers\blue_back.jpg" />
+    <Resource Include="Assets\CardCovers\Gray_back.jpg" />
+    <Resource Include="Assets\CardCovers\Green_back.jpg" />
+    <Resource Include="Assets\CardCovers\purple_back.jpg" />
+    <Resource Include="Assets\CardCovers\Red_back.jpg" />
+    <Resource Include="Assets\CardCovers\Yellow_back.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

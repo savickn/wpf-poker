@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\obj\Debug\
+C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\
 PokerCalculator
 none
 false
 DEBUG;TRACE
-C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalculator\App.xaml
+C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\App.xaml
 10-1124623060
 
-76-764549034
+80-337554167
 14434534373
 Views\ActionView.xaml;Views\BetView.xaml;GameWindow.xaml;Home.xaml;Views\InfoView.xaml;MainWindow.xaml;Views\PotView.xaml;Views\SeatView.xaml;Views\TableView.xaml;Views\TimerView.xaml;
 
