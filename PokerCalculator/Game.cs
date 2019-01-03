@@ -86,7 +86,7 @@ namespace PokerCalculator {
 
         // 'sender' should be the 'Player' that emitted the event
         // 'e' should contain type of Action + amount/etc
-        public void handlePlayerAction(object sender, PlayerActionArgs e) {
+        /*public void handlePlayerAction(object sender, PlayerActionArgs e) {
             if(activePlayer != sender) {
                 e.Handled = true;
                 return;
@@ -100,7 +100,7 @@ namespace PokerCalculator {
             } else {
                 //handle Check
             }
-        }
+        }*/
 
         ///// Interface Implementation /////
 
@@ -295,10 +295,10 @@ namespace PokerCalculator {
             while(this.status == GameStatus.RUNNING) {
                 List<Player> players = table.getPlayers();
                 foreach(Player p in players) {
-                    if(p.stack <= 0 || p.sittingOut) {
+                    if(p.Stack <= 0 || p.sittingOut) {
                         p.setStatus(PlayerStatus.SITTING_OUT);
                     }
-                    if(p.stack > 0 && !p.sittingOut) {
+                    if(p.Stack > 0 && !p.sittingOut) {
                         p.setStatus(PlayerStatus.IN_HAND);
                     }
                 }
@@ -361,20 +361,20 @@ namespace PokerCalculator {
         public void awardPot(Pot pot) {
             List<Player> players = table.getPlayersToAnalyze();
             if (players.Count == 1) {
-                players.First().addToStack(pot.pot);
+                players.First().addToStack(pot.PotSize);
             }
         }
 
         public void handleEndgame(Board b, Pot pot) {
             List<Player> players = table.getPlayersToAnalyze();
-            List<PreflopHand> hands = players.Select(p => p.hand).ToList();
+            List<PreflopHand> hands = players.Select(p => p.Hand).ToList();
 
             WinState ws = PickWinner.determineWinner(b, hands);
-            double potShare = pot.pot * ws.equity;
+            double potShare = pot.PotSize * ws.equity;
 
             foreach(Player p in players) {
                 foreach(BestHand bh in ws.winningHands) {
-                    if(bh.hasBestHand(p.hand, b)) {
+                    if(bh.hasBestHand(p.Hand, b)) {
                         p.addToStack(potShare);
                     }
                 }

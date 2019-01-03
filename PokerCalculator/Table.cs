@@ -33,7 +33,7 @@ namespace PokerCalculator {
 
             foreach (int i in Enumerable.Range(0, seats.Count + 1)) {
                 Player p = temp.player;
-                if (p != null && query.Contains(p.status) && p != s.player) {
+                if (p != null && query.Contains(p.Status) && p != s.player) {
                     return temp;
                 } else {
                     temp = temp.left;

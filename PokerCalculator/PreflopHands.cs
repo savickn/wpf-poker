@@ -8,11 +8,11 @@ using System.Collections.ObjectModel;
 
 namespace PokerCalculator {
     public abstract class PreflopHand {
-        public ObservableCollection<Card> cards;
+        public List<Card> cards;
         //public List<Card> cards { get; }
         public int length { get; }
 
-        public PreflopHand(ObservableCollection<Card> cards, int length) {
+        public PreflopHand(List<Card> cards, int length) {
             this.cards = cards;
             this.length = length;
         }
@@ -35,7 +35,7 @@ namespace PokerCalculator {
 
     public class HoldemHand : PreflopHand {
 
-        public HoldemHand(ObservableCollection<Card> cards) : base(cards, 2) {}
+        public HoldemHand(List<Card> cards) : base(cards, 2) {}
 
         public bool isSuited() {
             var cards = base.cards;
@@ -56,7 +56,7 @@ namespace PokerCalculator {
 
     public class OmahaHand : PreflopHand {
 
-        public OmahaHand(ObservableCollection<Card> cards) : base(cards, 2) {
+        public OmahaHand(List<Card> cards) : base(cards, 2) {
 
         }
 
@@ -64,7 +64,7 @@ namespace PokerCalculator {
 
     class StudHand : PreflopHand {
 
-        public StudHand(ObservableCollection<Card> cards) : base(cards, 3) {
+        public StudHand(List<Card> cards) : base(cards, 3) {
 
         }
     }

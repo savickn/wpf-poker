@@ -219,6 +219,10 @@ namespace PokerCalculator {
 
         static Data() {}
 
+        public static Dictionary<string, Straight> getStraights() {
+            return straights;
+        }
+
         public static HashSet<Card> getCardsBySuit(Suit s) {
             return suits[s];
         }
@@ -231,6 +235,7 @@ namespace PokerCalculator {
             return Data.drawRankings[key];
         }
 
+        // NOT WORKING FOR SOME REASON
         public static string getInitial(CardType key) {
             //return Data.initials[key];
             return "A";
@@ -244,12 +249,25 @@ namespace PokerCalculator {
             return Data.prefixRankings[key];
         }
 
+        // returns a deep copy of the entire Deck as a HashSet
         public static HashSet<Card> getDeck() {
-            return new HashSet<Card>(deck);
+            HashSet<Card> cards = new HashSet<Card>();
+            foreach (Card c in Data.deck) {
+                cards.Add(c.clone());
+            }
+            return cards;
         }
 
-        public static Dictionary<string, Straight> getStraights() {
-            return straights;
+        // returns a deep copy of a specific Card via its 'id' (e.g. "AsKs")
+        public static Card getCardById(string id) {
+            throw new NotImplementedException();
+        }
+
+        // returns a deep copy of a random Card
+        public static Card getRandomCard() {
+            Random random = new Random();
+            int randomNumber = random.Next(0, 52);
+            return Data.deck.ElementAt(randomNumber).clone();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace PokerCalculator {
             set {
                 if (value != this.potSize) {
                     this.potSize = value;
-                    NotifyPropertyChanged("potSize");
+                    NotifyPropertyChanged("PotSize");
                 }
             }
         }
@@ -24,7 +24,7 @@ namespace PokerCalculator {
             set {
                 if (value != this.contributions) {
                     this.contributions = value;
-                    NotifyPropertyChanged("contributions");
+                    NotifyPropertyChanged("Contributions");
                 }
             }
         }
@@ -34,7 +34,7 @@ namespace PokerCalculator {
             set {
                 if (value != this.actions) {
                     this.actions = value;
-                    NotifyPropertyChanged("actions");
+                    NotifyPropertyChanged("Actions");
                 }
             }
         }

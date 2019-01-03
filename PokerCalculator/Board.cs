@@ -88,12 +88,6 @@ namespace PokerCalculator {
             return rep;
         }
 
-        public void draw() {
-            foreach (Card c in this.getCards()) {
-                c.draw();
-            }
-        }
-
         public void checkRep() {
             //assert self.getCards() in range(3, 6);
         }

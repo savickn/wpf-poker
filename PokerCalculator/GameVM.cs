@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-
+using System.Windows.Input;
 
 namespace PokerCalculator {
-    public class GameVM {
-        public Game game { get; }
+    public class GameVM : INotifyPropertyChanged {
 
+        /* Logic */
+
+        public Game game { get; }
 
         public Table table { get; }
         public List<Player> players { get; }
@@ -23,12 +25,41 @@ namespace PokerCalculator {
         public Pot pot { get; }
         public Board board { get; }
 
+        /* UI */
+
+        public double potSize { get; }
+
+
+        /* Commands */
+
+        public ICommand CallCommand { get; set; }
+        public ICommand FoldCommand { get; set; }
+        public ICommand RaiseCommand { get; set; }
+        public ICommand UseTimeBankCommand { get; set; }
+
+        public ICommand BetPreset1 { get; set; }
+        public ICommand BetPreset2 { get; set; }
+        public ICommand BetPreset3 { get; set; }
+        public ICommand BetPreset4 { get; set; }
+
+
+        /* Logic */
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string p) {
+            PropertyChangedEventHandler ph = PropertyChanged;
+            if (ph != null) {
+                ph(this, new PropertyChangedEventArgs(p));
+            }
+        }
+
         public GameVM() {
 
             Player p1 = new Player("Nick", 2000);
             Player p2 = new Player("Matt", 2000);
 
-            board = new Board(Data.ACE_OF_CLUBS, Data.ACE_OF_HEARTS, Data.EIGHT_OF_HEARTS);
+            board = new Board(Data.ACE_OF_CLUBS.clone(), Data.ACE_OF_HEARTS.clone(), Data.EIGHT_OF_HEARTS.clone());
 
             mainAccount = p1;
 

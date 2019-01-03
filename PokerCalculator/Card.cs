@@ -5,31 +5,48 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
+/*
+ * 
+ * 
+ */
+
 namespace PokerCalculator {
     public class Card {
-        //# unique id for each card
-        private int id;
-        private string identifier;
+   
+        /* Ids */ 
 
-        public string imagePath { get; }
+        private int id; // unique id for each card
+        public string identifier { get; private set; }
+        public string initial { get; }
+
+        /* Logic */
+
         public CardType type { get; }
         public Suit suit { get; }
         public int highValue { get; }
         public int lowValue { get; }
 
-        public string initial { get; }
-        public Bitmap image { get; }
+        /* Images */
+
+        public string imagePath { get; private set; } // render 'image' if 'hidden == false'
+        public string coverPath { get; private set; } // render 'cover' if 'hidden == true'
         public bool hidden { get; private set; }
+
+
+
+        /* Class Logic */
 
         public Card(string imagePath, CardType type, Suit suit, int highValue, int lowValue = -1) {
             //this.identifier = '{value}-{suit}'.format(value = value, suit = suit)
-            this.imagePath = imagePath;
+            this.initial = Data.getInitial(type);
+
             this.type = type;
             this.suit = suit;
-            this.initial = Data.getInitial(type);
             this.highValue = highValue;
             this.lowValue = lowValue > -1 ? lowValue : highValue;
 
+            this.imagePath = imagePath;
+            this.coverPath = "Assets/CardCovers/Gray_back.jpg"; // needs to be refactored
             this.hidden = true; // used to determine if card should be drawn face-up or face-down
         }
 
@@ -62,7 +79,7 @@ namespace PokerCalculator {
         }
 
         public bool isEqual(Card other) {
-            return this.identifier == other.getIdentifier() ? true : false;
+            return this.identifier == other.identifier ? true : false;
         }
 
         public static Card operator <(Card argA, Card argB) {
@@ -75,8 +92,10 @@ namespace PokerCalculator {
 
         ////// SETTERS & GETTERS //////
 
-        public string getIdentifier() {
-            return identifier;
+        public string getImage() {
+            string pCover = String.Format("Assets/CardCovers/{0}", this.coverPath);
+            string pImage = String.Format("Assets/Cards/{0}", this.imagePath);
+            return this.hidden ? pCover : pImage;
         }
 
         public void setState(bool state) {
@@ -86,17 +105,13 @@ namespace PokerCalculator {
 
         //////// UTILITY METHODS ///////
 
-        public void draw() {
-            //this.sprite.draw()
+        public Card clone() {
+            return (Card)this.MemberwiseClone();
         }
 
         public string toString() {
             return String.Format("{0} of {1}", type, suit);
         }
-
-        //public void setSprite(string path) {
-        //    this.sprite = Avatar.Avatar('/path/to/picture');
-        //}
 
         private void checkRep() {
             //assert highValue in range(2, 15)

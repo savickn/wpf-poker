@@ -8,10 +8,7 @@
         xmlns:local="clr-namespace:PokerCalculator"
         mc:Ignorable="d"
         Title="GameWindow">
-    <Window.DataContext>
-        <local:GameVM/>
-    </Window.DataContext>
-    
+
     <Grid Name="WindowLayout">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -73,7 +70,6 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Name="potSizeText" Text="{Binding ElementName=potView, Path=PotSize}" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
-                <Button Name="incrementPot" Click="incrementPot_Click">INC</Button>
 
                 <Image Name="Flop1" Source="{Binding ElementName=gameView, Path=GameVM.board}" Grid.Row="1" Grid.Column="0"/>
                 <Image Name="Flop2" Grid.Row="1" Grid.Column="1"/>
@@ -97,7 +93,7 @@
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
 
-            <Button Name="timeBankBtn" Click="timeBankBtn_Click" Grid.Column="0" Grid.ColumnSpan="1">Use Time Bank</Button>
+            <Button Name="timeBankBtn" Grid.Column="0" Grid.ColumnSpan="1">Use Time Bank</Button>
             <TextBlock Name="timeBankCount" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <ProgressBar Name="timerProgress" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="50"></ProgressBar>
         </Grid>
@@ -123,17 +119,17 @@
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
 
-            <Button Name="halfPotPreset" Click="halfPotPreset_Click" Grid.Column="0" Grid.ColumnSpan="3">50%</Button>
-            <Button Name="threeQuarterPotPreset" Click="threeQuarterPotPreset_Click" Grid.Column="3" Grid.ColumnSpan="3">75%</Button>
-            <Button Name="fullPotPreset" Click="fullPotPreset_Click" Grid.Column="6" Grid.ColumnSpan="3">100%</Button>
-            <Button Name="allInPreset" Click="allInPreset_Click" Grid.Column="9" Grid.ColumnSpan="3">All-In</Button>
+            <Button Name="halfPotPreset" Grid.Column="0" Grid.ColumnSpan="3">50%</Button>
+            <Button Name="threeQuarterPotPreset" Grid.Column="3" Grid.ColumnSpan="3">75%</Button>
+            <Button Name="fullPotPreset" Grid.Column="6" Grid.ColumnSpan="3">100%</Button>
+            <Button Name="allInPreset" Grid.Column="9" Grid.ColumnSpan="3">All-In</Button>
 
             <TextBox Name="betSizeInput" PreviewTextInput="betSizeInput_PreviewTextInput" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center"/>
 
-            <Button Name="foldBtn" Click="foldBtn_Click" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">Fold</Button>
-            <Button Name="callBtn" Click="callBtn_Click" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4">Call</Button>
-            <Button Name="raiseBtn" Click="raiseBtn_Click"  Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4">Raise</Button>
+            <Button Name="foldBtn" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">Fold</Button>
+            <Button Name="callBtn" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4">Call</Button>
+            <Button Name="raiseBtn" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4">Raise</Button>
         </Grid>
     </Grid>
 </Window>
