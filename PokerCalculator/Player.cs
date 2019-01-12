@@ -5,47 +5,43 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace PokerCalculator {
     public class Player : INotifyPropertyChanged {
-        public int id { get; }
-        public string name { get; private set; }
-        public string hash { get; private set; }
+
+        private Account account;
 
         private double stack;
         public double Stack {
             get { return this.stack; }
-            set {
-                if (value != this.stack) {
-                    this.stack = value;
-                    NotifyPropertyChanged("stack");
-                }
-            }
+            set { stack = value; OnPropertyChanged("Stack"); }
         }
+
         private PreflopHand hand;
         public PreflopHand Hand {
             get { return this.hand; }
-            set {
-                if (value != this.hand) {
-                    this.hand = value;
-                    NotifyPropertyChanged("hand");
-                }
-            }
+            set { hand = value; OnPropertyChanged("Hand"); }
         }
+
         private PlayerStatus status;
         public PlayerStatus Status {
             get { return this.status; }
-            set {
-                if (value != this.status) {
-                    this.status = value;
-                    NotifyPropertyChanged("status");
-                }
-            }
+            set { status = value; OnPropertyChanged("Status"); }
         }
 
-        /*public double stack { get; private set; }
-        public PreflopHand hand { get; private set; }
-        public PlayerStatus status { get; private set; }*/
+        private string image;
+        public string Image {
+            get { return getImage(); }
+            set { image = value; OnPropertyChanged("Image"); }
+        }
+
+        private bool isAwaitingAction;
+        public bool IsAwaitingAction {
+            get { return isAwaitingAction; }
+            set { isAwaitingAction = value; OnPropertyChanged("IsAwaitingAction"); }
+        }
+
 
         public bool sittingOut { get; set; }
         public bool autoRebuy { get; set; }
@@ -53,38 +49,65 @@ namespace PokerCalculator {
 
         //private RangeManager rm;
 
-        public Player(string name, double buyin) {
-            this.name = name;
+        /* ICommand implementations */
+
+        public ICommand FoldAction { get; set; }
+        public ICommand CallAction { get; set; }
+        public ICommand RaiseAction { get; set; }
+        public ICommand CheckAction { get; set; }
+
+        /* INotify implementation */
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string p) {
+            PropertyChangedEventHandler ph = PropertyChanged;
+            if (ph != null) {
+                ph(this, new PropertyChangedEventArgs(p));
+            }
+        }
+
+        /* PlayerAction implementation -> responds to PendingPlayerAction Event */
+
+        public event EventHandler<ReceivedActionEventArgs> PlayerAction;
+
+        private void OnPlayerAction(ReceivedActionEventArgs pe) {
+            EventHandler<ReceivedActionEventArgs> handler = PlayerAction;
+            if (handler != null) {
+                handler(this, pe);
+            }
+        }
+
+        /* AwaitingPlayerAction handler */
+
+        public void AwaitPlayerAction(object sender, AwaitingActionEventArgs e) {
+            IsAwaitingAction = true;
+            // also need to send gameState/potState/timer/etc
+        }
+
+        public void CancelPlayerAction(object sender, CancelActionEventArgs e) {
+            IsAwaitingAction = false;
+        }
+
+        /* Class Logic */
+
+        public Player(Account acc, double buyin) {
+            this.account = acc;
             this.stack = buyin;
             this.status = buyin > 0 ? PlayerStatus.ACTIVE : PlayerStatus.SITTING_OUT;
 
             this.sittingOut = false;
             this.autoRebuy = false;
+
+            this.RaiseAction = new Command(this.Raise, this.canRaise);
+            this.CallAction = new Command(this.Call, this.canCall);
+            this.FoldAction = new Command(this.Fold, this.canFold);
+            this.CheckAction = new Command(this.Check, this.canCheck);
         }
 
-        ///// EVENT IMPLEMENTATION /////
-
-        // change return type
-        public delegate void PlayerAction(object sender, PlayerActionArgs e);
-
-        public event PlayerAction Raise;
-
-        public event PlayerAction Fold;
-
-        public event PlayerAction Call;
-
-        public event PlayerAction Check;
-
-        ///// INTERFACE IMPLEMENTATION /////
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string propName) {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        public string getImage() {
+            return image != null ? image : "Assets/unknown-user.png";
         }
-
-        ///// CLASS LOGIC /////
 
         public bool isActive() {
             return status == PlayerStatus.ACTIVE ? true : false;
@@ -190,6 +213,42 @@ namespace PokerCalculator {
 
         public void rebuy(double amount) {
             throw new NotImplementedException();
+        }
+
+        /* Command implementations */
+
+        private bool canRaise(object e) {
+            return true;
+        }
+
+        private void Raise(object e) {
+
+            //OnPlayerAction(new ReceivedActionEventArgs());
+        }
+
+        private bool canFold(object e) {
+            return true;
+        }
+
+        private void Fold(object e) {
+
+        }
+
+        private bool canCall(object e) {
+            return true;
+        }
+
+        private void Call(object e) {
+
+        }
+
+        private bool canCheck(object e) {
+            return true;
+        }
+
+        private void Check(object e) {
+            Action a = new Check(this, Street.FLOP);
+            OnPlayerAction(new ReceivedActionEventArgs(a));
         }
 
         ///// UTILITY METHODS /////

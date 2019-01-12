@@ -8,13 +8,53 @@ using System.Collections.ObjectModel;
 
 namespace PokerCalculator {
     public class Board : INotifyPropertyChanged {
-        ObservableCollection<Card> cards;
+
+        public ObservableCollection<Card> Cards {
+            get { return new ObservableCollection<Card>(this.getCards()); }
+        }
 
         private Card flop1;
         private Card flop2;
         private Card flop3;
         private Card turn;
         private Card river;
+
+        public Card F1 {
+            get { return flop1; }
+            set { flop1 = value; OnPropertyChanged("F1"); }
+        }
+
+        public Card F2 {
+            get { return flop2; }
+            set { flop2 = value; OnPropertyChanged("F2"); }
+        }
+
+        public Card F3 {
+            get { return flop3; }
+            set { flop3 = value; OnPropertyChanged("F3"); }
+        }
+
+        public Card Turn {
+            get { return turn != null ? turn : null; }
+            set { turn = value; OnPropertyChanged("Turn"); }
+        }
+
+        public Card River {
+            get { return river != null ? river : null; }
+            set { river = value; OnPropertyChanged("River"); }
+        }
+
+        ///// INotify Implementation /////
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string p) {
+            PropertyChangedEventHandler ph = PropertyChanged;
+            if (ph != null) {
+                ph(this, new PropertyChangedEventArgs(p));
+            }
+        }
+
 
         public Board(Card card1, Card card2, Card card3, Card card4 = null, Card card5 = null) {
             this.flop1 = card1;
@@ -23,16 +63,11 @@ namespace PokerCalculator {
             this.turn = card4;
             this.river = card5;
 
-            this.cards = new ObservableCollection<Card>() { card1, card2, card3 };
-        }
+            F1.Hidden = false;
+            F2.Hidden = false;
+            F3.Hidden = false;
 
-        ///// Interface Implementation /////
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string propName) {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            //this.cards = new ObservableCollection<Card>() { card1, card2, card3 };
         }
 
         //takes a Deck obj and a list of existing cards and returns a completed Board object
@@ -67,14 +102,16 @@ namespace PokerCalculator {
         }
 
         public void setTurn(Card turn) {
-            this.turn = turn;
-            this.cards.Add(turn);
+            Turn = turn;
+            Turn.Hidden = false;
+            //this.cards.Add(turn);
             //assert len(self.getCards()) is 4
         }
 
         public void setRiver(Card river) {
-            this.river = river;
-            this.cards.Add(river);
+            River = river;
+            River.Hidden = false;
+            //this.cards.Add(river);
             //assert len(self.getCards()) is 5
         }
 

@@ -1,0 +1,140 @@
+﻿<Window x:Class="PokerCalculator.PokerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PokerCalculator"
+        mc:Ignorable="d"
+        Title="PokerWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="ShowHideUserInputs" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style x:Key="ActiveUserOutline" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <UniformGrid Name="OptionsBar" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="9"  Columns="9">
+            <Button>Add Player</Button>
+            <Button Command="{Binding Path=StartRound}">Start Round</Button>
+        </UniformGrid>
+
+        <ItemsControl Name="CommunityCards" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="5" ItemsSource="{Binding Path=Board.Cards, Mode=OneWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="5" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Image Width="100" Source="{Binding Path=Image, Mode=OneWay}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Name="PotText" Grid.Row="2" Grid.Column="4" Text="{Binding Path=Pot.PotSize, Mode=OneWay}" />
+
+        <ItemsControl Name="PlayersControl" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="9" ItemsSource="{Binding Path=players, Mode=OneWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="9" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <UniformGrid Columns="2">
+                            <Image Source="{Binding Path=Hand.Card1.Image, Mode=OneWay}" />
+                            <Image Source="{Binding Path=Hand.Card2.Image, Mode=OneWay}" />
+                        </UniformGrid>
+                        <Image Source="{Binding Image}" />
+                        <Label Content="{Binding name}" />
+                        <Label Content="{Binding stack}" />
+                    </StackPanel>
+                    <DataTemplate.Triggers>
+
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Grid Name="InfoLayout" Grid.Row="4" Grid.ColumnSpan="4">
+
+        </Grid>
+
+        <Grid Name="TimerLayout" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+
+            <Button Name="timeBankBtn" Grid.Column="0" Grid.ColumnSpan="1">Use Time Bank</Button>
+            <TextBlock Name="timeBankCount" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ProgressBar Name="timerProgress" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="50"></ProgressBar>
+        </Grid>
+
+        <Grid Name="BetLayout" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+
+            <Button Name="halfPotPreset" Grid.Column="0" Grid.ColumnSpan="3">50%</Button>
+            <Button Name="threeQuarterPotPreset" Grid.Column="3" Grid.ColumnSpan="3">75%</Button>
+            <Button Name="fullPotPreset" Grid.Column="6" Grid.ColumnSpan="3">100%</Button>
+            <Button Name="allInPreset" Grid.Column="9" Grid.ColumnSpan="3">All-In</Button>
+
+            <TextBox Name="betSizeInput" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center"/>
+
+            <Button Name="foldBtn" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">Fold</Button>
+            <Button Name="checkBtn" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.CheckAction}">Check</Button>
+            <Button Name="callBtn" Visibility="Hidden" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.CallAction}">Call</Button>
+            <Button Name="raiseBtn" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4">Raise</Button>
+        </Grid>
+    </Grid>
+</Window>

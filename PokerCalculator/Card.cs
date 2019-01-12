@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.ComponentModel;
 
 /*
  * 
@@ -11,7 +12,7 @@ using System.Drawing;
  */
 
 namespace PokerCalculator {
-    public class Card {
+    public class Card : INotifyPropertyChanged {
    
         /* Ids */ 
 
@@ -28,11 +29,30 @@ namespace PokerCalculator {
 
         /* Images */
 
-        public string imagePath { get; private set; } // render 'image' if 'hidden == false'
-        public string coverPath { get; private set; } // render 'cover' if 'hidden == true'
-        public bool hidden { get; private set; }
+        private string image;
+        private string cover;
+        private bool hidden;
 
+        public string Image {
+            get { return getImage(); }
+            set { image = value; /*OnPropertyChanged("Image");*/ }
+        }
 
+        public bool Hidden {
+            get { return hidden; }
+            set { hidden = value; OnPropertyChanged("Hidden"); }
+        }
+
+        /* INotify Implementation */
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string p) {
+            PropertyChangedEventHandler ph = PropertyChanged;
+            if (ph != null) {
+                ph(this, new PropertyChangedEventArgs(p));
+            }
+        }
 
         /* Class Logic */
 
@@ -45,11 +65,13 @@ namespace PokerCalculator {
             this.highValue = highValue;
             this.lowValue = lowValue > -1 ? lowValue : highValue;
 
-            this.imagePath = imagePath;
-            this.coverPath = "Assets/CardCovers/Gray_back.jpg"; // needs to be refactored
+            Image = imagePath;
+            this.cover = "Gray_back.jpg"; // needs to be refactored
             this.hidden = true; // used to determine if card should be drawn face-up or face-down
         }
 
+
+        /* purpose ??? */
         public int compare(Card other) {
             if(this.highValue > other.highValue) {
                 return 1;
@@ -60,6 +82,7 @@ namespace PokerCalculator {
             }
         }
 
+        /* purpose ??? */
         public override bool Equals(System.Object obj) {
             // If parameter is null return false.
             if (obj == null) {
@@ -93,8 +116,8 @@ namespace PokerCalculator {
         ////// SETTERS & GETTERS //////
 
         public string getImage() {
-            string pCover = String.Format("Assets/CardCovers/{0}", this.coverPath);
-            string pImage = String.Format("Assets/Cards/{0}", this.imagePath);
+            string pCover = String.Format("Assets/CardCovers/{0}", this.cover);
+            string pImage = String.Format("Assets/Cards/{0}", this.image);
             return this.hidden ? pCover : pImage;
         }
 

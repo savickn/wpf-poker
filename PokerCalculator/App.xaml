@@ -2,8 +2,62 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PokerCalculator"
-             StartupUri="MainWindow.xaml">
+             StartupUri="MenuWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <BitmapImage x:Key="AC" UriSource="Assets/Cards/AC.jpg" />
+            <BitmapImage x:Key="AD" UriSource="Assets/Cards/AD.jpg" />
+            <BitmapImage x:Key="AH" UriSource="Assets/Cards/AH.jpg" />
+            <BitmapImage x:Key="AS" UriSource="Assets/Cards/AS.jpg" />
+            <BitmapImage x:Key="2C" UriSource="Assets/Cards/2C.jpg" />
+            <BitmapImage x:Key="2D" UriSource="Assets/Cards/2D.jpg" />
+            <BitmapImage x:Key="2H" UriSource="Assets/Cards/2H.jpg" />
+            <BitmapImage x:Key="2S" UriSource="Assets/Cards/2S.jpg" />
+            <BitmapImage x:Key="3C" UriSource="Assets/Cards/3C.jpg" />
+            <BitmapImage x:Key="3D" UriSource="Assets/Cards/3D.jpg" />
+            <BitmapImage x:Key="3H" UriSource="Assets/Cards/3H.jpg" />
+            <BitmapImage x:Key="3S" UriSource="Assets/Cards/3S.jpg" />
+            <BitmapImage x:Key="4C" UriSource="Assets/Cards/4C.jpg" />
+            <BitmapImage x:Key="4D" UriSource="Assets/Cards/4D.jpg" />
+            <BitmapImage x:Key="4H" UriSource="Assets/Cards/4H.jpg" />
+            <BitmapImage x:Key="4S" UriSource="Assets/Cards/4S.jpg" />
+            <BitmapImage x:Key="5C" UriSource="Assets/Cards/5C.jpg" />
+            <BitmapImage x:Key="5D" UriSource="Assets/Cards/5D.jpg" />
+            <BitmapImage x:Key="5H" UriSource="Assets/Cards/5H.jpg" />
+            <BitmapImage x:Key="5S" UriSource="Assets/Cards/5S.jpg" />
+            <BitmapImage x:Key="6C" UriSource="Assets/Cards/6C.jpg" />
+            <BitmapImage x:Key="6D" UriSource="Assets/Cards/6D.jpg" />
+            <BitmapImage x:Key="6H" UriSource="Assets/Cards/6H.jpg" />
+            <BitmapImage x:Key="6S" UriSource="Assets/Cards/6S.jpg" />
+            <BitmapImage x:Key="7C" UriSource="Assets/Cards/7C.jpg" />
+            <BitmapImage x:Key="7D" UriSource="Assets/Cards/7D.jpg" />
+            <BitmapImage x:Key="7H" UriSource="Assets/Cards/7H.jpg" />
+            <BitmapImage x:Key="7S" UriSource="Assets/Cards/7S.jpg" />
+            <BitmapImage x:Key="8C" UriSource="Assets/Cards/8C.jpg" />
+            <BitmapImage x:Key="8D" UriSource="Assets/Cards/8D.jpg" />
+            <BitmapImage x:Key="8H" UriSource="Assets/Cards/8H.jpg" />
+            <BitmapImage x:Key="8S" UriSource="Assets/Cards/8S.jpg" />
+            <BitmapImage x:Key="9C" UriSource="Assets/Cards/9C.jpg" />
+            <BitmapImage x:Key="9D" UriSource="Assets/Cards/9D.jpg" />
+            <BitmapImage x:Key="9H" UriSource="Assets/Cards/9H.jpg" />
+            <BitmapImage x:Key="9S" UriSource="Assets/Cards/9S.jpg" />
+            <BitmapImage x:Key="TC" UriSource="Assets/Cards/TC.jpg" />
+            <BitmapImage x:Key="TD" UriSource="Assets/Cards/TD.jpg" />
+            <BitmapImage x:Key="TH" UriSource="Assets/Cards/TH.jpg" />
+            <BitmapImage x:Key="TS" UriSource="Assets/Cards/TS.jpg" />
+            <BitmapImage x:Key="JC" UriSource="Assets/Cards/JC.jpg" />
+            <BitmapImage x:Key="JD" UriSource="Assets/Cards/JD.jpg" />
+            <BitmapImage x:Key="JH" UriSource="Assets/Cards/JH.jpg" />
+            <BitmapImage x:Key="JS" UriSource="Assets/Cards/JS.jpg" />
+            <BitmapImage x:Key="QC" UriSource="Assets/Cards/QC.jpg" />
+            <BitmapImage x:Key="QD" UriSource="Assets/Cards/QD.jpg" />
+            <BitmapImage x:Key="QH" UriSource="Assets/Cards/QH.jpg" />
+            <BitmapImage x:Key="QS" UriSource="Assets/Cards/QS.jpg" />
+            <BitmapImage x:Key="KC" UriSource="Assets/Cards/KC.jpg" />
+            <BitmapImage x:Key="KD" UriSource="Assets/Cards/KD.jpg" />
+            <BitmapImage x:Key="KH" UriSource="Assets/Cards/KH.jpg" />
+            <BitmapImage x:Key="KS" UriSource="Assets/Cards/KS.jpg" />
+            <BitmapImage x:Key="cover" UriSource="Assets/CardCovers/Gray_back.jpg" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

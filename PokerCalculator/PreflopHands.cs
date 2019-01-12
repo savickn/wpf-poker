@@ -7,23 +7,18 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 
 namespace PokerCalculator {
+
+    /*
+     * Only requires ObservableCollection
+     */
+
     public abstract class PreflopHand {
-        public List<Card> cards;
-        //public List<Card> cards { get; }
-        public int length { get; }
+        public ObservableCollection<Card> cards;
+        public int length { get; private set; }
 
         public PreflopHand(List<Card> cards, int length) {
-            this.cards = cards;
+            this.cards = new ObservableCollection<Card>(cards);
             this.length = length;
-        }
-
-        ///// INTERFACE IMPLEMENTATION /////
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void NotifyPropertyChanged(string propName) {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
         ///// UTILITY METHODS /////

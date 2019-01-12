@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\App.xaml
-10-1124623060
+11795835232
 
-801319115373
-14434534373
-Views\ActionView.xaml;Views\BetView.xaml;GameWindow.xaml;Home.xaml;Views\InfoView.xaml;MainWindow.xaml;Views\PotView.xaml;Views\SeatView.xaml;Views\TableView.xaml;Views\TimerView.xaml;
+88-366343314
+2050323043
+AccountWindow.xaml;PokerWindow.xaml;Views\ActionView.xaml;Views\BetView.xaml;GameWindow.xaml;Views\InfoView.xaml;MenuWindow.xaml;Views\PotView.xaml;Views\SeatView.xaml;Views\TableView.xaml;Views\TimerView.xaml;
 
 False
 
