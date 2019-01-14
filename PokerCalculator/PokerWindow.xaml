@@ -5,18 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PokerCalculator"
         mc:Ignorable="d"
-        Title="PokerWindow" Height="450" Width="800">
+        Title="PokerWindow" Height="750" Width="1400">
     <Window.Resources>
         <Style x:Key="ShowHideUserInputs" TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
-        <Style x:Key="ActiveUserOutline" TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="FontFamily" Value="Comic Sans MS"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
+        <local:PlayerStyleSelector x:Key="playerStyleSelector"/>
     </Window.Resources>
 
     <Grid>
@@ -42,6 +38,15 @@
         <UniformGrid Name="OptionsBar" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="9"  Columns="9">
             <Button>Add Player</Button>
             <Button Command="{Binding Path=StartRound}">Start Round</Button>
+            <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal">
+                <Label>Player's Turn: </Label>
+                <TextBlock Text="{Binding Path=ActivePlayer.Name, Mode=OneWay}" Padding="4"></TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal">
+                <Label>Bet Amount:</Label>
+                <TextBlock Text="{Binding Path=ActivePlayer.BetAmount, Mode=OneWay}" Padding="4"></TextBlock>
+            </StackPanel>
+
         </UniformGrid>
 
         <ItemsControl Name="CommunityCards" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="5" ItemsSource="{Binding Path=Board.Cards, Mode=OneWay}">
@@ -73,8 +78,8 @@
                             <Image Source="{Binding Path=Hand.Card2.Image, Mode=OneWay}" />
                         </UniformGrid>
                         <Image Source="{Binding Image}" />
-                        <Label Content="{Binding name}" />
-                        <Label Content="{Binding stack}" />
+                        <Label Content="{Binding Name}" />
+                        <Label Content="{Binding Stack}" />
                     </StackPanel>
                     <DataTemplate.Triggers>
 
@@ -99,10 +104,14 @@
 
             <Button Name="timeBankBtn" Grid.Column="0" Grid.ColumnSpan="1">Use Time Bank</Button>
             <TextBlock Name="timeBankCount" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <ProgressBar Name="timerProgress" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="50"></ProgressBar>
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=TurnTimer, Mode=OneWay}" />
+                <ProgressBar Name="timerProgress" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="50" Value="{Binding TurnTimer, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            
         </Grid>
 
-        <Grid Name="BetLayout" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="3">
+        <Grid Name="BetLayout" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="3" Visibility="{Binding Path=ShowHideActionInterface}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -123,18 +132,18 @@
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
 
-            <Button Name="halfPotPreset" Grid.Column="0" Grid.ColumnSpan="3">50%</Button>
-            <Button Name="threeQuarterPotPreset" Grid.Column="3" Grid.ColumnSpan="3">75%</Button>
-            <Button Name="fullPotPreset" Grid.Column="6" Grid.ColumnSpan="3">100%</Button>
+            <Button Name="halfPotPreset" Grid.Column="0" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="0.5">50%</Button>
+            <Button Name="threeQuarterPotPreset" Grid.Column="3" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="0.75">75%</Button>
+            <Button Name="fullPotPreset" Grid.Column="6" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="1.0">100%</Button>
             <Button Name="allInPreset" Grid.Column="9" Grid.ColumnSpan="3">All-In</Button>
 
-            <TextBox Name="betSizeInput" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center"/>
+            <TextBox Name="betSizeInput" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Center" Text="{Binding Path=ActivePlayer.BetAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center" Value="{Binding Path=ActivePlayer.BetAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0"/>
 
-            <Button Name="foldBtn" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">Fold</Button>
+            <Button Name="foldBtn" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.FoldAction}">Fold</Button>
             <Button Name="checkBtn" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.CheckAction}">Check</Button>
             <Button Name="callBtn" Visibility="Hidden" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.CallAction}">Call</Button>
-            <Button Name="raiseBtn" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4">Raise</Button>
+            <Button Name="raiseBtn" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.RaiseAction}">Raise</Button>
         </Grid>
     </Grid>
 </Window>

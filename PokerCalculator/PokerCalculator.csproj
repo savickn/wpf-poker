@@ -166,6 +166,8 @@
     <Compile Include="Views\TimerView.xaml.cs">
       <DependentUpon>TimerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WPF\CustomItemsControl.cs" />
+    <Compile Include="WPF\PlayerStyleSelector.cs" />
     <Page Include="AccountWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -25,7 +25,7 @@ namespace PokerCalculator {
 
             this.player = p;
             if(player != null) {
-                playerName.Text = player.name;
+                playerName.Text = player.account.name;
                 playerStack.Text = player.Stack.ToString();
             } else {
                 playerName.Text = "Empty";

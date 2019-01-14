@@ -10,24 +10,13 @@ using System.Windows.Input;
 namespace PokerCalculator {
     public class Player : INotifyPropertyChanged {
 
-        private Account account;
+        /* Account Properties */
 
-        private double stack;
-        public double Stack {
-            get { return this.stack; }
-            set { stack = value; OnPropertyChanged("Stack"); }
-        }
+        public Account account { get; private set; }
 
-        private PreflopHand hand;
-        public PreflopHand Hand {
-            get { return this.hand; }
-            set { hand = value; OnPropertyChanged("Hand"); }
-        }
-
-        private PlayerStatus status;
-        public PlayerStatus Status {
-            get { return this.status; }
-            set { status = value; OnPropertyChanged("Status"); }
+        public string Name {
+            get { return this.account.name; }
+            private set { return; }
         }
 
         private string image;
@@ -36,6 +25,34 @@ namespace PokerCalculator {
             set { image = value; OnPropertyChanged("Image"); }
         }
 
+        /* In-Game Properties */
+
+        private double stack;
+        public double Stack {
+            get { return this.stack; }
+            set { stack = value; OnPropertyChanged("Stack"); }
+        }
+
+        private double betAmount;
+        public double BetAmount {
+            get { return this.betAmount; }
+            set { betAmount = value; OnPropertyChanged("BetAmount"); }
+        }
+
+        private PreflopHand hand;
+        public PreflopHand Hand {
+            get { return this.hand; }
+            set { hand = value; OnPropertyChanged("Hand"); }
+        }
+
+        // can be ACTIVE/SITTING_OUT/etc
+        private PlayerStatus status;
+        public PlayerStatus Status {
+            get { return this.status; }
+            set { status = value; OnPropertyChanged("Status"); }
+        }
+
+        // represents this player's turn to act
         private bool isAwaitingAction;
         public bool IsAwaitingAction {
             get { return isAwaitingAction; }
@@ -55,6 +72,8 @@ namespace PokerCalculator {
         public ICommand CallAction { get; set; }
         public ICommand RaiseAction { get; set; }
         public ICommand CheckAction { get; set; }
+        public ICommand ChangeBetAmount { get; set; }
+
 
         /* INotify implementation */
 
@@ -95,7 +114,8 @@ namespace PokerCalculator {
             this.account = acc;
             this.stack = buyin;
             this.status = buyin > 0 ? PlayerStatus.ACTIVE : PlayerStatus.SITTING_OUT;
-
+            this.BetAmount = 0;
+            
             this.sittingOut = false;
             this.autoRebuy = false;
 
@@ -103,6 +123,7 @@ namespace PokerCalculator {
             this.CallAction = new Command(this.Call, this.canCall);
             this.FoldAction = new Command(this.Fold, this.canFold);
             this.CheckAction = new Command(this.Check, this.canCheck);
+            this.ChangeBetAmount = new Command(this.changeBetAmount, this.canChangeBetAmount);
         }
 
         public string getImage() {
@@ -211,11 +232,26 @@ namespace PokerCalculator {
             this.hand = hand;
         }
 
+        public void showHand() {
+            foreach(Card c in this.hand.cards) {
+                c.Hidden = false;
+            }
+        }
+
         public void rebuy(double amount) {
             throw new NotImplementedException();
         }
 
         /* Command implementations */
+
+        private bool canChangeBetAmount(object e) {
+            return true;
+        }
+
+        private void changeBetAmount(object e) {
+
+        }
+
 
         private bool canRaise(object e) {
             return true;
@@ -254,7 +290,7 @@ namespace PokerCalculator {
         ///// UTILITY METHODS /////
 
         public string toString() {
-            return String.Format("Name: {0}, Stack: {1}", this.name, this.stack);
+            return String.Format("Name: {0}, Stack: {1}", this.account.name, this.stack);
         }
 
         public void draw() {

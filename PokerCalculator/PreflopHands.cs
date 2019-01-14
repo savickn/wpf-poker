@@ -30,6 +30,14 @@ namespace PokerCalculator {
 
     public class HoldemHand : PreflopHand {
 
+        public Card Card1 {
+            get { return this.cards[0]; }
+        }
+
+        public Card Card2 {
+            get { return this.cards[1]; }
+        }
+
         public HoldemHand(List<Card> cards) : base(cards, 2) {}
 
         public bool isSuited() {

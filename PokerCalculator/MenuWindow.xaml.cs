@@ -27,6 +27,11 @@ namespace PokerCalculator
 
 
         private void Start_Poker(object sender, RoutedEventArgs e) {
+            PokerWindow pw = new PokerWindow();
+            pw.Show();
+        }
+
+        private void Start_Game(object sender, RoutedEventArgs e) {
             GameWindow pw = new GameWindow();
             pw.Show();
         }

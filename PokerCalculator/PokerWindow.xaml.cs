@@ -22,5 +22,6 @@ namespace PokerCalculator {
 
             this.DataContext = new PokerVM();
         }
+
     }
 }

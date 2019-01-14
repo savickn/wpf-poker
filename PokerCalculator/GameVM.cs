@@ -55,9 +55,11 @@ namespace PokerCalculator {
         }
 
         public GameVM() {
+            Account a1 = new Account("Nick", 2000);
+            Account a2 = new Account("Matt", 2000);
 
-            Player p1 = new Player("Nick", 2000);
-            Player p2 = new Player("Matt", 2000);
+            Player p1 = new Player(a1, 2000);
+            Player p2 = new Player(a2, 2000);
 
             board = new Board(Data.ACE_OF_CLUBS.clone(), Data.ACE_OF_HEARTS.clone(), Data.EIGHT_OF_HEARTS.clone());
 

@@ -12,9 +12,9 @@ DEBUG;TRACE
 C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\App.xaml
 11795835232
 
-88-366343314
+90-713855353
 2050323043
 AccountWindow.xaml;PokerWindow.xaml;Views\ActionView.xaml;Views\BetView.xaml;GameWindow.xaml;Views\InfoView.xaml;MenuWindow.xaml;Views\PotView.xaml;Views\SeatView.xaml;Views\TableView.xaml;Views\TimerView.xaml;
 
-False
+True
 
