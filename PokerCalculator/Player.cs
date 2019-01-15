@@ -59,6 +59,7 @@ namespace PokerCalculator {
             set { isAwaitingAction = value; OnPropertyChanged("IsAwaitingAction"); }
         }
 
+        private AwaitingActionEventArgs awaitingActionArgs;
 
         public bool sittingOut { get; set; }
         public bool autoRebuy { get; set; }
@@ -100,12 +101,14 @@ namespace PokerCalculator {
         /* AwaitingPlayerAction handler */
 
         public void AwaitPlayerAction(object sender, AwaitingActionEventArgs e) {
-            IsAwaitingAction = true;
+            this.IsAwaitingAction = true;
+            this.awaitingActionArgs = e;
             // also need to send gameState/potState/timer/etc
         }
 
         public void CancelPlayerAction(object sender, CancelActionEventArgs e) {
-            IsAwaitingAction = false;
+            this.IsAwaitingAction = false;
+            this.awaitingActionArgs = null;
         }
 
         /* Class Logic */
@@ -252,14 +255,15 @@ namespace PokerCalculator {
 
         }
 
-
         private bool canRaise(object e) {
+            //if (awaitingActionArgs == null) return false;
+            //return BetAmount >= this.awaitingActionArgs.potState.minRaise;
             return true;
         }
 
         private void Raise(object e) {
-
-            //OnPlayerAction(new ReceivedActionEventArgs());
+            Raise r = new Raise(this, this.BetAmount, this.awaitingActionArgs.gameState.street);
+            OnPlayerAction(new ReceivedActionEventArgs(r));
         }
 
         private bool canFold(object e) {

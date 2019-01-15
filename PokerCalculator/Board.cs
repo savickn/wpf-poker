@@ -55,7 +55,6 @@ namespace PokerCalculator {
             }
         }
 
-
         public Board(Card card1, Card card2, Card card3, Card card4 = null, Card card5 = null) {
             this.flop1 = card1;
             this.flop2 = card2;

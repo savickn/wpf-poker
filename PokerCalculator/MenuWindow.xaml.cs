@@ -25,7 +25,6 @@ namespace PokerCalculator
             InitializeComponent();
         }
 
-
         private void Start_Poker(object sender, RoutedEventArgs e) {
             PokerWindow pw = new PokerWindow();
             pw.Show();
@@ -36,9 +35,24 @@ namespace PokerCalculator
             pw.Show();
         }
 
-        private void Create_Account(object sender, RoutedEventArgs e) {
+        // old, creates entirely new Window
+        /*private void Create_Account(object sender, RoutedEventArgs e) {
             AccountWindow aw = new AccountWindow();
             aw.Show();
+        }*/
+
+        private void Start_Browser(object sender, RoutedEventArgs e) {
+            mainFrame.Navigate(new BrowserPage());
+        }
+
+        private void Create_Account(object sender, RoutedEventArgs e) {
+            mainFrame.Navigate(new AccountCreatePage()); // working
+            //mainFrame.Navigate(new Uri("AccountCreatePage.xaml", UriKind.RelativeOrAbsolute)); // also working
+
+            /* not working
+            NavigationService ns = NavigationService.GetNavigationService(this);
+            Uri uri = new Uri("AccountCreatePage.xaml", UriKind.Relative);
+            ns.Navigate(uri);*/
         }
     }
 }

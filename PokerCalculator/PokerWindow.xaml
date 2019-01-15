@@ -138,7 +138,7 @@
             <Button Name="allInPreset" Grid.Column="9" Grid.ColumnSpan="3">All-In</Button>
 
             <TextBox Name="betSizeInput" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Center" Text="{Binding Path=ActivePlayer.BetAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center" Value="{Binding Path=ActivePlayer.BetAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0"/>
+            <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center" Value="{Binding Path=ActivePlayer.BetAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1"/>
 
             <Button Name="foldBtn" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.FoldAction}">Fold</Button>
             <Button Name="checkBtn" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.CheckAction}">Check</Button>

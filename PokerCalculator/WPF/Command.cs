@@ -11,13 +11,11 @@ namespace PokerCalculator {
         Action<object> executeMethod;
         Func<object, bool> canExecuteMethod;
 
-        public event EventHandler CanExecuteChanged;
-
-        // alternative implementation
-        /*public event EventHandler CanExecuteChanged {
+        // used to update CanExecute if the UI is changed 
+        public event EventHandler CanExecuteChanged {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
-        }*/
+        }
 
         public Command(Action<object> executeMethod, Func<object, bool> canExecuteMethod) {
             this.executeMethod = executeMethod;

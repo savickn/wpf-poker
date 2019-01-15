@@ -40,7 +40,7 @@ namespace PokerCalculator {
 
         public bool Hidden {
             get { return hidden; }
-            set { hidden = value; OnPropertyChanged("Hidden"); }
+            set { hidden = value; OnPropertyChanged("Hidden"); OnPropertyChanged("Image"); }
         }
 
         /* INotify Implementation */
