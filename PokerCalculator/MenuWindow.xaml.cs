@@ -25,20 +25,10 @@ namespace PokerCalculator
             InitializeComponent();
         }
 
-        private void Start_Poker(object sender, RoutedEventArgs e) {
+        // old, creates entirely new Window
+        /*private void Start_Poker(object sender, RoutedEventArgs e) {
             PokerWindow pw = new PokerWindow();
             pw.Show();
-        }
-
-        private void Start_Game(object sender, RoutedEventArgs e) {
-            GameWindow pw = new GameWindow();
-            pw.Show();
-        }
-
-        // old, creates entirely new Window
-        /*private void Create_Account(object sender, RoutedEventArgs e) {
-            AccountWindow aw = new AccountWindow();
-            aw.Show();
         }*/
 
         private void Start_Browser(object sender, RoutedEventArgs e) {

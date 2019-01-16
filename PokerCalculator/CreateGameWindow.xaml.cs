@@ -23,7 +23,7 @@ namespace PokerCalculator
         {
             InitializeComponent();
 
-            this.DataContext = new CreateGameVM();
+            this.DataContext = new GameVM();
         }
     }
 }

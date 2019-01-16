@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerCalculator
-{
-    class PokerContext
-    {
+namespace PokerCalculator {
+    public class LoginVM {
     }
 }

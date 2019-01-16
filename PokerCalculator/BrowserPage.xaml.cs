@@ -22,6 +22,13 @@ namespace PokerCalculator
         public BrowserPage()
         {
             InitializeComponent();
+
+            this.DataContext = new BrowserVM();
+        }
+
+        private void Create_Game(object sender, RoutedEventArgs e) {
+            CreateGameWindow cgw = new CreateGameWindow();
+            cgw.Show();
         }
     }
 }

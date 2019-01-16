@@ -22,7 +22,7 @@ namespace PokerCalculator {
         public double maxBet { get; }
         public double minBet { get; }
 
-        public BetView(Game g /*Player p, GameState gs, PotState ps*/) {
+        public BetView(Poker g /*Player p, GameState gs, PotState ps*/) {
             InitializeComponent();
 
             //Console.WriteLine(this.DataContext.ToString());

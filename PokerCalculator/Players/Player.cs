@@ -65,6 +65,11 @@ namespace PokerCalculator {
         public bool autoRebuy { get; set; }
         public double timeBank { get; }
 
+        public bool isFoldAvailable { get; set; }
+        public bool isCallAvailable { get; set; }
+        public bool isRaiseAvailable { get; set; }
+        public bool isCheckAvailable { get; set; }
+
         //private RangeManager rm;
 
         /* ICommand implementations */
@@ -74,7 +79,6 @@ namespace PokerCalculator {
         public ICommand RaiseAction { get; set; }
         public ICommand CheckAction { get; set; }
         public ICommand ChangeBetAmount { get; set; }
-
 
         /* INotify implementation */
 
@@ -103,6 +107,9 @@ namespace PokerCalculator {
         public void AwaitPlayerAction(object sender, AwaitingActionEventArgs e) {
             this.IsAwaitingAction = true;
             this.awaitingActionArgs = e;
+
+            this.populateActions(e.potState);
+
             // also need to send gameState/potState/timer/etc
         }
 
@@ -169,60 +176,12 @@ namespace PokerCalculator {
             return br;
         }
 
-        public List<Option> populateActions(PotState state) {
-            List<Option> opts = new List<Option> { Option.FOLD };
-            if (state.currentBet == state.playerContribution) {
-                opts.Add(Option.CHECK);
-            }
-            if (state.currentBet > state.playerContribution) {
-                opts.Add(Option.CALL);
-            }
-            if (state.currentBet >= state.playerContribution) {
-                opts.Add(Option.RAISE);
-            }
-            return opts;
-        }
-
-        public Action selectAction(GameState gs, PotState ps) {
-            List<Option> opts = this.populateActions(ps);
-
-            //render betView + timerView for "Player p" and populate betView with "opts"
-
-
-
-            /*string prompt = "Select an action: ";
-            foreach(Option o in opts) {
-                prompt += String.Format("{0} - {1}", opts.IndexOf(o), o); 
-            }
-
-            int selection;
-            while(true) {
-                selection = (int)Console.ReadLine(prompt);
-            }*/
-
-            //int x = Console.ReadLine();
-            Option selection = opts[Console.Read()];
-
-            Action action;
-            if(selection == Option.FOLD) {
-                action = new Fold(this, gs.street);
-                this.status = PlayerStatus.ACTIVE;
-            } else if(selection == Option.CHECK) {
-                action = new Check(this, gs.street);
-            } else if(selection == Option.CALL) {
-                double betToCall = ps.currentBet - ps.playerContribution;
-                BetResponse response = removeFromStack(betToCall);
-                action = new Call(this, response.amount, gs.street);
-            } else {  // for raises
-                double low = ps.minRaise < stack ? ps.minRaise : stack;
-                double high = ps.maxBet < stack ? ps.maxBet : stack;
-
-                // add code to ensure amount is always between 'low' and 'high'
-                double amount = Convert.ToDouble(Console.ReadLine());
-                BetResponse res = removeFromStack(amount);
-                action = new Raise(this, res.amount, gs.street);
-            }
-            return action;
+        // used to determine which actions are available for player/bot
+        public void populateActions(PotState state) {
+            this.isFoldAvailable = true;
+            this.isCheckAvailable = state.currentBet == state.playerContribution;
+            this.isCallAvailable = state.currentBet > state.playerContribution;
+            this.isRaiseAvailable = state.currentBet >= state.playerContribution;
         }
 
         ///// GETTERS & SETTERS /////
@@ -256,38 +215,55 @@ namespace PokerCalculator {
         }
 
         private bool canRaise(object e) {
-            //if (awaitingActionArgs == null) return false;
-            //return BetAmount >= this.awaitingActionArgs.potState.minRaise;
-            return true;
+            if (!isRaiseAvailable) return false;
+            if (awaitingActionArgs == null) return false;
+
+            PotState ps = awaitingActionArgs.potState;
+
+            double low = ps.minRaise < stack ? ps.minRaise : stack;
+            double high = ps.maxBet < stack ? ps.maxBet : stack;
+
+            return BetAmount >= low && BetAmount <= high;
         }
 
         private void Raise(object e) {
-            Raise r = new Raise(this, this.BetAmount, this.awaitingActionArgs.gameState.street);
-            OnPlayerAction(new ReceivedActionEventArgs(r));
+            Street s = this.awaitingActionArgs.gameState.street;
+            BetResponse res = removeFromStack(BetAmount);
+            Action a = new Raise(this, res.amount, s);
+            OnPlayerAction(new ReceivedActionEventArgs(a));
         }
 
         private bool canFold(object e) {
-            return true;
+            return this.isFoldAvailable;
         }
 
         private void Fold(object e) {
-
+            Street s = this.awaitingActionArgs.gameState.street;
+            Action a = new Fold(this, s);
+            this.status = PlayerStatus.ACTIVE;
+            OnPlayerAction(new ReceivedActionEventArgs(a));
         }
 
         private bool canCall(object e) {
-            return true;
+            return this.isCallAvailable;
         }
 
         private void Call(object e) {
-
+            Street s = this.awaitingActionArgs.gameState.street;
+            PotState ps = this.awaitingActionArgs.potState;
+            double betToCall = ps.currentBet - ps.playerContribution;
+            BetResponse response = removeFromStack(betToCall);
+            Action a = new Call(this, response.amount, s);
+            OnPlayerAction(new ReceivedActionEventArgs(a));
         }
 
         private bool canCheck(object e) {
-            return true;
+            return this.isCheckAvailable;
         }
 
         private void Check(object e) {
-            Action a = new Check(this, Street.FLOP);
+            Street s = this.awaitingActionArgs.gameState.street;
+            Action a = new Check(this, s);
             OnPlayerAction(new ReceivedActionEventArgs(a));
         }
 
@@ -296,13 +272,69 @@ namespace PokerCalculator {
         public string toString() {
             return String.Format("Name: {0}, Stack: {1}", this.account.name, this.stack);
         }
-
-        public void draw() {
-
-        }
-
-        public void checkRep() {
-
-        }
     }
 }
+
+
+
+
+/* OLD 
+ * 
+        
+public List<Option> populateActions(PotState state) {
+    List<Option> opts = new List<Option> { Option.FOLD };
+    if (state.currentBet == state.playerContribution) {
+        opts.Add(Option.CHECK);
+    }
+    if (state.currentBet > state.playerContribution) {
+        opts.Add(Option.CALL);
+    }
+    if (state.currentBet >= state.playerContribution) {
+        opts.Add(Option.RAISE);
+    }
+    return opts;
+}
+
+public Action selectAction(GameState gs, PotState ps) {
+    List<Option> opts = this.populateActions(ps);
+
+    //render betView + timerView for "Player p" and populate betView with "opts"
+
+
+
+    /*string prompt = "Select an action: ";
+    foreach(Option o in opts) {
+        prompt += String.Format("{0} - {1}", opts.IndexOf(o), o); 
+    }
+
+    int selection;
+    while(true) {
+        selection = (int)Console.ReadLine(prompt);
+    }
+
+    //int x = Console.ReadLine();
+    Option selection = opts[Console.Read()];
+
+    Action action;
+    if(selection == Option.FOLD) {
+        action = new Fold(this, gs.street);
+        this.status = PlayerStatus.ACTIVE;
+    } else if(selection == Option.CHECK) {
+        action = new Check(this, gs.street);
+    } else if(selection == Option.CALL) {
+        double betToCall = ps.currentBet - ps.playerContribution;
+        BetResponse response = removeFromStack(betToCall);
+        action = new Call(this, response.amount, gs.street);
+    } else {  // for raises
+        double low = ps.minRaise < stack ? ps.minRaise : stack;
+        double high = ps.maxBet < stack ? ps.maxBet : stack;
+
+        // add code to ensure amount is always between 'low' and 'high'
+        double amount = Convert.ToDouble(Console.ReadLine());
+        BetResponse res = removeFromStack(amount);
+        action = new Raise(this, res.amount, gs.street);
+    }
+    return action;
+}
+
+*/

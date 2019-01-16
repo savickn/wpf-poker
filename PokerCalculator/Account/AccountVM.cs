@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PokerCalculator {
-    class AccountVM : INotifyPropertyChanged {
+    public class AccountVM : INotifyPropertyChanged {
 
         /* Properties */
 

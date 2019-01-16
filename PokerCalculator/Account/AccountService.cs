@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokerCalculator
-{
-    class CreateGameVM
-    {
+namespace PokerCalculator {
+    public class AccountService {
+
+        public AccountService() { }
     }
 }

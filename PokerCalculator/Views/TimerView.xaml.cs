@@ -21,7 +21,7 @@ namespace PokerCalculator {
 
         public double timer { get; }
 
-        public TimerView(Game g) {
+        public TimerView(Poker g) {
             InitializeComponent();
 
             timeBankCount.Text = g.timer.ToString();

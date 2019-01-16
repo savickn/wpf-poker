@@ -7,9 +7,18 @@
         mc:Ignorable="d"
         Title="CreateGameWindow" Height="450" Width="800">
     <StackPanel Orientation="Vertical" Margin="100 10">
-        
-        
-        
-        
+        <StackPanel Orientation="Horizontal">
+            <Label Width="100">Cards Per Hand: </Label>
+            <TextBox Width="450" Text="{Binding Path=CardsPerHand, Mode=TwoWay}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Width="100">Number of Seats: </Label>
+            <TextBox Width="450" Text="{Binding Path=NumberOfSeats, Mode=TwoWay}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Width="100">Big Blind: </Label>
+            <TextBox Width="450" Text="{Binding Path=BigBlind, Mode=TwoWay}" />
+        </StackPanel>
+        <Button Width="550" Command="{Binding Path=CreateGame}">Add Game</Button>
     </StackPanel>
 </Window>

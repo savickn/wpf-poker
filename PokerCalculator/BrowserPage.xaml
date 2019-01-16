@@ -7,7 +7,24 @@
         mc:Ignorable="d"
         d:DesignHeight="450" d:DesignWidth="800"
         Title="BrowserPage">
-    <Grid>
-        
-    </Grid>
+    <StackPanel Orientation="Vertical">
+        <StackPanel Height="400">
+            <ItemsControl Name="GameList" ItemsSource="{Binding Path=Games, Mode=OneWay}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Game: "/>
+                            <Button Command="{Binding Path=DataContext.OpenGame, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}">Join</Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        <Button Height="50" Click="Create_Game">Create Game</Button>
+    </StackPanel>
 </Page>

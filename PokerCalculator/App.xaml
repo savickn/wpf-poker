@@ -58,6 +58,7 @@
             <BitmapImage x:Key="KH" UriSource="Assets/Cards/KH.jpg" />
             <BitmapImage x:Key="KS" UriSource="Assets/Cards/KS.jpg" />
             <BitmapImage x:Key="cover" UriSource="Assets/CardCovers/Gray_back.jpg" />
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

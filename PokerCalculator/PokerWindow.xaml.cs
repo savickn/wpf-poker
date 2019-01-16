@@ -17,10 +17,10 @@ namespace PokerCalculator {
     /// Interaction logic for PokerWindow.xaml
     /// </summary>
     public partial class PokerWindow : Window {
-        public PokerWindow() {
+        public PokerWindow(Game game) {
             InitializeComponent();
 
-            this.DataContext = new PokerVM();
+            this.DataContext = new PokerVM(game);
         }
 
     }

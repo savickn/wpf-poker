@@ -73,7 +73,8 @@ namespace PokerCalculator {
         /* Commands */
 
         public ICommand StartRound { get; set; }
-        public ICommand AddPlayer { get; set; }
+        public ICommand JoinGame { get; set; }
+        public ICommand AddAi { get; set; }
 
         /* INotify Implementation */
 
@@ -282,22 +283,45 @@ namespace PokerCalculator {
                     break;
                 }
 
-                Action a = p.selectAction(gs, ps);
-                pot.handleAction(a);
+                //Action a = p.selectAction(gs, ps);
+                //pot.handleAction(a);
                 startingSeat = table.getNearestLeftSeatInHand(startingSeat);
             }
         }
 
         ///// GAME LOGIC /////
 
-        public PokerVM() {
-            this.bigBlind = 2;
-            this.smallBlind = 1;
-            this.ante = 0;
-            this.maxBuyIn = 200;
-            this.minBuyIn = 50;
-            this.timePerTurn = 30;
-            this.street = Street.FLOP;
+        /*public GameVM() {
+            Account a1 = new Account("Nick", 2000);
+            Account a2 = new Account("Matt", 2000);
+
+            Player p1 = new Player(a1, 2000);
+            Player p2 = new Player(a2, 2000);
+
+            board = new Board(Data.ACE_OF_CLUBS.clone(), Data.ACE_OF_HEARTS.clone(), Data.EIGHT_OF_HEARTS.clone());
+
+            mainAccount = p1;
+
+            table = new Table(GameTypes.nl2k.numberOfSeats);
+
+            game = new Game(table, GameTypes.nl2k);
+            game.registerPlayer(p1);
+            game.registerPlayer(p2);
+
+            game.initializeGame();
+            //game.run();
+        }*/
+
+        public PokerVM(Game g) {
+            this.bigBlind = g.bb;
+            this.smallBlind = g.sb;
+            this.ante = g.ante;
+            this.maxBuyIn = g.max_buyin;
+            this.minBuyIn = g.min_buyin;
+            this.timePerTurn = g.timer;
+
+            this.table = new Table(g.seats);
+            this.street = Street.PREFLOP;
 
             this.players = new ObservableCollection<Player>();
             Account a1 = new Account("Nick", 2000);
@@ -311,7 +335,8 @@ namespace PokerCalculator {
             this.registerPlayer(p2);
 
             this.StartRound = new Command(this.startRound, this.canStartRound);
-            this.AddPlayer = new Command(this.addPlayer, this.canAddPlayer);
+            this.JoinGame = new Command(this.joinGame, this.canJoinGame);
+            this.AddAi = new Command(this.addAi, this.canAddAi);
         }
 
         public void initializeGame() {
@@ -340,6 +365,7 @@ namespace PokerCalculator {
             }
             while (this.status == GameStatus.WAITING) {
                 Console.WriteLine("Waiting!");
+
             }
         }
 
@@ -431,7 +457,6 @@ namespace PokerCalculator {
             }
         }
 
-
         public void registerPlayer(Player p) {
             this.players.Add(p); // temp
 
@@ -488,15 +513,23 @@ namespace PokerCalculator {
             Debug.WriteLine("Round Over");
         }
 
-        private bool canAddPlayer(object e) {
+        private bool canJoinGame(object e) {
             return this.players.Count <= 9;
         }
 
-        private void addPlayer(object e) {
-            using (var context = new AccountContext()) {
-                var accounts = context.accounts.ToList();
-
-            }
+        // used to add human player registered with the client
+        private void joinGame(object e) {
+            
         }
+
+        private bool canAddAi(object e) {
+            return this.players.Count <= 9;
+        }
+
+        // used to add Ai
+        private void addAi(object e) {
+            
+        }
+
     }
 }

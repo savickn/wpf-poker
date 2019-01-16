@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 
 namespace PokerCalculator {
-    public class Game : INotifyPropertyChanged {
+    public class Poker : INotifyPropertyChanged {
         /*public GameStatus status {
             get { return this.status; }
             set {
@@ -69,7 +69,7 @@ namespace PokerCalculator {
         /*bool isPreflop;
         bool isHeadsUp;*/
 
-        public Game(Table t, GameOptions go) {
+        public Poker(Table t, GameOptions go) {
             this.cardsPerHand = go.cardsPerHand;
             this.bigBlind = go.bb;
             this.smallBlind = go.sb;
@@ -278,8 +278,8 @@ namespace PokerCalculator {
                     break;
                 }
 
-                Action a = p.selectAction(gs, ps);
-                pot.handleAction(a);
+                //Action a = p.selectAction(gs, ps);
+                //pot.handleAction(a);
                 startingSeat = table.getNearestLeftSeatInHand(startingSeat);
             }
         }

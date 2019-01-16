@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 namespace PokerCalculator {
     public class Table {
         public List<Seat> seats { get; private set; }
+        public ObservableCollection<Seat> Seats { get; set; }
 
         public List<Player> seated { get; private set; }
         public List<Player> observers { get; private set; }
@@ -14,6 +16,7 @@ namespace PokerCalculator {
 
         public Table(int numberOfSeats) {
             this.seats = this.initializeSeats(numberOfSeats);
+            this.Seats = new ObservableCollection<Seat>(this.seats);
         }
 
         //// CLASS LOGIC ////
@@ -141,14 +144,6 @@ namespace PokerCalculator {
                 str = str + s.toString() + "\n";
             }
             return str;
-        }
-
-        public void checkRep() {
-
-        }
-
-        public void draw() {
-
         }
     }
 }

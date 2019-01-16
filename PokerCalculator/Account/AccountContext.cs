@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 
 namespace PokerCalculator {
-    class AccountContext : DbContext {
+    public class AccountContext : DbContext {
 
         public DbSet<Account> accounts { get; set; }
 

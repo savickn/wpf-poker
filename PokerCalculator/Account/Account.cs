@@ -17,7 +17,7 @@ namespace PokerCalculator {
         [Required]
         public double money { get; set; }
 
-        public Account() {}
+        private Account() {}
 
         public Account(string name, double money=0) {
             this.name = name;

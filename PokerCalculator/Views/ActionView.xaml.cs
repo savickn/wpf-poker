@@ -18,7 +18,7 @@ namespace PokerCalculator {
     /// Interaction logic for ActionView.xaml
     /// </summary>
     public partial class ActionView : Page {
-        public ActionView(Game g) {
+        public ActionView(Poker g) {
             InitializeComponent();
 
             timerView.Navigate(new TimerView(g));

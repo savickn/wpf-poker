@@ -86,6 +86,9 @@
     <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>packages\Npgsql.2.2.7\lib\net45\Mono.Security.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="Npgsql, Version=2.2.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>packages\Npgsql.2.2.7\lib\net45\Npgsql.dll</HintPath>
     </Reference>
@@ -154,10 +157,12 @@
     <Compile Include="AccountCreatePage.xaml.cs">
       <DependentUpon>AccountCreatePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Account\AccountService.cs" />
     <Compile Include="Account\AccountVM.cs" />
     <Compile Include="AccountWindow.xaml.cs">
       <DependentUpon>AccountWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Account\LoginVM.cs" />
     <Compile Include="Actions\Action.cs" />
     <Compile Include="Actions\Call.cs" />
     <Compile Include="Actions\Check.cs" />
@@ -166,11 +171,12 @@
     <Compile Include="Actions\PostBB.cs" />
     <Compile Include="Actions\PostSB.cs" />
     <Compile Include="Actions\Raise.cs" />
+    <Compile Include="Players\Bot.cs" />
     <Compile Include="BrowserVM.cs" />
     <Compile Include="BrowserPage.xaml.cs">
       <DependentUpon>BrowserPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreateGameVM.cs" />
+    <Compile Include="Game\GameVM.cs" />
     <Compile Include="CreateGameWindow.xaml.cs">
       <DependentUpon>CreateGameWindow.xaml</DependentUpon>
     </Compile>
@@ -178,8 +184,12 @@
     <Compile Include="Events\CancelActionEventArgs.cs" />
     <Compile Include="Events\ReceivedActionEventArgs.cs" />
     <Compile Include="Account\AccountContext.cs" />
-    <Compile Include="PokerContext.cs" />
-    <Compile Include="PokerGame.cs" />
+    <Compile Include="Game\GameContext.cs" />
+    <Compile Include="Game\Game.cs" />
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Players\Human.cs" />
     <Compile Include="PokerVM.cs" />
     <Compile Include="PokerWindow.xaml.cs">
       <DependentUpon>PokerWindow.xaml</DependentUpon>
@@ -214,8 +224,7 @@
     <Compile Include="Exceptions\NoValidSeatException.cs" />
     <Compile Include="GameOptions\GameOptions.cs" />
     <Compile Include="GameOptions\GameTypes.cs" />
-    <Compile Include="GameVM.cs" />
-    <Compile Include="GameWindow.xaml.cs">
+    <Compile Include="Windows\old\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FlushHelpers.cs" />
@@ -243,7 +252,7 @@
     <Compile Include="Hands\ThreeOfAKind.cs" />
     <Compile Include="Hands\TwoPair.cs" />
     <Compile Include="Helpers\PickWinner.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Players\Player.cs" />
     <Compile Include="Pot.cs" />
     <Compile Include="States\PotState.cs" />
     <Compile Include="PreflopHands.cs" />
@@ -259,6 +268,7 @@
     </Compile>
     <Compile Include="WPF\CustomItemsControl.cs" />
     <Compile Include="WPF\PlayerStyleSelector.cs" />
+    <Compile Include="WPF\SeatDataTemplateSelector.cs" />
     <Page Include="AccountCreatePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -275,6 +285,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PokerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -287,7 +301,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GameWindow.xaml">
+    <Page Include="Windows\old\GameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -306,7 +320,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Deck.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Poker.cs" />
     <Compile Include="Hands\Hand.cs" />
     <Compile Include="MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
@@ -425,8 +439,8 @@
     <Resource Include="Assets\CardCovers\Yellow_back.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Ninject\" />
     <Folder Include="Pages\" />
-    <Folder Include="Windows\old\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

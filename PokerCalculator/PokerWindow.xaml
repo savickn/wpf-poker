@@ -64,7 +64,7 @@
 
         <TextBlock Name="PotText" Grid.Row="2" Grid.Column="4" Text="{Binding Path=Pot.PotSize, Mode=OneWay}" />
 
-        <ItemsControl Name="PlayersControl" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="9" ItemsSource="{Binding Path=players, Mode=OneWay}">
+        <ItemsControl Name="PlayersControl" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="9" ItemsSource="{Binding Path=table.Seats, Mode=OneWay}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="9" />
@@ -72,18 +72,17 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <UniformGrid Columns="2">
-                            <Image Source="{Binding Path=Hand.Card1.Image, Mode=OneWay}" />
-                            <Image Source="{Binding Path=Hand.Card2.Image, Mode=OneWay}" />
-                        </UniformGrid>
-                        <Image Source="{Binding Image}" />
-                        <Label Content="{Binding Name}" />
-                        <Label Content="{Binding Stack}" />
-                    </StackPanel>
-                    <DataTemplate.Triggers>
-
-                    </DataTemplate.Triggers>
+                    <Border BorderThickness="2" CornerRadius="1" BorderBrush="Black">
+                        <StackPanel Orientation="Vertical" Margin="3">
+                            <UniformGrid Columns="2">
+                                <Image Source="{Binding Path=Player.Hand.Card1.Image, Mode=OneWay}" />
+                                <Image Source="{Binding Path=Player.Hand.Card2.Image, Mode=OneWay}" />
+                            </UniformGrid>
+                            <Image Source="{Binding Path=Player.Image}" />
+                            <Label Content="{Binding Path=Player.Name}" />
+                            <Label Content="{Binding Path=Player.Stack}" />
+                        </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -132,15 +131,20 @@
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
 
-            <Button Name="halfPotPreset" Grid.Column="0" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="0.5">50%</Button>
-            <Button Name="threeQuarterPotPreset" Grid.Column="3" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="0.75">75%</Button>
-            <Button Name="fullPotPreset" Grid.Column="6" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="1.0">100%</Button>
-            <Button Name="allInPreset" Grid.Column="9" Grid.ColumnSpan="3">All-In</Button>
+            <Button Visibility="Hidden" Name="preflopPreset1" Grid.Column="0" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="0.5">2x</Button>
+            <Button Visibility="Hidden" Name="preflopPreset2" Grid.Column="3" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="0.75">3x</Button>
+            <Button Visibility="Hidden" Name="preflopPreset3" Grid.Column="6" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="1.0">4x</Button>
+            <Button Visibility="Hidden" Name="preflopPreset4" Grid.Column="9" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}">All-In</Button>
+
+            <Button Name="postflopPreset1" Grid.Column="0" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="0.5">50%</Button>
+            <Button Name="postflopPreset2" Grid.Column="3" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="0.75">75%</Button>
+            <Button Name="postflopPreset3" Grid.Column="6" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}" CommandParameter="1.0">100%</Button>
+            <Button Name="postflopPreset4" Grid.Column="9" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}">All-In</Button>
 
             <TextBox Name="betSizeInput" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Center" Text="{Binding Path=ActivePlayer.BetAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center" Value="{Binding Path=ActivePlayer.BetAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1"/>
 
-            <Button Name="foldBtn" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.FoldAction}">Fold</Button>
+            <Button Name="foldBtn" Visibility="{Binding Path=ActivePlayer.isFoldAvailable, Converter={StaticResource BoolToVis}}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.FoldAction}">Fold</Button>
             <Button Name="checkBtn" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.CheckAction}">Check</Button>
             <Button Name="callBtn" Visibility="Hidden" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.CallAction}">Call</Button>
             <Button Name="raiseBtn" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="4" Command="{Binding Path=ActivePlayer.RaiseAction}">Raise</Button>
