@@ -51,9 +51,8 @@ namespace PokerCalculator {
         private Player activePlayer;
         private Player clientPlayer;
 
-
         public ObservableCollection<Player> players; // represents all registered players 
-        private List<Player> activePlayers; // represents players currently in hand
+        //private List<Player> activePlayers; // represents players currently in hand
 
         public Pot Pot {
             get { return pot; }
@@ -72,7 +71,7 @@ namespace PokerCalculator {
 
         /* Commands */
 
-        public ICommand StartRound { get; set; }
+        //public ICommand StartRound { get; set; }
         public ICommand JoinGame { get; set; }
         public ICommand AddAi { get; set; }
 
@@ -165,8 +164,7 @@ namespace PokerCalculator {
 
         ///// PLAYER HAND GENERATION /////
 
-        public void generateHands(ObservableCollection<Player> activePlayers) {
-            //Deck d = new Deck(new HashSet<Card>());
+        public void generateHands(List<Player> activePlayers) {
             var hands = new List<List<Card>>() { };
 
             foreach (int i in Enumerable.Range(0, activePlayers.Count)) {
@@ -178,13 +176,38 @@ namespace PokerCalculator {
                 }
             }
             foreach (int i in Enumerable.Range(0, activePlayers.Count)) {
-                this.dealHand(this.players[i], hands[i]);
+                this.dealHand(activePlayers[i], hands[i]);
             }
         }
 
         public void dealHand(Player player, List<Card> cards) {
             PreflopHand hand = new HoldemHand(cards);
             player.Hand = hand;
+        }
+
+        ///// BOARD GENERATION /////
+
+        public Board generateFlop(Deck deck) {
+            deck.getTopCard(); // burned card
+            Card c1 = deck.getTopCard();
+            Card c2 = deck.getTopCard();
+            Card c3 = deck.getTopCard();
+            Board b = new Board(c1, c2, c3);
+            return b;
+        }
+
+        public Board generateTurn(Deck deck, Board b) {
+            deck.getTopCard(); // burned card
+            Card c4 = deck.getTopCard();
+            b.setTurn(c4);
+            return b;
+        }
+
+        public Board generateRiver(Deck deck, Board b) {
+            deck.getTopCard(); // burned card
+            Card c5 = deck.getTopCard();
+            b.setRiver(c5);
+            return b;
         }
 
         ///// POSTING BLINDS /////
@@ -231,88 +254,62 @@ namespace PokerCalculator {
             return activePlayers;
         }
 
-        ///// BOARD GENERATION /////
-
-        public Board generateFlop(Deck deck) {
-            deck.getTopCard(); // burned card
-            Card c1 = deck.getTopCard();
-            Card c2 = deck.getTopCard();
-            Card c3 = deck.getTopCard();
-            Board b = new Board(c1, c2, c3);
-            this.street = Street.FLOP;
-            return b;
-        }
-
-        public Board generateTurn(Deck deck, Board b) {
-            deck.getTopCard(); // burned card
-            Card c4 = deck.getTopCard();
-            b.setTurn(c4);
-            this.street = Street.TURN;
-            return b;
-        }
-
-        public Board generateRiver(Deck deck, Board b) {
-            deck.getTopCard(); // burned card
-            Card c5 = deck.getTopCard();
-            b.setRiver(c5);
-            this.street = Street.RIVER;
-            return b;
-        }
-
         ///// PLAYER BETTING /////
 
-        public void preFlopBetting(Pot pot) {
-            this.street = Street.PREFLOP;
+        public async Task preFlopBetting(Pot pot) {
             Seat ss = this.fp;
-            this.bettingRound(ss, pot);
+            await this.bettingRound(ss, pot);
         }
 
-        public void postFlopBetting(Pot pot) {
+        public async Task postFlopBetting(Pot pot) {
             Seat ss = this.sb.player.isInHand() ? this.sb : table.getNearestLeftSeatInHand(this.sb);
-            this.bettingRound(ss, pot);
+            await this.bettingRound(ss, pot);
         }
 
-        public void bettingRound(Seat startingSeat, Pot pot) {
-            while (true) {
+        public async Task bettingRound(Seat startingSeat, Pot pot) {
+            while(true) {
                 Player p = startingSeat.player;
+                this.ActivePlayer = p;
+                this.TurnTimer = 30;
+                this.turnInProgress = true;
 
                 GameState gs = this.getState();
-                PotState ps = pot.getState(p);
+                PotState ps = pot.getState(p, this.street);
 
+                OnPlayerTurn(new AwaitingActionEventArgs(gs, ps, p));
+
+                // waits for PlayerAction, also buggy
+                while (turnInProgress) {
+                    await this.DecrementTimer();
+                }
+
+                // very buggy, used to end the betting round
                 if (pot.hasActed(p, this.street) && ps.playerContribution == ps.currentBet) {
                     break;
                 }
 
-                //Action a = p.selectAction(gs, ps);
-                //pot.handleAction(a);
+                // basically continues the betting round
                 startingSeat = table.getNearestLeftSeatInHand(startingSeat);
+            }
+        }
+
+        // need to cancel Task if Action/NextRound occurs
+        async Task DecrementTimer() {
+            await Task.Delay(1000);
+            this.TurnTimer -= 1;
+            if (this.turnTimer <= 0) {
+                this.turnInProgress = false;
+                OnCancelTurn(new CancelActionEventArgs(this.ActivePlayer));
             }
         }
 
         ///// GAME LOGIC /////
 
-        /*public GameVM() {
-            Account a1 = new Account("Nick", 2000);
-            Account a2 = new Account("Matt", 2000);
-
-            Player p1 = new Player(a1, 2000);
-            Player p2 = new Player(a2, 2000);
-
-            board = new Board(Data.ACE_OF_CLUBS.clone(), Data.ACE_OF_HEARTS.clone(), Data.EIGHT_OF_HEARTS.clone());
-
-            mainAccount = p1;
-
-            table = new Table(GameTypes.nl2k.numberOfSeats);
-
-            game = new Game(table, GameTypes.nl2k);
-            game.registerPlayer(p1);
-            game.registerPlayer(p2);
-
-            game.initializeGame();
-            //game.run();
-        }*/
-
         public PokerVM(Game g) {
+            //this.StartRound = new Command(this.startRound, this.canStartRound);
+            this.JoinGame = new Command(this.joinGame, this.canJoinGame);
+            this.AddAi = new Command(this.addAi, this.canAddAi);
+
             this.bigBlind = g.bb;
             this.smallBlind = g.sb;
             this.ante = g.ante;
@@ -321,7 +318,6 @@ namespace PokerCalculator {
             this.timePerTurn = g.timer;
 
             this.table = new Table(g.seats);
-            this.street = Street.PREFLOP;
 
             this.players = new ObservableCollection<Player>();
             Account a1 = new Account("Nick", 2000);
@@ -334,9 +330,8 @@ namespace PokerCalculator {
             this.registerPlayer(p1);
             this.registerPlayer(p2);
 
-            this.StartRound = new Command(this.startRound, this.canStartRound);
-            this.JoinGame = new Command(this.joinGame, this.canJoinGame);
-            this.AddAi = new Command(this.addAi, this.canAddAi);
+            this.initializeGame();
+            this.run();
         }
 
         public void initializeGame() {
@@ -344,15 +339,16 @@ namespace PokerCalculator {
             this.status = GameStatus.RUNNING;
         }
 
-        public void run() {
+        // working
+        public async void run() {
             while (this.status == GameStatus.RUNNING) {
                 List<Player> players = table.getPlayers();
                 foreach (Player p in players) {
                     if (p.Stack <= 0 || p.sittingOut) {
-                        p.setStatus(PlayerStatus.SITTING_OUT);
+                        p.Status = PlayerStatus.SITTING_OUT;
                     }
                     if (p.Stack > 0 && !p.sittingOut) {
-                        p.setStatus(PlayerStatus.IN_HAND);
+                        p.Status = PlayerStatus.IN_HAND;
                     }
                 }
                 List<Player> activePlayers = players.Where(p => p.isInHand()).ToList();
@@ -360,19 +356,22 @@ namespace PokerCalculator {
                     this.status = GameStatus.WAITING;
                     Console.WriteLine("Waiting for Players");
                 }
-                this.startRound(activePlayers);
-                this.rotatePlayers(); //will incorrectly rotate players if 'startRound' returns early
+                await this.startRound(activePlayers);
+                this.rotatePlayers(); // will incorrectly rotate players if 'startRound' returns early
             }
             while (this.status == GameStatus.WAITING) {
                 Console.WriteLine("Waiting!");
-
+                await PauseWhileWaiting();
             }
         }
 
-        /*public void startRound(List<Player> activePlayers) {
-            Deck d = new Deck(new HashSet<Card>());
+        // working
+        public async Task startRound(List<Player> activePlayers) {
+            this.deck = new Deck(new HashSet<Card>());
             this.pot = new Pot(this.bigBlind);
-            this.pot.registerActivePlayers(activePlayers);
+            this.street = Street.PREFLOP;
+
+            this.pot.registerActivePlayersByStreet(activePlayers, this.street);
 
             if (this.ante > 0) {
                 activePlayers = this.postAnte(activePlayers, this.pot);
@@ -386,31 +385,38 @@ namespace PokerCalculator {
             }
 
             this.generateHands(activePlayers);
-            this.preFlopBetting(this.pot);
+            this.clientPlayer.showHand();
+            await this.preFlopBetting(this.pot);
 
             if (activePlayers.Count < 2) {
                 this.awardPot(this.pot);
             }
 
-            this.board = this.generateFlop(d);
-            this.postFlopBetting(this.pot);
+            this.Board = this.generateFlop(this.deck);
+            this.street = Street.FLOP;
+            this.pot.registerActivePlayersByStreet(activePlayers, this.street);
+            await this.postFlopBetting(this.pot);
 
             if (activePlayers.Count < 2) {
                 this.awardPot(this.pot);
             }
 
-            this.board = this.generateTurn(d, this.board);
-            this.postFlopBetting(this.pot);
+            this.Board = this.generateTurn(this.deck, this.board);
+            this.street = Street.TURN;
+            this.pot.registerActivePlayersByStreet(activePlayers, this.street);
+            await this.postFlopBetting(this.pot);
 
             if (activePlayers.Count < 2) {
                 this.awardPot(this.pot);
             }
 
-            this.board = this.generateRiver(d, this.board);
-            this.postFlopBetting(this.pot);
+            this.Board = this.generateRiver(this.deck, this.board);
+            this.street = Street.RIVER;
+            this.pot.registerActivePlayersByStreet(activePlayers, this.street);
+            await this.postFlopBetting(this.pot);
 
             this.handleEndgame(this.board, this.pot);
-        }*/
+        }
 
         public void awardPot(Pot pot) {
             List<Player> players = table.getPlayersToAnalyze();
@@ -435,26 +441,9 @@ namespace PokerCalculator {
             }
         }
 
-        // need to cancel Task if Action/NextRound occurs
-        async Task DecrementTimer() {
+        // used to reduce cpu usage
+        async Task PauseWhileWaiting() {
             await Task.Delay(1000);
-            this.TurnTimer -= 1;
-            if (this.turnTimer <= 0) {
-                this.turnInProgress = false;
-                OnCancelTurn(new CancelActionEventArgs(this.ActivePlayer));
-            }
-        }
-
-        public async void bettingRound() {
-            foreach (Player p in this.players) {
-                this.ActivePlayer = p;
-                this.TurnTimer = 30;
-                this.turnInProgress = true;
-                OnPlayerTurn(new AwaitingActionEventArgs(this.getState(), pot.getState(ActivePlayer), ActivePlayer));
-                while (turnInProgress) {
-                    await this.DecrementTimer();
-                }
-            }
         }
 
         public void registerPlayer(Player p) {
@@ -468,12 +457,13 @@ namespace PokerCalculator {
                 // add code to add player to waitlist
                 return;
             }
-            emptySeat.setPlayer(p);
-
             // register events
             this.PlayerTurn += p.AwaitPlayerAction;
             this.CancelTurn += p.CancelPlayerAction;
             p.PlayerAction += this.ReceivePlayerAction;
+
+            // assign player to seat
+            emptySeat.setPlayer(p);
         }
 
 
@@ -493,9 +483,9 @@ namespace PokerCalculator {
         }
 
 
-        /* Command Implementation */
+        /* Command implementations */
 
-        private bool canStartRound(object e) {
+        /*private bool canStartRound(object e) {
             //return this.players.Count >= 2;
             return true;
         }
@@ -511,7 +501,7 @@ namespace PokerCalculator {
             this.bettingRound();
 
             Debug.WriteLine("Round Over");
-        }
+        }*/
 
         private bool canJoinGame(object e) {
             return this.players.Count <= 9;
@@ -533,3 +523,33 @@ namespace PokerCalculator {
 
     }
 }
+
+
+/*
+public async void bettingRound() {
+    foreach (Player p in this.players) {
+        this.ActivePlayer = p;
+        this.TurnTimer = 30;
+        this.turnInProgress = true;
+        OnPlayerTurn(new AwaitingActionEventArgs(this.getState(), pot.getState(ActivePlayer), ActivePlayer));
+        while (turnInProgress) {
+            await this.DecrementTimer();
+        }
+    }
+}
+*/
+
+/* old
+private void startRound(object e) {
+    this.Pot = new Pot(this.bigBlind);
+    pot.registerActivePlayers(new List<Player>(this.players));
+    this.deck = new Deck(new HashSet<Card>());
+    this.generateHands(this.players);
+    this.Board = new Board(deck.getTopCard(), deck.getTopCard(), deck.getTopCard());
+
+    this.clientPlayer.showHand();
+    this.bettingRound();
+
+    Debug.WriteLine("Round Over");
+}
+*/

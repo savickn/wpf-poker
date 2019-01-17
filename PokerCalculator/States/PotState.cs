@@ -8,14 +8,16 @@ namespace PokerCalculator {
     public class PotState {
         public double pot { get; }
         //public Street street { get; }
+        public double toCall { get; }
         public double minRaise { get; }
         public double currentBet { get; }
         public double maxBet { get; }
         public double playerContribution { get; }
 
-        public PotState(double pot, double currentBet, double contribution, double minRaise, double maxBet = Double.PositiveInfinity) {
+        public PotState(double pot, double currentBet, double contribution, double toCall, double minRaise, double maxBet = Double.PositiveInfinity) {
             this.pot = pot;
             //this.street = street;
+            this.toCall = toCall;
             this.minRaise = minRaise;
             this.currentBet = currentBet;
             this.playerContribution = contribution;

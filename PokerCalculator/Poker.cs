@@ -272,7 +272,7 @@ namespace PokerCalculator {
                 Player p = startingSeat.player;
 
                 GameState gs = this.getState();
-                PotState ps = pot.getState(p);
+                PotState ps = pot.getState(p, this.street);
 
                 if (pot.hasActed(p, this.street) && ps.playerContribution == ps.currentBet) {
                     break;

@@ -35,14 +35,7 @@ C:\Users\Nick\Documents\Visual Studio 2015\Projects\PokerCalculator\PokerCalcula
 C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\PokerCalculator.csprojAssemblyReference.cache
 C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\AccountWindow.g.cs
 C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\PokerWindow.g.cs
-C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\Views\ActionView.g.cs
-C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\Views\BetView.g.cs
-C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\Views\InfoView.g.cs
 C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\MenuWindow.g.cs
-C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\Views\PotView.g.cs
-C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\Views\SeatView.g.cs
-C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\Views\TableView.g.cs
-C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\Views\TimerView.g.cs
 C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\App.g.cs
 C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\PokerCalculator_MarkupCompile.cache
 C:\Users\Nick\Coding\C#\PokerCalculator\PokerCalculator\obj\Debug\PokerCalculator_MarkupCompile.lref

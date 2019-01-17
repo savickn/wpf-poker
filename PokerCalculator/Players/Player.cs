@@ -27,6 +27,24 @@ namespace PokerCalculator {
 
         /* In-Game Properties */
 
+        private double currentContribution;
+        public double CurrentContribution {
+            get { return this.currentContribution; }
+            set { this.currentContribution = value; OnPropertyChanged("CurrentContribution"); }
+        }
+
+        private double toCall;
+        public double ToCall {
+            get { return toCall; }
+            set { toCall = value; OnPropertyChanged("ToCall"); }
+        }
+
+        private double minRaise;
+        public double MinRaise {
+            get { return minRaise; }
+            set { minRaise = value; OnPropertyChanged("MinRaise"); }
+        }
+
         private double stack;
         public double Stack {
             get { return this.stack; }
@@ -65,10 +83,30 @@ namespace PokerCalculator {
         public bool autoRebuy { get; set; }
         public double timeBank { get; }
 
-        public bool isFoldAvailable { get; set; }
-        public bool isCallAvailable { get; set; }
-        public bool isRaiseAvailable { get; set; }
-        public bool isCheckAvailable { get; set; }
+        private bool isFoldAvailable;
+        public bool IsFoldAvailable {
+            get { return isFoldAvailable; }
+            set { isFoldAvailable = value; OnPropertyChanged("IsFoldAvailable"); }
+        }
+
+        private bool isCallAvailable;
+        public bool IsCallAvailable {
+            get { return isCallAvailable; }
+            set { isCallAvailable = value; OnPropertyChanged("IsCallAvailable"); }
+        }
+
+        private bool isRaiseAvailable;
+        public bool IsRaiseAvailable {
+            get { return isRaiseAvailable; }
+            set { isRaiseAvailable = value; OnPropertyChanged("IsRaiseAvailable"); }
+        }
+
+        private bool isCheckAvailable;
+        public bool IsCheckAvailable {
+            get { return isCheckAvailable; }
+            set { isCheckAvailable = value; OnPropertyChanged("IsCheckAvailable"); }
+        }
+
 
         //private RangeManager rm;
 
@@ -108,7 +146,11 @@ namespace PokerCalculator {
             this.IsAwaitingAction = true;
             this.awaitingActionArgs = e;
 
-            this.populateActions(e.potState);
+
+            PotState ps = e.potState;
+            this.populateActions(ps);
+            MinRaise = ps.minRaise;
+            ToCall = ps.toCall;
 
             // also need to send gameState/potState/timer/etc
         }
@@ -136,72 +178,35 @@ namespace PokerCalculator {
             this.ChangeBetAmount = new Command(this.changeBetAmount, this.canChangeBetAmount);
         }
 
-        public string getImage() {
-            return image != null ? image : "Assets/unknown-user.png";
-        }
-
-        public bool isActive() {
-            return status == PlayerStatus.ACTIVE ? true : false;
-        }
-
-        public bool isInHand() {
-            return status == PlayerStatus.IN_HAND ? true : false;
-        }
-
-        public bool shouldAnalyze() {
-            var passingStates = new List<PlayerStatus>() { PlayerStatus.IN_HAND, PlayerStatus.ALL_IN };
-            return passingStates.Contains(status) ? true : false;
+        // used to determine which actions are available for player/bot
+        public void populateActions(PotState state) {
+            IsFoldAvailable = state.currentBet != state.playerContribution;
+            IsCheckAvailable = state.currentBet == state.playerContribution;
+            IsCallAvailable = state.currentBet > state.playerContribution;
+            IsRaiseAvailable = state.currentBet >= state.playerContribution;
         }
 
         public void addToStack(double amount) {
-            stack += amount;
+            Stack += amount;
         }
 
         public BetResponse removeFromStack(double amount) {
             BetResponse br;
 
             if(stack > amount) {
-                stack -= amount;
+                Stack -= amount;
                 br = new BetResponse(amount, true);
             } else if(stack < amount && stack > 0) {
                 double temp = stack;
-                stack = 0;
-                setStatus(PlayerStatus.ALL_IN);
+                Stack = 0;
+                Status = PlayerStatus.ALL_IN;
                 br = new BetResponse(temp, true);
             } else {
-                setStatus(PlayerStatus.SITTING_OUT);
+                Status = PlayerStatus.SITTING_OUT;
                 br = new BetResponse(0, false);
             }
 
             return br;
-        }
-
-        // used to determine which actions are available for player/bot
-        public void populateActions(PotState state) {
-            this.isFoldAvailable = true;
-            this.isCheckAvailable = state.currentBet == state.playerContribution;
-            this.isCallAvailable = state.currentBet > state.playerContribution;
-            this.isRaiseAvailable = state.currentBet >= state.playerContribution;
-        }
-
-        ///// GETTERS & SETTERS /////
-
-        public void setStatus(PlayerStatus ps) {
-            this.status = ps;
-        }
-
-        public void setHand(PreflopHand hand) {
-            this.hand = hand;
-        }
-
-        public void showHand() {
-            foreach(Card c in this.hand.cards) {
-                c.Hidden = false;
-            }
-        }
-
-        public void rebuy(double amount) {
-            throw new NotImplementedException();
         }
 
         /* Command implementations */
@@ -248,10 +253,10 @@ namespace PokerCalculator {
             return this.isCallAvailable;
         }
 
+        // where 'response.amount' is 'toCall' (allows easy 'removeFromStack')
         private void Call(object e) {
             Street s = this.awaitingActionArgs.gameState.street;
-            PotState ps = this.awaitingActionArgs.potState;
-            double betToCall = ps.currentBet - ps.playerContribution;
+            double betToCall = this.awaitingActionArgs.potState.toCall;
             BetResponse response = removeFromStack(betToCall);
             Action a = new Call(this, response.amount, s);
             OnPlayerAction(new ReceivedActionEventArgs(a));
@@ -272,6 +277,36 @@ namespace PokerCalculator {
         public string toString() {
             return String.Format("Name: {0}, Stack: {1}", this.account.name, this.stack);
         }
+
+        /* SETTERS & GETTERS */
+
+        public string getImage() {
+            return image != null ? image : "Assets/unknown-user.png";
+        }
+
+        public bool isActive() {
+            return status == PlayerStatus.ACTIVE ? true : false;
+        }
+
+        public bool isInHand() {
+            return status == PlayerStatus.IN_HAND ? true : false;
+        }
+
+        public bool shouldAnalyze() {
+            var passingStates = new List<PlayerStatus>() { PlayerStatus.IN_HAND, PlayerStatus.ALL_IN };
+            return passingStates.Contains(status) ? true : false;
+        }
+
+        public void showHand() {
+            foreach (Card c in this.hand.cards) {
+                c.Hidden = false;
+            }
+        }
+
+        public void rebuy(double amount) {
+            throw new NotImplementedException();
+        }
+
     }
 }
 
@@ -338,3 +373,4 @@ public Action selectAction(GameState gs, PotState ps) {
 }
 
 */
+  

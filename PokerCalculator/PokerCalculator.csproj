@@ -195,15 +195,9 @@
       <DependentUpon>PokerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\Command.cs" />
-    <Compile Include="Views\ActionView.xaml.cs">
-      <DependentUpon>ActionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Algorithms\Fisher-Yates.cs" />
     <Compile Include="BestHand.cs" />
     <Compile Include="Bets\BetResponse.cs" />
-    <Compile Include="Views\BetView.xaml.cs">
-      <DependentUpon>BetView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CalculatorEquity.cs" />
     <Compile Include="Data\Data.cs" />
     <Compile Include="Data\DataInstance.cs" />
@@ -229,15 +223,6 @@
     </Compile>
     <Compile Include="Helpers\FlushHelpers.cs" />
     <Compile Include="Helpers\StraightHelpers.cs" />
-    <Compile Include="Views\InfoView.xaml.cs">
-      <DependentUpon>InfoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PotView.xaml.cs">
-      <DependentUpon>PotView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SeatView.xaml.cs">
-      <DependentUpon>SeatView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="States\GameState.cs" />
     <Compile Include="CalculatorGto.cs" />
     <Compile Include="HandAnalyzer.cs" />
@@ -260,12 +245,6 @@
     <Compile Include="Seat.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="States\WinState.cs" />
-    <Compile Include="Views\TableView.xaml.cs">
-      <DependentUpon>TableView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TimerView.xaml.cs">
-      <DependentUpon>TimerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WPF\CustomItemsControl.cs" />
     <Compile Include="WPF\PlayerStyleSelector.cs" />
     <Compile Include="WPF\SeatDataTemplateSelector.cs" />
@@ -293,19 +272,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ActionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\BetView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\old\GameWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\InfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -320,28 +287,11 @@
     <Compile Include="Board.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Deck.cs" />
-    <Compile Include="Poker.cs" />
     <Compile Include="Hands\Hand.cs" />
     <Compile Include="MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\PotView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SeatView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TableView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TimerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
