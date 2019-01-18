@@ -17,10 +17,16 @@ namespace PokerCalculator {
             get { return this.isClientPlayerActive(); }
         }
 
+        private Player clientPlayer;
+
+        private Player activePlayer;
+        public Player ActivePlayer {
+            get { return activePlayer; }
+            set { this.activePlayer = value; OnPropertyChanged("ActivePlayer"); }
+        }
+
         /* Properties */
 
-        public string newPlayer { get; set; }
-        public bool gameStatus { get; private set; }
         public bool turnInProgress { get; private set; }
 
         public double bigBlind { get; }
@@ -29,7 +35,6 @@ namespace PokerCalculator {
         public double maxBuyIn { get; }
         public double minBuyIn { get; }
         public double timePerTurn { get; set; }
-
 
         private double turnTimer { get; set; }
         public double TurnTimer {
@@ -48,11 +53,12 @@ namespace PokerCalculator {
         public Table table { get; }
         public GameStatus status { get; private set; }
         public Street street { get; private set; }
-        private Player activePlayer;
-        private Player clientPlayer;
 
-        public ObservableCollection<Player> players; // represents all registered players 
-        //private List<Player> activePlayers; // represents players currently in hand
+
+        
+
+        public ObservableCollection<Player> players; // represents all players at table
+        private List<Player> activePlayers; // represents players NOT sitting out
 
         public Pot Pot {
             get { return pot; }
@@ -64,10 +70,6 @@ namespace PokerCalculator {
             set { board = value; OnPropertyChanged("Board"); }
         }
 
-        public Player ActivePlayer {
-            get { return activePlayer; }
-            set { this.activePlayer = value; OnPropertyChanged("ActivePlayer"); }
-        }
 
         /* Commands */
 
@@ -284,6 +286,8 @@ namespace PokerCalculator {
                 }
 
                 // very buggy, used to end the betting round
+                // Scenario #1: All players have acted
+                // Scenario #2: Not enough players to continue (due to folding/etc)
                 if (pot.hasActed(p, this.street) && ps.playerContribution == ps.currentBet) {
                     break;
                 }
@@ -293,7 +297,9 @@ namespace PokerCalculator {
             }
         }
 
-        // need to cancel Task if Action/NextRound occurs
+        // used to decrement Timer then raise CancelTurn event if Timer reaches 0
+        // BUG --> need to cancel Task if Action/NextRound occurs
+        // BUG --> does not remove player from activePlayers if Timer reaches 0
         async Task DecrementTimer() {
             await Task.Delay(1000);
             this.TurnTimer -= 1;

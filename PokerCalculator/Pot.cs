@@ -108,18 +108,20 @@ namespace PokerCalculator {
 
         /// buggy, need better way to track/calc minRaise (e.g. if Raise set minRaise)
         /// PostSB --> WORKING
-        /// PostBB --> ??
+        /// PostBB --> WORKING
+        /// Call --> NOT WORKING
+        /// Raise --> ???
         public void handleAction(Action a) {
             var currentBet = this.getHighestContributionByStreet(a.street);
 
             actions[a.street].Add(a); // add Acton to List<Action>
 
-            // handle Call
-            if (a.amount == currentBet) {
+            // handle Call, not being called cuz 
+            if (a is Call) {
                 contributionsByStreet[a.street][a.actor] += a.amount;
             }
 
-            // handle Raise
+            // handle Raise, PostSB, PostBB
             if (a.amount > currentBet) {
                 contributionsByStreet[a.street][a.actor] = a.amount;
                 if(a is Raise) {
