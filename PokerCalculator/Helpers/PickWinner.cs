@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace PokerCalculator {
     class PickWinner {
+        // used to ___???
         public static double calculateEquitySplit(int winnerCount) {
             return (100 / winnerCount) / 100;
         }
 
+        // used to ___???
         public static WinState determineWinner(Board b, List<PreflopHand> hands) {
             var analyzers = new Dictionary<string, HandAnalyzer>();
-            int iter = 1;
             foreach(PreflopHand h in hands) {
-                analyzers.Add(String.Format("hand-{0}", iter), new HandAnalyzer(h, b));
-                iter += 1;
+                analyzers.Add(String.Format("hand-{0}", hands.IndexOf(h)), new HandAnalyzer(h, b));
             }
 
-            var winningHands = new List<BestHand>();
-            foreach(string k in analyzers.Keys) {
+            var winningHands = new List<BestHand>(); // tracks all hands that are due a share of the Pot
+            foreach(KeyValuePair<string, HandAnalyzer> a in analyzers) {
+                BestHand competitor = analyzers[a.Key].bestHand;
                 if(winningHands.Count == 0) {
-                    winningHands.Add(analyzers[k].bestHand);
+                    winningHands.Add(competitor);
                 } else {
-                    BestHand competitor = analyzers[k].bestHand;
                     int winner = BestHand.compare(competitor, winningHands[0]);
                     if(winner == 0) {
                         winningHands.Add(competitor);

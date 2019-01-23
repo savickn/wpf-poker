@@ -29,15 +29,19 @@ namespace PokerCalculator {
 
         /* Images */
 
-        private string image;
-        private string cover;
-        private bool hidden;
-
-        public string Image {
-            get { return getImage(); }
-            set { image = value; /*OnPropertyChanged("Image");*/ }
+        private string cover; // represents the image to show when 'hidden' is 'true'
+        public string Cover {
+            get { return cover; }
+            set { cover = value; OnPropertyChanged("Cover"); }
         }
 
+        private string image; // represents the image to show when 'hidden' is 'false'
+        public string Image {
+            get { return getImage(); }
+            set { image = value; OnPropertyChanged("Image"); }
+        }
+
+        private bool hidden; // specifies whether card should be displayed to user
         public bool Hidden {
             get { return hidden; }
             set { hidden = value; OnPropertyChanged("Hidden"); OnPropertyChanged("Image"); }
@@ -54,7 +58,7 @@ namespace PokerCalculator {
             }
         }
 
-        /* Class Logic */
+        /* CONSTRUCTOR + SETTERS + GETTERS */
 
         public Card(string imagePath, CardType type, Suit suit, int highValue, int lowValue = -1) {
             //this.identifier = '{value}-{suit}'.format(value = value, suit = suit)
@@ -70,6 +74,13 @@ namespace PokerCalculator {
             this.hidden = true; // used to determine if card should be drawn face-up or face-down
         }
 
+        public string getImage() {
+            string pCover = String.Format("Assets/CardCovers/{0}", this.cover);
+            string pImage = String.Format("Assets/Cards/{0}", this.image);
+            return this.hidden ? pCover : pImage;
+        }
+
+        /* COMPARISON LOGIC */
 
         /* purpose ??? */
         public int compare(Card other) {
@@ -82,24 +93,22 @@ namespace PokerCalculator {
             }
         }
 
-        /* purpose ??? */
-        public override bool Equals(System.Object obj) {
-            // If parameter is null return false.
-            if (obj == null) {
-                return false;
-            }
 
-            // If parameter cannot be cast to Point return false.
-            Card c = obj as Card;
-            if ((System.Object)c == null) {
-                return false;
-            }
-            return (type == c.type) && (suit == c.suit);
+        public override bool Equals(object obj) {
+            var card = obj as Card;
+            return card != null &&
+                   type == card.type &&
+                   suit == card.suit;
         }
 
         public override int GetHashCode() {
-            return highValue * ((int)type ^ (int)suit);
+            var hashCode = 809811925;
+            hashCode = hashCode * -1521134295 + type.GetHashCode();
+            hashCode = hashCode * -1521134295 + suit.GetHashCode();
+            return hashCode;
         }
+
+
 
         public bool isEqual(Card other) {
             return this.identifier == other.identifier ? true : false;
@@ -113,18 +122,6 @@ namespace PokerCalculator {
             return argA.highValue > argB.highValue ? argA : argB;
         }
 
-        ////// SETTERS & GETTERS //////
-
-        public string getImage() {
-            string pCover = String.Format("Assets/CardCovers/{0}", this.cover);
-            string pImage = String.Format("Assets/Cards/{0}", this.image);
-            return this.hidden ? pCover : pImage;
-        }
-
-        public void setState(bool state) {
-            //assert state in [True, False]
-            this.hidden = state;
-        }
 
         //////// UTILITY METHODS ///////
 
@@ -143,5 +140,28 @@ namespace PokerCalculator {
             //assert self.__suit in ['Spades', 'Hearts', 'Clubs', 'Diamonds']
             //assert isinstance(self.__hidden, bool)
         }
+
     }
 }
+
+/* OLD
+
+public override bool Equals(System.Object obj) {
+    // If parameter is null return false.
+    if (obj == null) {
+        return false;
+    }
+
+    // If parameter cannot be cast to Point return false.
+    Card c = obj as Card;
+    if ((System.Object)c == null) {
+        return false;
+    }
+    return (type == c.type) && (suit == c.suit);
+}
+
+public override int GetHashCode() {
+    return highValue * ((int)type ^ (int)suit);
+}
+
+    */

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PokerCalculator {
+
+    // base class for poker hands like TwoPair/Flush
     public abstract class Hand {
         public List<Card> cards { get; }
         public int value { get; }
@@ -18,17 +20,38 @@ namespace PokerCalculator {
             this.value = value;
             this.prefix = prefix;
             this.secondary = secondary;
+            this.identifier = String.Format("{0}-{1}", prefix, value);
         }
 
         // used to check if a particular hand already exists in a collection
         public static bool operator ==(Hand one, Hand other) {
-            return one.identifier == other.identifier ? true : false;
+            if (one is null || other is null) return false;
+            return one.Equals(other);
         }
 
+        // used when __???
         public static bool operator !=(Hand one, Hand other) {
-            return one.identifier != other.identifier ? true : false;
+            if (one is null || other is null) return false;
+            return !one.Equals(other);
         }
 
+        public override bool Equals(object obj) {
+            var hand = obj as Hand;
+            return hand != null &&
+                   value == hand.value &&
+                   secondary == hand.secondary &&
+                   prefix == hand.prefix;
+        }
+
+        public override int GetHashCode() {
+            var hashCode = -1279356756;
+            hashCode = hashCode * -1521134295 + value.GetHashCode();
+            hashCode = hashCode * -1521134295 + secondary.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(prefix);
+            return hashCode;
+        }
+
+        // used when __???
         public static int compare<T>(T h1, T h2) where T : Hand {
             int prefixComparison = comparePrefixes(h1, h2);
             if(prefixComparison == 1 || prefixComparison == -1) {
@@ -59,12 +82,12 @@ namespace PokerCalculator {
         }
 
         // format: W-10-
-        public void setIdentifier(string prefix) {
-            /*code = 0
+        /*public string setIdentifier(string prefix) {
+            code = 0
             for card in self.__cards:
                 code += multipliers[card.getSuit()] + card.getHighValue()
-            return prefix + '-' + str(self.__primaryValue) + '-' + str(code)
-        */}
+            return prefix + '-' + str(self.__primaryValue) + '-' + str(code);
+        }*/
 
         /////////// UTILITY ////////////
 
@@ -81,5 +104,6 @@ namespace PokerCalculator {
             return rep;
         }
 
+        
     }
 }

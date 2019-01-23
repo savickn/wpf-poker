@@ -149,8 +149,10 @@ namespace PokerCalculator {
 
             PotState ps = e.potState;
             this.populateActions(ps);
+            CurrentContribution = ps.playerContribution;
             MinRaise = ps.minRaise;
             ToCall = ps.toCall;
+            BetAmount = ps.currentBet;
 
             // also need to send gameState/potState/timer/etc
         }
@@ -233,7 +235,8 @@ namespace PokerCalculator {
 
         private void Raise(object e) {
             Street s = this.awaitingActionArgs.gameState.street;
-            BetResponse res = removeFromStack(BetAmount);
+            double amountOwed = BetAmount - this.awaitingActionArgs.potState.playerContribution;
+            BetResponse res = removeFromStack(amountOwed);
             Action a = new Raise(this, res.amount, s);
             OnPlayerAction(new ReceivedActionEventArgs(a));
         }
@@ -245,7 +248,7 @@ namespace PokerCalculator {
         private void Fold(object e) {
             Street s = this.awaitingActionArgs.gameState.street;
             Action a = new Fold(this, s);
-            this.status = PlayerStatus.ACTIVE;
+            Status = PlayerStatus.ACTIVE;
             OnPlayerAction(new ReceivedActionEventArgs(a));
         }
 
@@ -285,16 +288,16 @@ namespace PokerCalculator {
         }
 
         public bool isActive() {
-            return status == PlayerStatus.ACTIVE ? true : false;
+            return status == PlayerStatus.ACTIVE;
         }
 
         public bool isInHand() {
-            return status == PlayerStatus.IN_HAND ? true : false;
+            return status == PlayerStatus.IN_HAND;
         }
 
         public bool shouldAnalyze() {
             var passingStates = new List<PlayerStatus>() { PlayerStatus.IN_HAND, PlayerStatus.ALL_IN };
-            return passingStates.Contains(status) ? true : false;
+            return passingStates.Contains(status);
         }
 
         public void showHand() {

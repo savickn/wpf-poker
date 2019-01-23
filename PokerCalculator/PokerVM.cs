@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PokerCalculator {
@@ -51,14 +52,23 @@ namespace PokerCalculator {
         private Board board;
         private Pot pot;
         public Table table { get; }
-        public GameStatus status { get; private set; }
-        public Street street { get; private set; }
-
-
+        private GameStatus status;
+        private Street street;
         
 
         public ObservableCollection<Player> players; // represents all players at table
         private List<Player> activePlayers; // represents players NOT sitting out
+
+
+        public Street Street {
+            get { return street; }
+            set { street = value; OnPropertyChanged("Street"); }
+        }
+
+        public GameStatus Status {
+            get { return status; }
+            set { status = value; OnPropertyChanged("Status"); }
+        }
 
         public Pot Pot {
             get { return pot; }
@@ -112,6 +122,7 @@ namespace PokerCalculator {
 
         /* PlayerAction handler */
 
+        // used to change state based on Player Action
         public void ReceivePlayerAction(object sender, ReceivedActionEventArgs e) {
             this.pot.handleAction(e.action);
             this.turnInProgress = false;
@@ -268,6 +279,7 @@ namespace PokerCalculator {
             await this.bettingRound(ss, pot);
         }
 
+        // logic for a single street of betting during a poker hand
         public async Task bettingRound(Seat startingSeat, Pot pot) {
             while(true) {
                 Player p = startingSeat.player;
@@ -278,21 +290,25 @@ namespace PokerCalculator {
                 GameState gs = this.getState();
                 PotState ps = pot.getState(p, this.street);
 
-                OnPlayerTurn(new AwaitingActionEventArgs(gs, ps, p));
-
-                // waits for PlayerAction, also buggy
-                while (turnInProgress) {
-                    await this.DecrementTimer();
+                // used to end betting round if not enough players to continue (due to folding/etc)
+                if (this.activePlayers.Count < 2) {
+                    break;
                 }
 
-                // very buggy, used to end the betting round
-                // Scenario #1: All players have acted
-                // Scenario #2: Not enough players to continue (due to folding/etc)
+                // used to end the betting round if all players have acted (and action is completed)
                 if (pot.hasActed(p, this.street) && ps.playerContribution == ps.currentBet) {
                     break;
                 }
 
+                /* Wait for Player Action, somewhat buggy */
+                OnPlayerTurn(new AwaitingActionEventArgs(gs, ps, p));
+
+                while (turnInProgress) {
+                    await this.DecrementTimer();
+                }
+
                 // basically continues the betting round
+                this.activePlayers = this.table.getInHandPlayers();
                 startingSeat = table.getNearestLeftSeatInHand(startingSeat);
             }
         }
@@ -328,8 +344,8 @@ namespace PokerCalculator {
             this.players = new ObservableCollection<Player>();
             Account a1 = new Account("Nick", 2000);
             Account a2 = new Account("Matt", 2000);
-            Player p1 = new Player(a1, 1000);
-            Player p2 = new Player(a2, 1000);
+            Player p1 = new Player(a1, 200);
+            Player p2 = new Player(a2, 200);
 
             this.clientPlayer = p1;
 
@@ -340,97 +356,105 @@ namespace PokerCalculator {
             this.run();
         }
 
+        // not sure if good design
         public void initializeGame() {
             this.assignPositions();
-            this.status = GameStatus.RUNNING;
+            Status = GameStatus.RUNNING;
         }
 
-        // working
+        // logic before the start of a hand
+        // BUG -> will never return to RUNNING loop after reaching WAITING loop
+        // POTENTIAL BUG --> might never escape WAITING loop
         public async void run() {
+            // basically keep dealing hands while there are enough players
             while (this.status == GameStatus.RUNNING) {
-                List<Player> players = table.getPlayers();
+                List<Player> players = table.getPlayers(); // gets all registered players at table
                 foreach (Player p in players) {
                     if (p.Stack <= 0 || p.sittingOut) {
-                        p.Status = PlayerStatus.SITTING_OUT;
+                        p.Status = PlayerStatus.SITTING_OUT; // sets SITTING_OUT if relevant
                     }
                     if (p.Stack > 0 && !p.sittingOut) {
-                        p.Status = PlayerStatus.IN_HAND;
+                        p.Status = PlayerStatus.IN_HAND; // otherwise sets IN_HAND 
                     }
+                } // all players will either be SITTING_OUT or IN_HAND at this point
+                this.activePlayers = table.getInHandPlayers(); // gets all players with Status of IN_HAND
+                if (!this.areReady(this.activePlayers)) {
+                    Status = GameStatus.WAITING;
+                    Debug.WriteLine("Waiting for Players");
                 }
-                List<Player> activePlayers = players.Where(p => p.isInHand()).ToList();
-                if (!this.areReady(activePlayers)) {
-                    this.status = GameStatus.WAITING;
-                    Console.WriteLine("Waiting for Players");
-                }
-                await this.startRound(activePlayers);
+                await this.startRound();
                 this.rotatePlayers(); // will incorrectly rotate players if 'startRound' returns early
             }
+            // should idle while keeping the UI thread open to user events
             while (this.status == GameStatus.WAITING) {
-                Console.WriteLine("Waiting!");
+                Debug.WriteLine("WAITING FOR PLAYERS");
                 await PauseWhileWaiting();
+                //MessageBox.Show("Not enough players! Waiting!");
+                //MessageBox.Close();
             }
         }
 
-        // working
-        public async Task startRound(List<Player> activePlayers) {
+        // logic during an entire poker hand
+        // SOLVED BUG --> must 'return' after 'awardPot' call
+        public async Task startRound() {
             this.deck = new Deck(new HashSet<Card>());
             this.pot = new Pot(this.bigBlind);
-            this.street = Street.PREFLOP;
+            Street = Street.PREFLOP;
 
-            this.pot.registerActivePlayersByStreet(activePlayers, this.street);
+            this.pot.registerActivePlayersByStreet(this.activePlayers, this.street);
 
             if (this.ante > 0) {
-                activePlayers = this.postAnte(activePlayers, this.pot);
+                this.activePlayers = this.postAnte(this.activePlayers, this.pot);
             }
-            activePlayers = this.postSB(activePlayers, this.pot);
-            activePlayers = this.postBB(activePlayers, this.pot);
+            this.activePlayers = this.postSB(activePlayers, this.pot);
+            this.activePlayers = this.postBB(activePlayers, this.pot);
 
-            if (!this.areReady(activePlayers)) {
-                this.status = GameStatus.WAITING;
+            if (!this.areReady(this.activePlayers)) {
+                Status = GameStatus.WAITING;
                 return;
             }
 
-            this.generateHands(activePlayers);
+            this.generateHands(this.activePlayers);
             this.clientPlayer.showHand();
             await this.preFlopBetting(this.pot);
 
-            if (activePlayers.Count < 2) {
+            if (this.activePlayers.Count < 2) {
                 this.awardPot(this.pot);
+                return;
             }
 
             this.Board = this.generateFlop(this.deck);
-            this.street = Street.FLOP;
-            this.pot.registerActivePlayersByStreet(activePlayers, this.street);
+            Street = Street.FLOP;
+            this.pot.registerActivePlayersByStreet(this.activePlayers, this.street);
             await this.postFlopBetting(this.pot);
 
-            if (activePlayers.Count < 2) {
+            if (this.activePlayers.Count < 2) {
                 this.awardPot(this.pot);
+                return;
             }
 
             this.Board = this.generateTurn(this.deck, this.board);
-            this.street = Street.TURN;
-            this.pot.registerActivePlayersByStreet(activePlayers, this.street);
+            Street = Street.TURN;
+            this.pot.registerActivePlayersByStreet(this.activePlayers, this.street);
             await this.postFlopBetting(this.pot);
 
-            if (activePlayers.Count < 2) {
+            if (this.activePlayers.Count < 2) {
                 this.awardPot(this.pot);
+                return;
             }
 
             this.Board = this.generateRiver(this.deck, this.board);
-            this.street = Street.RIVER;
-            this.pot.registerActivePlayersByStreet(activePlayers, this.street);
+            Street = Street.RIVER;
+            this.pot.registerActivePlayersByStreet(this.activePlayers, this.street);
             await this.postFlopBetting(this.pot);
 
             this.handleEndgame(this.board, this.pot);
         }
 
-        public void awardPot(Pot pot) {
-            List<Player> players = table.getPlayersToAnalyze();
-            if (players.Count == 1) {
-                players.First().addToStack(pot.PotSize);
-            }
-        }
+        // maybe add 'handleFlop/handleTurn' methods
 
+        // logic at the end of a poker hand
+        // BUG --> ???
         public void handleEndgame(Board b, Pot pot) {
             List<Player> players = table.getPlayersToAnalyze();
             List<PreflopHand> hands = players.Select(p => p.Hand).ToList();
@@ -444,6 +468,19 @@ namespace PokerCalculator {
                         p.addToStack(potShare);
                     }
                 }
+            }
+        }
+
+        // used to determine if StartRound should be called
+        private bool areReady(List<Player> activePlayers) {
+            return activePlayers.Count >= 2;
+        }
+
+        // give entire pot to one player
+        public void awardPot(Pot pot) {
+            List<Player> players = table.getPlayersToAnalyze();
+            if (players.Count == 1) {
+                players.First().addToStack(pot.PotSize);
             }
         }
 
@@ -476,12 +513,6 @@ namespace PokerCalculator {
         // used to determine if User UI should be rendered (e.g. only on client-registered player's turn)
         private bool isClientPlayerActive() {
             return this.clientPlayer == this.activePlayer;
-        }
-
-        // used to determine if StartRound can be called
-        private bool areReady(List<Player> activePlayers) {
-            int readyCount = activePlayers.Count;
-            return readyCount >= 2 ? true : false;
         }
 
         public GameState getState() {

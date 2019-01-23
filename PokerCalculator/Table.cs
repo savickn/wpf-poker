@@ -116,6 +116,9 @@ namespace PokerCalculator {
             return this.seats.Where(s => s.player != null && s.player.isActive()).ToList();
         }
 
+
+        /* Getting Players */ 
+
         public List<Player> getPlayers() {
             var players = new List<Player>();
             foreach(Seat s in this.seats) {
@@ -127,13 +130,11 @@ namespace PokerCalculator {
         }
 
         public List<Player> getPlayersToAnalyze() {
-            var players = new List<Player>();
-            foreach (Seat s in this.seats) {
-                if (s.player != null && s.player.shouldAnalyze()) {
-                    players.Add(s.player);
-                }
-            }
-            return players;
+            return this.getPlayers().Where(p => p.shouldAnalyze()).ToList();
+        }
+
+        public List<Player> getInHandPlayers() {
+            return this.getPlayers().Where(p => p.isInHand()).ToList();
         }
 
         /// UTILITY METHODS ///

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PokerCalculator"
         mc:Ignorable="d"
-        Title="PokerWindow" Height="750" Width="1400">
+        Title="PokerWindow" Height="850" Width="1550">
     <Window.Resources>
         <Style x:Key="ShowHideUserInputs" TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -46,6 +46,8 @@
                 <Label>Bet Amount:</Label>
                 <TextBlock Text="{Binding Path=ActivePlayer.BetAmount, Mode=OneWay}" Padding="4"></TextBlock>
             </StackPanel>
+            <TextBlock Grid.Column="5" Text="{Binding Path=Status, Mode=OneWay}" />
+            <TextBlock Grid.Column="6" Text="{Binding Path=Street, Mode=OneWay}" />
 
         </UniformGrid>
 
@@ -78,9 +80,11 @@
                                 <Image Source="{Binding Path=Player.Hand.Card1.Image, Mode=OneWay}" />
                                 <Image Source="{Binding Path=Player.Hand.Card2.Image, Mode=OneWay}" />
                             </UniformGrid>
-                            <Image Source="{Binding Path=Player.Image}" />
+                            <Image Source="{Binding Path=Player.Image}" Height="100" />
                             <Label Content="{Binding Path=Player.Name}" />
                             <Label Content="{Binding Path=Player.Stack}" />
+                            <TextBlock Text="{Binding Path=Player.Status}" />
+                            <TextBlock Text="{Binding Path=Player.CurrentContribution}" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>
@@ -142,12 +146,12 @@
             <Button Name="postflopPreset4" Grid.Column="9" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.ChangeBetAmount}">All-In</Button>
 
             <TextBox Name="betSizeInput" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Center" Text="{Binding Path=ActivePlayer.BetAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center" Value="{Binding Path=ActivePlayer.BetAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=MinRaise}" Maximum="{Binding Path=Stack}" IsSnapToTickEnabled="True" TickFrequency="1"/>
+            <Slider Name="betSizeSlider" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="9" VerticalAlignment="Center" Value="{Binding Path=ActivePlayer.BetAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Path=ActivePlayer.MinRaise}" Maximum="{Binding Path=ActivePlayer.Stack}" IsSnapToTickEnabled="True" TickFrequency="1"/>
 
-            <Button Name="foldBtn" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.FoldAction}" Visibility="{Binding Path=ActivePlayer.IsFoldAvailable, Converter={StaticResource BoolToVis}}">Fold</Button>
-            <Button Name="checkBtn" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.CheckAction}" Visibility="{Binding Path=ActivePlayer.IsCheckAvailable, Converter={StaticResource BoolToVis}}">Check</Button>
-            <Button Name="callBtn" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.CallAction}" Visibility="{Binding Path=ActivePlayer.IsCallAvailable, Converter={StaticResource BoolToVis}}">Call</Button>
-            <Button Name="raiseBtn" Grid.Row="2" Grid.Column="9" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.RaiseAction}" Visibility="{Binding Path=ActivePlayer.IsRaiseAvailable, Converter={StaticResource BoolToVis}}">Raise</Button>
+            <Button Name="foldBtn" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.FoldAction, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ActivePlayer.IsFoldAvailable, Converter={StaticResource BoolToVis}}">Fold</Button>
+            <Button Name="checkBtn" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.CheckAction, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ActivePlayer.IsCheckAvailable, Converter={StaticResource BoolToVis}}">Check</Button>
+            <Button Name="callBtn" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.CallAction, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ActivePlayer.IsCallAvailable, Converter={StaticResource BoolToVis}}" Content="{Binding Path=ActivePlayer.ToCall, StringFormat= Call ({0})}" />
+            <Button Name="raiseBtn" Grid.Row="2" Grid.Column="9" Grid.ColumnSpan="3" Command="{Binding Path=ActivePlayer.RaiseAction, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ActivePlayer.IsRaiseAvailable, Converter={StaticResource BoolToVis}}">Raise</Button>
         </Grid>
     </Grid>
 </Window>
