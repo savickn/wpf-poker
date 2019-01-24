@@ -34,7 +34,7 @@ namespace PokerCalculator
         /* Class Logic */
 
         public BrowserVM() {
-            this.OpenGame = new Command(this.openGame, this.canOpenGame);
+            this.OpenGame = new RelayCommand(this.openGame, this.canOpenGame);
             this.getGames();
         }
 

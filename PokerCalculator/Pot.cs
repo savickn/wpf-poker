@@ -44,13 +44,15 @@ namespace PokerCalculator {
             PotSize = 0;
             this.bb = bb;
             this.currentRaise = 0;
-            //this.contributions = new Dictionary<Player, double>() { };
+
+            // used to track Actons per Street (e.g. )
             this.actions = new Dictionary<Street, List<Action>>() {
                 { Street.PREFLOP, new List<Action>() { } },
                 { Street.FLOP, new List<Action>() { } },
                 { Street.TURN, new List<Action>() { } },
                 { Street.RIVER, new List<Action>() { } }
             };
+            // used to track Bets per Street (e.g. )
             this.contributionsByStreet = new Dictionary<Street, Dictionary<Player, double>>() {
                 { Street.PREFLOP, new Dictionary<Player, double>() { } },
                 { Street.FLOP, new Dictionary<Player, double>() { } },
@@ -96,30 +98,26 @@ namespace PokerCalculator {
         /// buggy, need better way to track/calc minRaise (e.g. if Raise set minRaise)
         /// PostSB --> WORKING
         /// PostBB --> WORKING
-        /// Call --> NOT WORKING
+        /// Call --> WORKING???
         /// Raise --> ???
         public void handleAction(Action a) {
             var currentBet = this.getHighestContributionByStreet(a.street);
 
             actions[a.street].Add(a); // add Acton to List<Action>
 
-            // handle Call, not being called cuz 
-            if (a is Call) {
-                contributionsByStreet[a.street][a.actor] += a.amount;
+            // 
+            // NOTE: 'a.amount' should always return the amount returned by 'removeFromStatck'
+            contributionsByStreet[a.street][a.actor] += a.amount;
+
+            // used to track the 'minRaise' amount
+            if(a is Raise) {
+                this.currentRaise = a.amount - currentBet;
             }
 
-            // handle Raise, PostSB, PostBB
-            if (a.amount > currentBet) {
-                contributionsByStreet[a.street][a.actor] = a.amount;
-                if(a is Raise) {
-                    this.currentRaise = a.amount - currentBet;
-                }
-            }
-
-            this.PotSize = this.calcPotSize();
+            PotSize = this.calcPotSize();
         }
 
-        /// should work
+        /// buggy
         public PotState getState(Player p, Street s) {
             var currentBet = getHighestContributionByStreet(s);
             var contribution = getPlayerContributionByStreet(p, s);

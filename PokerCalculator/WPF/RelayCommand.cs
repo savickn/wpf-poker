@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PokerCalculator {
-    public class Command : ICommand {
+    public class RelayCommand : ICommand {
 
         Action<object> executeMethod;
         Func<object, bool> canExecuteMethod;
@@ -18,7 +18,7 @@ namespace PokerCalculator {
         }
 
         // constructor
-        public Command(Action<object> executeMethod, Func<object, bool> canExecuteMethod) {
+        public RelayCommand(Action<object> executeMethod, Func<object, bool> canExecuteMethod) {
             this.executeMethod = executeMethod;
             this.canExecuteMethod = canExecuteMethod;
         }

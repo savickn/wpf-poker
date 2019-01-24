@@ -52,7 +52,7 @@ namespace PokerCalculator
             this.NumberOfSeats = 2;
             this.CardsPerHand = 2;
             this.BigBlind = 2;
-            this.CreateGame = new Command(this.createGame, this.canCreateGame);
+            this.CreateGame = new RelayCommand(this.createGame, this.canCreateGame);
         }
 
         /* Command Implementations */

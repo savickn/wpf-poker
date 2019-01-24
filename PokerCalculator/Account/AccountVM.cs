@@ -45,7 +45,7 @@ namespace PokerCalculator {
 
         public AccountVM() {
             this.stack = 1000;
-            this.CreateUser = new Command(this.createUser, this.canCreateUser);
+            this.CreateUser = new RelayCommand(this.createUser, this.canCreateUser);
 
             this.getUsers();
         }

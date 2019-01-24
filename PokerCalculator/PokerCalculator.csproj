@@ -195,7 +195,7 @@
     <Compile Include="PokerWindow.xaml.cs">
       <DependentUpon>PokerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WPF\Command.cs" />
+    <Compile Include="WPF\RelayCommand.cs" />
     <Compile Include="Algorithms\Fisher-Yates.cs" />
     <Compile Include="BestHand.cs" />
     <Compile Include="Bets\BetResponse.cs" />

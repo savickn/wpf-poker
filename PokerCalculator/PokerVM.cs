@@ -129,7 +129,8 @@ namespace PokerCalculator {
         public void ReceivePlayerAction(object sender, ReceivedActionEventArgs e) {
             this.pot.handleAction(e.action);
             this.turnInProgress = false;
-            OnCancelTurn(new CancelActionEventArgs(this.ActivePlayer));
+            var contribution = this.pot.getPlayerContributionByStreet(e.action.actor, e.action.street);
+            OnCancelTurn(new CancelActionEventArgs(this.ActivePlayer, contribution));
         }
 
         /* Class Logic */
@@ -299,32 +300,37 @@ namespace PokerCalculator {
                 }
 
                 // used to end the betting round if all players have acted (and action is completed)
+                // BUG --> RRR (line will end the round on the 3rd Raise with 2 players)
+                // probably buggy in general
                 if (pot.hasActed(p, this.street) && ps.playerContribution == ps.currentBet) {
                     break;
                 }
 
-                /* Wait for Player Action, somewhat buggy */
+                // raises Action and waits for response, WORKING
                 OnPlayerTurn(new AwaitingActionEventArgs(gs, ps, p));
 
                 while (turnInProgress) {
                     await this.DecrementTimer();
                 }
 
-                // basically continues the betting round
+                // updates list of InHand players based on most recent Action
                 this.activePlayers = this.table.getInHandPlayers();
+
+                // moves ActivePlayer to the next available Player
                 startingSeat = table.getNearestLeftSeatInHand(startingSeat);
             }
         }
 
         // used to decrement Timer then raise CancelTurn event if Timer reaches 0
-        // BUG --> need to cancel Task if Action/NextRound occurs
-        // BUG --> does not remove player from activePlayers if Timer reaches 0
+        // BUG (SOLVED??) --> need to cancel Task if Action/NextRound occurs
+        // BUG (SOLVED) --> does not remove player from activePlayers if Timer reaches 0
         async Task DecrementTimer() {
             await Task.Delay(1000);
             this.TurnTimer -= 1;
             if (this.turnTimer <= 0) {
                 this.turnInProgress = false;
-                OnCancelTurn(new CancelActionEventArgs(this.ActivePlayer));
+                OnCancelTurn(new CancelActionEventArgs(this.ActivePlayer, 0));
+                this.ActivePlayer.Status = PlayerStatus.ACTIVE; // maybe switch to SITTING_OUT
             }
         }
 
@@ -332,8 +338,8 @@ namespace PokerCalculator {
 
         public PokerVM(Game g) {
             //this.StartRound = new Command(this.startRound, this.canStartRound);
-            this.JoinGame = new Command(this.joinGame, this.canJoinGame);
-            this.AddAi = new Command(this.addAi, this.canAddAi);
+            this.JoinGame = new RelayCommand(this.joinGame, this.canJoinGame);
+            this.AddAi = new RelayCommand(this.addAi, this.canAddAi);
 
             this.bigBlind = g.bb;
             this.smallBlind = g.sb;
@@ -347,13 +353,16 @@ namespace PokerCalculator {
             this.players = new ObservableCollection<Player>();
             Account a1 = new Account("Nick", 2000);
             Account a2 = new Account("Matt", 2000);
+            Account a3 = new Account("Mike", 2000);
             Player p1 = new Player(a1, 200);
             Player p2 = new Player(a2, 200);
+            Player p3 = new Player(a3, 200);
 
             this.clientPlayer = p1;
 
             this.registerPlayer(p1);
             this.registerPlayer(p2);
+            this.registerPlayer(p3);
 
             this.initializeGame();
             this.run();
@@ -367,7 +376,6 @@ namespace PokerCalculator {
 
         // logic before the start of a hand
         // BUG -> will never return to RUNNING loop after reaching WAITING loop
-        // POTENTIAL BUG --> might never escape WAITING loop
         public async void run() {
             // basically keep dealing hands while there are enough players
             while (this.status == GameStatus.RUNNING) {

@@ -142,29 +142,45 @@ namespace PokerCalculator {
 
         /* AwaitingPlayerAction handler */
 
+        /* updates Player state to allow Player to make an Action
+        * render UI
+        * set MinRaise/ToCall/CurrentContribution/etc
+        * 
+        */
         public void AwaitPlayerAction(object sender, AwaitingActionEventArgs e) {
+            if (e.player != this) { return; } // escapes events that are not targeted at this Player
+
             this.IsAwaitingAction = true;
             this.awaitingActionArgs = e;
 
             PotState ps = e.potState;
             this.populateActions(ps); // sets available Commands
-            CurrentContribution = ps.playerContribution;
+
+            // WORKING 
             MinRaise = ps.minRaise;
             ToCall = ps.toCall;
-            BetAmount = ps.currentBet;
+            BetAmount = ps.minRaise;
 
-            // should update RaiseAction/CallAction/etc by calling 'canRaise/etc' (or via RequerySuggested???)
+            // used to immediately update 'canCheck/canRaise'
+            CommandManager.InvalidateRequerySuggested();
         }
 
         public void CancelPlayerAction(object sender, CancelActionEventArgs e) {
+            if(e.player != this) { return; } // escapes events that are not targeted at this Player
+
             IsAwaitingAction = false;
+            this.awaitingActionArgs = null;
 
             IsFoldAvailable = false;
             IsCheckAvailable = false;
             IsCallAvailable = false;
             IsRaiseAvailable = false;
 
-            this.awaitingActionArgs = null;
+            // update CurrentContribution if necessary, NOT WORKING
+            CurrentContribution = e.contribution > 0 ? e.contribution : currentContribution; 
+
+            // used to immediately update 'canCheck/canRaise'
+            CommandManager.InvalidateRequerySuggested();
         }
 
         /* Class Logic */
@@ -178,11 +194,11 @@ namespace PokerCalculator {
             this.sittingOut = false;
             this.autoRebuy = false;
 
-            this.RaiseAction = new Command(this.Raise, this.canRaise);
-            this.CallAction = new Command(this.Call, this.canCall);
-            this.FoldAction = new Command(this.Fold, this.canFold);
-            this.CheckAction = new Command(this.Check, this.canCheck);
-            this.ChangeBetAmount = new Command(this.changeBetAmount, this.canChangeBetAmount);
+            this.RaiseAction = new RelayCommand(this.Raise, this.canRaise);
+            this.CallAction = new RelayCommand(this.Call, this.canCall);
+            this.FoldAction = new RelayCommand(this.Fold, this.canFold);
+            this.CheckAction = new RelayCommand(this.Check, this.canCheck);
+            this.ChangeBetAmount = new RelayCommand(this.changeBetAmount, this.canChangeBetAmount);
         }
 
         // used to determine which actions are available for player/bot
