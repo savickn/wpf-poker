@@ -62,7 +62,7 @@ namespace PokerCalculator {
 
         public Card(string imagePath, CardType type, Suit suit, int highValue, int lowValue = -1) {
             //this.identifier = '{value}-{suit}'.format(value = value, suit = suit)
-            this.initial = Data.getInitial(type);
+            this.initial = PrefixMapping.getInitial(type);
 
             this.type = type;
             this.suit = suit;

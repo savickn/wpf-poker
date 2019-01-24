@@ -8,30 +8,17 @@ using System.Collections.ObjectModel;
 
 namespace PokerCalculator {
     public class Pot : INotifyPropertyChanged {
+
         private double potSize;
         public double PotSize {
             get { return this.potSize; }
             set { this.potSize = value; OnPropertyChanged("PotSize"); }
         }
-        /*private Dictionary<Player, double> contributions;
-        public Dictionary<Player, double> Contributions {
-            get { return this.contributions; }
-            set {
-                if (value != this.contributions) {
-                    this.contributions = value;
-                    OnPropertyChanged("Contributions");
-                }
-            }
-        }*/
+
         private Dictionary<Street, List<Action>> actions;
         public Dictionary<Street, List<Action>> Actions {
             get { return this.actions; }
-            set {
-                if (value != this.actions) {
-                    this.actions = value;
-                    OnPropertyChanged("Actions");
-                }
-            }
+            set { actions = value; OnPropertyChanged("Actions"); }
         }
 
         private Dictionary<Street, Dictionary<Player, double>> contributionsByStreet;
@@ -54,7 +41,7 @@ namespace PokerCalculator {
         /* Class Logic */
 
         public Pot(double bb) {
-            this.PotSize = 0;
+            PotSize = 0;
             this.bb = bb;
             this.currentRaise = 0;
             //this.contributions = new Dictionary<Player, double>() { };

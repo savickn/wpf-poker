@@ -49,36 +49,39 @@ namespace PokerCalculator {
         public Seat fp { get; private set; }
 
         private Deck deck;
-        private Board board;
-        private Pot pot;
-        public Table table { get; }
-        private GameStatus status;
-        private Street street;
         
-
-        public ObservableCollection<Player> players; // represents all players at table
-        private List<Player> activePlayers; // represents players NOT sitting out
+        public Table table { get; }
 
 
-        public Street Street {
-            get { return street; }
-            set { street = value; OnPropertyChanged("Street"); }
-        }
-
+        private GameStatus status;
         public GameStatus Status {
             get { return status; }
             set { status = value; OnPropertyChanged("Status"); }
         }
 
+        private Street street;
+        public Street Street {
+            get { return street; }
+            set { street = value; OnPropertyChanged("Street"); }
+        }
+
+        private Board board;
+        public Board Board {
+            get { return board; }
+            set { board = value; OnPropertyChanged("Board"); }
+        }
+
+        private Pot pot;
         public Pot Pot {
             get { return pot; }
             set { pot = value; OnPropertyChanged("Pot"); }
         }
 
-        public Board Board {
-            get { return board; }
-            set { board = value; OnPropertyChanged("Board"); }
-        }
+
+        public ObservableCollection<Player> players; // represents all players at table
+        private List<Player> activePlayers; // represents players NOT sitting out
+
+
 
 
         /* Commands */
@@ -397,8 +400,9 @@ namespace PokerCalculator {
         // logic during an entire poker hand
         // SOLVED BUG --> must 'return' after 'awardPot' call
         public async Task startRound() {
-            this.deck = new Deck(new HashSet<Card>());
-            this.pot = new Pot(this.bigBlind);
+            this.deck = new Deck(new HashSet<Card>()); // reset 'deck' for new round
+            Pot = new Pot(this.bigBlind); // reset Pot for new round
+            Board = null; // reset Board for new round
             Street = Street.PREFLOP;
 
             this.pot.registerActivePlayersByStreet(this.activePlayers, this.street);
@@ -423,7 +427,7 @@ namespace PokerCalculator {
                 return;
             }
 
-            this.Board = this.generateFlop(this.deck);
+            Board = this.generateFlop(this.deck);
             Street = Street.FLOP;
             this.pot.registerActivePlayersByStreet(this.activePlayers, this.street);
             await this.postFlopBetting(this.pot);
@@ -433,7 +437,7 @@ namespace PokerCalculator {
                 return;
             }
 
-            this.Board = this.generateTurn(this.deck, this.board);
+            Board = this.generateTurn(this.deck, this.board);
             Street = Street.TURN;
             this.pot.registerActivePlayersByStreet(this.activePlayers, this.street);
             await this.postFlopBetting(this.pot);
@@ -443,7 +447,7 @@ namespace PokerCalculator {
                 return;
             }
 
-            this.Board = this.generateRiver(this.deck, this.board);
+            Board = this.generateRiver(this.deck, this.board);
             Street = Street.RIVER;
             this.pot.registerActivePlayersByStreet(this.activePlayers, this.street);
             await this.postFlopBetting(this.pot);

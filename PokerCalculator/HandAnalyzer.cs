@@ -58,24 +58,26 @@ namespace PokerCalculator {
             this.calculateBestHand();
         }
 
-        // BUG --> adds mirror versions of Pairs (e.g. 9h9s and 9s9h)
+        // uses Dictionary to create/track Pairs/Trips/Quads
         private void analyzePTQ() {
-            foreach(Card c1 in availableCards) {
-                var tempHand = new List<Card> { c1 };
+            var dict = new Dictionary<int, List<Card>>();
 
-                foreach(Card c2 in availableCards) {
-                    if(c1 == c2) {
-                        continue;
-                    }
-                    if(c1.highValue == c2.highValue) {
-                        tempHand.Add(c2);
-                    }
+            // sorts Cards in Dictionary based on value
+            foreach (Card c1 in availableCards) {
+                if(dict.ContainsKey(c1.highValue)) {
+                    dict[c1.highValue].Add(c1);
+                } else {
+                    dict[c1.highValue] = new List<Card>() { c1 };
                 }
-                
-                switch(tempHand.Count) {
+            }
+
+            // iterates through dictionary and creates Pairs/Trips/Quads when applicable
+            foreach (KeyValuePair<int, List<Card>> kv in dict) {
+                var tempHand = kv.Value;
+                switch (tempHand.Count) {
                     case 2:
                         var pair = new Pair(tempHand);
-                        if(bestPair is null || pair.value > bestPair.value) {
+                        if (bestPair is null || pair.value > bestPair.value) {
                             this.bestPair = pair;
                         }
                         this.pairs.Add(pair);
@@ -88,9 +90,9 @@ namespace PokerCalculator {
                         this.trips.Add(toak);
                         break;
                     case 4:
-                        if(bestQuads is null || tempHand[0].highValue > bestQuads.value) {
+                        if (bestQuads is null || tempHand[0].highValue > bestQuads.value) {
                             this.bestQuads = new FourOfAKind(tempHand);
-                        } 
+                        }
                         break;
                     default:
                         continue;
@@ -98,6 +100,7 @@ namespace PokerCalculator {
             }
         }
 
+        // analyzes existing Pairs to create TwoPairs
         private void checkForTwoPair() {
             Pair p1 = null;
             Pair p2 = null;
@@ -282,22 +285,25 @@ namespace PokerCalculator {
             this.analyzeSuit(hearts);
         }
 
+        // used to create a HighCardHand based on the remaining cards
+        // accepts an optional List<Card> which is excluded from the high card analysis (e.g. passing in a Pair will return HighCardHand with length of 3)
+        // SOLVED BUG --> does not always select the 5 highest cards (must always sort in DESC order)
         private HighCard calculateHighCards(List<Card> cards) {
+            // maybe Assert that cards doesnt contain Pairs/etc
+
+            // removes Cards already used in another hand (can maybe convert to HashSet)
             List<Card> remainingCards = new List<Card>();
             foreach(Card c in this.availableCards) {
                 if(!cards.Contains(c)) {
                     remainingCards.Add(c);
                 }
             }
-            remainingCards.Sort((x, y) => x.compare(y));
-            int additionalCards = 5 - cards.Count;
 
-            if(additionalCards > 0) {
-                HighCard hc = new HighCard(remainingCards.GetRange(0, additionalCards));
-                return hc;
-            } else {
-                throw new Exception();
-            }
+            // sort remainingCards in DESC order (highest to lowest)
+            remainingCards.Sort((x, y) => -1 * x.compare(y));
+            int additionalCards = 5 - cards.Count;
+            // maybe Assert that 'additionalCards > 0'
+            return new HighCard(remainingCards.GetRange(0, additionalCards));
         }
 
         private void calculateBestHand() {
@@ -346,3 +352,48 @@ namespace PokerCalculator {
         }
     }
 }
+
+
+
+
+/* OLD
+ * BUG --> adds mirror versions of Pairs (e.g. 9h9s and 9s9h)
+private void analyzePTQ() {
+    foreach (Card c1 in availableCards) {
+        var tempHand = new List<Card> { c1 };
+
+        foreach (Card c2 in availableCards) {
+            if (c1 == c2) {
+                continue;
+            }
+            if (c1.highValue == c2.highValue) {
+                tempHand.Add(c2);
+            }
+        }
+
+        switch (tempHand.Count) {
+            case 2:
+                var pair = new Pair(tempHand);
+                if (bestPair is null || pair.value > bestPair.value) {
+                    this.bestPair = pair;
+                }
+                this.pairs.Add(pair);
+                break;
+            case 3:
+                var toak = new ThreeOfAKind(tempHand);
+                if (bestTrips is null || toak.value > bestTrips.value) {
+                    this.bestTrips = toak;
+                }
+                this.trips.Add(toak);
+                break;
+            case 4:
+                if (bestQuads is null || tempHand[0].highValue > bestQuads.value) {
+                    this.bestQuads = new FourOfAKind(tempHand);
+                }
+                break;
+            default:
+                continue;
+        }
+    }
+}
+*/

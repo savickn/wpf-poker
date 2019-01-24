@@ -146,19 +146,24 @@ namespace PokerCalculator {
             this.IsAwaitingAction = true;
             this.awaitingActionArgs = e;
 
-
             PotState ps = e.potState;
-            this.populateActions(ps);
+            this.populateActions(ps); // sets available Commands
             CurrentContribution = ps.playerContribution;
             MinRaise = ps.minRaise;
             ToCall = ps.toCall;
             BetAmount = ps.currentBet;
 
-            // also need to send gameState/potState/timer/etc
+            // should update RaiseAction/CallAction/etc by calling 'canRaise/etc' (or via RequerySuggested???)
         }
 
         public void CancelPlayerAction(object sender, CancelActionEventArgs e) {
-            this.IsAwaitingAction = false;
+            IsAwaitingAction = false;
+
+            IsFoldAvailable = false;
+            IsCheckAvailable = false;
+            IsCallAvailable = false;
+            IsRaiseAvailable = false;
+
             this.awaitingActionArgs = null;
         }
 

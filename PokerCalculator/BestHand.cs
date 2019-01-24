@@ -28,6 +28,7 @@ namespace PokerCalculator {
             return true;
         }
 
+        // used to compare
         public static int compare(BestHand b1, BestHand b2) {
             int case1 = Hand.compare(b1.primary, b2.primary);
             if(case1 != 0) {
@@ -45,7 +46,7 @@ namespace PokerCalculator {
         ///////// GETTERS & SETTERS /////////
 
         public List<Card> getCards() {
-            return primary.cards.Concat(secondary.cards).ToList();
+            return secondary.cards is null ? primary.cards.ToList() : primary.cards.Concat(secondary.cards).ToList();
         }
 
         public void addDraw(Draw d) {

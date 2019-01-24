@@ -51,7 +51,11 @@ namespace PokerCalculator {
             return hashCode;
         }
 
-        // used when __???
+
+
+        ////// Logic Methods //////
+
+        // used by 'static BestHand.compare'
         public static int compare<T>(T h1, T h2) where T : Hand {
             int prefixComparison = comparePrefixes(h1, h2);
             if(prefixComparison == 1 || prefixComparison == -1) {
@@ -60,8 +64,6 @@ namespace PokerCalculator {
                 return h1.handComp(h2);
             }
         }
-
-        ////// Logic Methods //////
 
         public static int comparePrefixes(Hand h1, Hand h2) {
             if (h1.getRanking() > h2.getRanking()) {

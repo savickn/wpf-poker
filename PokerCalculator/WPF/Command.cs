@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PokerCalculator {
-    class Command : ICommand {
+    public class Command : ICommand {
 
         Action<object> executeMethod;
         Func<object, bool> canExecuteMethod;
@@ -17,9 +17,15 @@ namespace PokerCalculator {
             remove { CommandManager.RequerySuggested -= value; }
         }
 
+        // constructor
         public Command(Action<object> executeMethod, Func<object, bool> canExecuteMethod) {
             this.executeMethod = executeMethod;
             this.canExecuteMethod = canExecuteMethod;
+        }
+
+        // used to manually raise CanExecute
+        public void RaiseCanExecuteChanged() {
+            CommandManager.InvalidateRequerySuggested();
         }
 
         public bool CanExecute(object e) {

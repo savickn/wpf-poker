@@ -171,6 +171,7 @@
     <Compile Include="Actions\PostBB.cs" />
     <Compile Include="Actions\PostSB.cs" />
     <Compile Include="Actions\Raise.cs" />
+    <Compile Include="Data\PrefixMapping.cs" />
     <Compile Include="Players\Bot.cs" />
     <Compile Include="BrowserVM.cs" />
     <Compile Include="BrowserPage.xaml.cs">

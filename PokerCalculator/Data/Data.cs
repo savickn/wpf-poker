@@ -84,22 +84,6 @@ namespace PokerCalculator {
             { "N", 0 }
         };
 
-        /*private static Dictionary<CardType, string> initials = new Dictionary<CardType, string> {
-            { CardType.ACE, "A" },
-            { CardType.KING, "K" },
-            { CardType.QUEEN, "Q" },
-            { CardType.JACK, "J" },
-            { CardType.TEN, "T" },
-            { CardType.NINE, "9" },
-            { CardType.EIGHT, "8" },
-            { CardType.SEVEN, "7" },
-            { CardType.SIX, "6" },
-            { CardType.FIVE, "5" },
-            { CardType.FOUR, "4" },
-            { CardType.THREE, "3" },
-            { CardType.TWO, "2" },
-        };*/
-
         private static Dictionary<string, string> prefixes = new Dictionary<string, string> {
             { "Straight Flush", "Z" },
             { "Quads", "Q" },
@@ -233,12 +217,6 @@ namespace PokerCalculator {
 
         public static int getDrawRanking(string key) {
             return Data.drawRankings[key];
-        }
-
-        // NOT WORKING FOR SOME REASON
-        public static string getInitial(CardType key) {
-            //return Data.initials[key];
-            return "A";
         }
 
         public static string getHandPrefix(string key) {
