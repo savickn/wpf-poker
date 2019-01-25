@@ -176,7 +176,7 @@ namespace PokerCalculator {
             IsCallAvailable = false;
             IsRaiseAvailable = false;
 
-            // update CurrentContribution if necessary, NOT WORKING
+            // update CurrentContribution if necessary, NOT REALLY WORKING
             CurrentContribution = e.contribution > 0 ? e.contribution : currentContribution; 
 
             // used to immediately update 'canCheck/canRaise'
